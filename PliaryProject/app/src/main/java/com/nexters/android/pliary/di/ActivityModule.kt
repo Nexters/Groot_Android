@@ -2,6 +2,7 @@ package com.nexters.android.pliary.di
 
 import com.nexters.android.pliary.di.annotation.ActivityScope
 import com.nexters.android.pliary.view.main.MainActivity
+import com.nexters.android.pliary.view.main.MainActivityModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

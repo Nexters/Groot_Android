@@ -5,4 +5,7 @@
 
     <string name="edit_email">Email</string>
     <string name="edit_password">Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_splash_fragment">Hello splash fragment</string>
 </resources>

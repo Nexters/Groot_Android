@@ -1,12 +1,14 @@
-package com.nexters.android.pliary.di
+package com.nexters.android.pliary.view.main
 
 import androidx.databinding.DataBindingUtil
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.databinding.ActivityMainBinding
 import com.nexters.android.pliary.di.annotation.ActivityScope
+import com.nexters.android.pliary.view.splash.SplashFragment
+import com.nexters.android.pliary.view.splash.SplashFragmentModule
 import com.nexters.android.pliary.di.annotation.FragmentScope
-import com.nexters.android.pliary.view.main.MainActivity
 import com.nexters.android.pliary.view.main.MainFragment
+import com.nexters.android.pliary.view.main.MainFragmentModule
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
@@ -27,4 +29,9 @@ abstract class MainActivityModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [(MainFragmentModule::class)])
     abstract fun getMainFragment(): MainFragment
+
+    @ContributesAndroidInjector(modules = [SplashFragmentModule::class])
+    @FragmentScope
+    abstract fun bindSplashFragment(): SplashFragment
+
 }

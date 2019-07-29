@@ -7,7 +7,9 @@ import dagger.android.support.DaggerApplication
 class PliaryApplication : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().create(this)
+        return DaggerAppComponent.builder()
+            .application(this)
+            .build()
     }
 
 }

@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.di
+package com.nexters.android.pliary.view.main
 
 import androidx.databinding.DataBindingUtil
 import com.nexters.android.pliary.R
