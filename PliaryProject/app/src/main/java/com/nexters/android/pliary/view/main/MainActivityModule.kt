@@ -1,6 +1,8 @@
 package com.nexters.android.pliary.view.main
 
 import com.nexters.android.pliary.di.annotation.FragmentScope
+import com.nexters.android.pliary.view.home.HomeFragment
+import com.nexters.android.pliary.view.home.HomeFragmentModule
 import com.nexters.android.pliary.view.splash.SplashFragment
 import com.nexters.android.pliary.view.splash.SplashFragmentModule
 import dagger.Module
@@ -18,4 +20,7 @@ abstract class MainActivityModule {
     @FragmentScope
     abstract fun bindSplashFragment(): SplashFragment
 
+    @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
+    @FragmentScope
+    abstract fun bindHomeFragment(): HomeFragment
 }

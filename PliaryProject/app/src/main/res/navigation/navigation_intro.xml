@@ -17,4 +17,8 @@
         android:name="com.nexters.android.pliary.view.main.MainFragment"
         android:label="MainFragment" >
     </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.nexters.android.pliary.view.home.HomeFragment"
+        android:label="HomeFragment" />
 </navigation>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="34dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="34dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/homeToolbar"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fill"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ivAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="20sp"
+            android:textColor="@color/main_color_green"
+            android:textStyle="bold"
+            android:letterSpacing="0.02"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivLogo" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fill"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPlantName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/homeToolbar"
+        app:layout_constraintBottom_toTopOf="@id/tvSpecies"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        tools:text="Roseplant"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSpecies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/gray_1"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvPlantName"
+        app:layout_constraintBottom_toTopOf="@id/rvCardList"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        tools:text="스투키"
+        />
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="1dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="7.5dp"
+        android:background="@color/gray_1"
+        app:layout_constraintStart_toEndOf="@id/tvSpecies"
+        app:layout_constraintEnd_toStartOf="@id/tvNickname"
+        app:layout_constraintTop_toTopOf="@id/tvSpecies"
+        app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/gray_1"
+        android:layout_marginStart="9.5dp"
+        app:layout_constraintTop_toTopOf="@id/tvSpecies"
+        app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
+        app:layout_constraintStart_toEndOf="@id/border"
+        tools:text="멋쟁이투투"
+        />
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCardList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="26dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSpecies"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

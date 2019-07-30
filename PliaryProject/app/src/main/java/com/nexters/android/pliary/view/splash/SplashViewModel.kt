@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.viewmodel
+package com.nexters.android.pliary.view.splash
 
 import com.nexters.android.pliary.base.BaseViewModel
 

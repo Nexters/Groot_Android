@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.view.splash
+package com.nexters.android.pliary.view.home
 
 import androidx.lifecycle.ViewModel
 import com.nexters.android.pliary.di.annotation.FragmentScope
@@ -7,13 +7,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
-
 @Module
-internal interface SplashFragmentModule {
+internal interface HomeFragmentModule {
 
     @Binds
     @FragmentScope
     @IntoMap
-    @ViewModelKey(SplashViewModel::class)
-    fun bindSplashViewModel(splashViewModel: SplashViewModel): ViewModel
+    @ViewModelKey(HomeViewModel::class)
+    fun bindHomeViewModel(splashViewModel: HomeViewModel): ViewModel
 }
