@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="card_bg">#ffffff</color>
     <color name="black_color">#414344</color>
     <color name="main_color_green">#7f9c82</color>
     <color name="gray_3">#e8edf0</color>
