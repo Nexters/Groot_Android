@@ -45,9 +45,9 @@
                 style="@style/AndH6RegularLeft14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="14dp"
                 android:text="@{@string/home_wateringFormat(item.plantNickname)}"
-                app:layout_constraintBottom_toTopOf="@id/ivDrop"
+                app:layout_constraintTop_toBottomOf="@id/guideLine"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="멋쟁이투투에게 물주기" />
 
@@ -56,7 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/black"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="6dp"
+                app:layout_constraintTop_toBottomOf="@id/tvNickname"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -79,7 +80,8 @@
                 android:layout_height="60dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/add_water"
-                app:layout_constraintBottom_toTopOf="@id/guideLine"
+                app:layout_constraintBottom_toBottomOf="@id/ivPlant"
+                app:layout_constraintTop_toBottomOf="@+id/ivPlant"
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

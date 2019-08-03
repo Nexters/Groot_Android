@@ -24,13 +24,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun getModelClass() = HomeViewModel::class.java
 
     private var cardIndicator : LinePagerIndicatorDecoration? = null
-    private val rvHeight : Int by lazy { ((context?.resources?.displayMetrics?.run { heightPixels } ?: 0) * 0.65).toInt() }
-    private val cardItemDecoList by lazy {
-        listOf(
-            Decorations.startOffset(context?.dpToPx(46) ?: 0),
-            Decorations.endOffset(context?.dpToPx(26) ?: 0),
-            Decorations.itemSpacing(rightPx = context?.dpToPx(20) ?: 0, topPx = context?.dpToPx(0) ?: 0))
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
@@ -53,7 +46,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
                 }
             })
             initRv()
-            setRvDeco()
             initIndicatorDeco()
         })
         viewModel.addCardEvent.observe(this, Observer{
@@ -61,20 +53,14 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         })
     }
     private fun initRv() {
-        setRvHeight()
         rvCardList.apply{
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = CardLayoutManager(context)//LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = cardAdapter
             setHasFixedSize(true)
             clearOnScrollListeners()
             onFlingListener = null
-            PagerSnapHelper().attachToRecyclerView(rvCardList)
+            PagerSnapHelper().attachToRecyclerView(this)
         }
-    }
-
-    private fun setRvDeco() {
-        rvCardList?.apply {cardItemDecoList.forEach { removeItemDecoration(it) }}
-        cardItemDecoList.forEach{ rvCardList.addItemDecoration(it) }
     }
 
     private fun initIndicatorDeco() {
@@ -92,13 +78,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
                     rvCardList.addItemDecoration(this)
                 }
             }
-        }
-    }
-
-    private fun setRvHeight() {
-        (rvCardList.layoutParams as LinearLayout.LayoutParams).run {
-            width = LinearLayout.LayoutParams.MATCH_PARENT
-            height =  rvHeight
         }
     }
 
