@@ -2,7 +2,9 @@ package com.nexters.android.pliary.di
 
 import android.app.Application
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import com.nexters.android.pliary.PliaryApplication
+import com.nexters.android.pliary.base.ViewModelProviderFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,5 +22,8 @@ internal interface AppModule {
     @Binds
     @Singleton
     fun bindContext(application: PliaryApplication): Context
+
+    @Binds
+    fun bindViewModelFactory(providerFactory: ViewModelProviderFactory): ViewModelProvider.Factory
 
 }

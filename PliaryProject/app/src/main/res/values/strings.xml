@@ -6,6 +6,5 @@
     <string name="edit_email">Email</string>
     <string name="edit_password">Password</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_splash_fragment">Hello splash fragment</string>
+    <string formatted="false" name="wateringFormat">%s에게 물주기</string>
 </resources>

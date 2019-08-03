@@ -31,7 +31,7 @@ class LinePagerIndicatorDecoration(val context : Context, val count : Int) : Rec
     /**
      * Indicator width.
      */
-    private val maxLength = DP * 101
+    private val maxLength = DP * 268
     /**
      * Padding between indicators.
      */
