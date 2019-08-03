@@ -18,6 +18,8 @@
     <string name="add_species_title">식물 종류</string>
     <string name="add_ps">애칭은 영어, 한글 최대 5글자까지 가능합니다.</string>
     <string name="add_take_date">식물 입양한 날</string>
+    <string name="add_last_water_date">마지막으로 물준 날</string>
+    <string name="add_everyday_setting">물주기 설정</string>
     <string name="add_every_day">일 마다</string>
 
     <string name="add_done">완료</string>

@@ -1,20 +1,21 @@
 package com.nexters.android.pliary.base
 
 import android.content.Context
-import androidx.fragment.app.Fragment
+import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.findNavController
+import com.nexters.android.pliary.R
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
-import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
-
-
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProvider.Factory
@@ -34,5 +35,29 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
         return ViewModelProviders.of(this, viewModelProviderFactory).get(viewModelClass)
     }
 
+    private val navController: NavController
+        get() = findNavController(this)
 
+    protected fun navigate(@IdRes id: Int) {
+        navController.navigate(
+            id
+        )
+    }
+
+    protected fun popBackStack() {
+        navController.popBackStack()
+    }
+
+    protected fun popBackStack(@IdRes destinationId: Int, inclusive: Boolean = true) {
+        navController.popBackStack(destinationId, inclusive)
+    }
+
+    /*private fun getNavOptions(): NavOptions {
+        return NavOptions.Builder()
+            .setEnterAnim(R.anim.fade_in)
+            .setExitAnim(R.anim.fade_out)
+            .setPopEnterAnim(R.anim.fade_in)
+            .setPopExitAnim(R.anim.fade_out)
+            .build()
+    }*/
 }

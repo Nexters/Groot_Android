@@ -92,21 +92,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSelect" />
 
+
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/scrollView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="13dp"
                     android:clipToPadding="false"
+                    android:visibility="gone"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/spSelectPlant">
+                    app:layout_constraintTop_toBottomOf="@id/spSelectPlant"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="16dp">
 
                         <include
                             android:id="@+id/firstSection"
@@ -146,6 +149,21 @@
                                 />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvDone"
+                            style="@style/AndH4RegularCenter18Gray"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginEnd="32dp"
+                            android:gravity="center"
+                            android:text="@string/add_done"
+                            android:background="@drawable/btn_disable_done"
+                            app:layout_constraintVertical_bias="0.9"
+                            app:layout_constraintTop_toBottomOf="@id/secondSection"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.core.widget.NestedScrollView>
 
@@ -162,17 +180,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     />-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvDone"
-                    style="@style/AndH4RegularCenter18Gray"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:text="@string/add_done"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
-import com.nexters.android.pliary.view.util.*
+import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -48,9 +45,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             initRv()
             initIndicatorDeco()
         })
-        viewModel.addCardEvent.observe(this, Observer{
-            findNavController().navigate(R.id.addFragment)
-        })
+        viewModel.addCardEvent.observe(this, Observer{ navigate(R.id.addFragment) })
     }
     private fun initRv() {
         rvCardList.apply{
