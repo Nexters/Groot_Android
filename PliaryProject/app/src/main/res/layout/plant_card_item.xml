@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:text="@{@string/wateringFormat(item.plantNickname)}"
+                android:text="@{@string/home_wateringFormat(item.plantNickname)}"
                 app:layout_constraintBottom_toTopOf="@id/ivDrop"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="멋쟁이투투에게 물주기" />

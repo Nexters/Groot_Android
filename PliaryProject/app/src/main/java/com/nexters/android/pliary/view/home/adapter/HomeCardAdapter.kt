@@ -14,7 +14,7 @@ import com.nexters.android.pliary.data.PlantCard.PlantCardDummy
 import com.nexters.android.pliary.databinding.PlantCardItemBinding
 import kotlinx.android.extensions.LayoutContainer
 
-class HomeCardAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface Callbacks {
         fun onClickAddCard()

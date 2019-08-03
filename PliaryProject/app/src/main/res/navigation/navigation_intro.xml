@@ -21,4 +21,8 @@
         android:id="@+id/homeFragment"
         android:name="com.nexters.android.pliary.view.home.HomeFragment"
         android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.nexters.android.pliary.view.add.AddFragment"
+        android:label="AddFragment" />
 </navigation>

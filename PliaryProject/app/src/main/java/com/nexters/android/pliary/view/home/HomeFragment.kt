@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.nexters.android.pliary.R
@@ -56,7 +57,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             initIndicatorDeco()
         })
         viewModel.addCardEvent.observe(this, Observer{
-
+            findNavController().navigate(R.id.addFragment)
         })
     }
     private fun initRv() {

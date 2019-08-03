@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="array_plant">
+        <item>@string/add_select_hint</item>
+        <item>Stuki</item>
+        <item>Sansevieria</item>
+        <item>Eucalyptus</item>
+        <item>Monstera</item>
+        <item>Parlour palm</item>
+        <item>Elastica</item>
+        <item>Traveler’s palm</item>
+        <item>Schefflera</item>
+        <item>Your Own</item>
+    </array>
+</resources>

@@ -6,5 +6,13 @@
     <string name="edit_email">Email</string>
     <string name="edit_password">Password</string>
 
-    <string formatted="false" name="wateringFormat">%s에게 물주기</string>
+    /*home*/
+    <string formatted="false" name="home_wateringFormat">"%s에게 물주기"</string>
+
+    /*add*/
+    <string name="add_title">식물등록하기</string>
+    <string name="add_select_species">식물 종류</string>
+    <string name="add_select_hint">Pick your plants.</string>
+
+    <string name="add_done">완료</string>
 </resources>
