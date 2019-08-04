@@ -10,6 +10,7 @@ import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
 import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration
+import com.nexters.android.pliary.view.util.eventObserver
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -35,7 +36,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     }
 
     private fun initObserver() {
-        viewModel.listSetData.observe(this, Observer{
+        viewModel.listSetData.observe(this, eventObserver {
             cardAdapter.setCardList(it)
             cardAdapter.setCallbacks(object : HomeCardAdapter.Callbacks {
                 override fun onClickAddCard() {
@@ -45,7 +46,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             initRv()
             initIndicatorDeco()
         })
-        viewModel.addCardEvent.observe(this, Observer{ navigate(R.id.addFragment) })
+        viewModel.addCardEvent.observe(this, Observer{ navigate(R.id.action_homeFragment_to_addFragment) })
     }
     private fun initRv() {
         rvCardList.apply{

@@ -2,6 +2,7 @@ package com.nexters.android.pliary.di
 
 import android.app.Application
 import com.nexters.android.pliary.PliaryApplication
+import com.nexters.android.pliary.view.splash.SplashActivityModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -15,6 +16,7 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     AndroidSupportInjectionModule::class,
     NetModule::class,
+    SplashActivityModule::class,
     ActivityModule::class,
     AppModule::class
 ])

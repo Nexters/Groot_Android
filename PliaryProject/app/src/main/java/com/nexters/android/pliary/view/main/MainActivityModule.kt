@@ -5,8 +5,6 @@ import com.nexters.android.pliary.view.add.AddFragment
 import com.nexters.android.pliary.view.add.AddFragmentModule
 import com.nexters.android.pliary.view.home.HomeFragment
 import com.nexters.android.pliary.view.home.HomeFragmentModule
-import com.nexters.android.pliary.view.splash.SplashFragment
-import com.nexters.android.pliary.view.splash.SplashFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -17,10 +15,6 @@ abstract class MainActivityModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [(MainFragmentModule::class)])
     abstract fun bindMainFragment(): MainFragment
-
-    @ContributesAndroidInjector(modules = [SplashFragmentModule::class])
-    @FragmentScope
-    abstract fun bindSplashFragment(): SplashFragment
 
     @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
     @FragmentScope

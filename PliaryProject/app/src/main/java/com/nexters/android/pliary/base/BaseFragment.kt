@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.nexters.android.pliary.R
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
@@ -35,29 +36,30 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
         return ViewModelProviders.of(this, viewModelProviderFactory).get(viewModelClass)
     }
 
-    private val navController: NavController
-        get() = findNavController(this)
-
     protected fun navigate(@IdRes id: Int) {
-        navController.navigate(
+        findNavController().navigate(
             id
+            /*,
+            Bundle().apply {
+                putSerializable(MealDiaryConst.KEY_ARGS, screen)
+            }*/
         )
     }
 
     protected fun popBackStack() {
-        navController.popBackStack()
+        findNavController().popBackStack()
     }
 
     protected fun popBackStack(@IdRes destinationId: Int, inclusive: Boolean = true) {
-        navController.popBackStack(destinationId, inclusive)
+        findNavController().popBackStack(destinationId, inclusive)
     }
 
-    /*private fun getNavOptions(): NavOptions {
+    private fun getNavOptions(): NavOptions {
         return NavOptions.Builder()
             .setEnterAnim(R.anim.fade_in)
             .setExitAnim(R.anim.fade_out)
             .setPopEnterAnim(R.anim.fade_in)
             .setPopExitAnim(R.anim.fade_out)
             .build()
-    }*/
+    }
 }
