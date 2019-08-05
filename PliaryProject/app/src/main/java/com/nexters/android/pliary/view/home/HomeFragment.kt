@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
+import com.nexters.android.pliary.view.util.CardLayoutManager
 import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration
 import com.nexters.android.pliary.view.util.eventObserver
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -50,7 +51,8 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     }
     private fun initRv() {
         rvCardList.apply{
-            layoutManager = CardLayoutManager(context)//LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                CardLayoutManager(context)//LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = cardAdapter
             setHasFixedSize(true)
             clearOnScrollListeners()

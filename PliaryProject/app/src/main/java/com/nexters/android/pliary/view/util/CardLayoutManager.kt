@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.view.home
+package com.nexters.android.pliary.view.util
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
