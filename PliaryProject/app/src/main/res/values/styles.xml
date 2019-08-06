@@ -17,8 +17,8 @@
 
     <style name="PliaryDatePickerSpinnerTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:datePickerStyle">@style/PliaryDatePickerSpinnerStyle</item>
-        <item name="colorAccent">@color/blue_grey</item>
-        <item name="colorControlNormal">@color/sub_color_green</item>
+        <item name="colorAccent">@color/gray3</item>
+        <item name="colorControlNormal">@color/green</item>
     </style>
 
     <style name="PliaryDatePickerSpinnerStyle" parent="@android:style/Widget.Material.DatePicker">

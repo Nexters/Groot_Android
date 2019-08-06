@@ -1,6 +1,7 @@
 package com.nexters.android.pliary.view.add
 
 import android.app.DatePickerDialog
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.view.add.adapter.DatePickerAdapter
+import com.nexters.android.pliary.view.util.*
 import kotlinx.android.synthetic.main.add_second_layout.*
 import kotlinx.android.synthetic.main.fragment_add.*
 import java.text.SimpleDateFormat
@@ -39,10 +45,10 @@ class AddFragment : BaseFragment<AddViewModel>() {
     }
 
     private fun initView(){
-        val plantArray = resources.getStringArray(com.nexters.android.pliary.R.array.array_plant)
+        val plantArray = resources.getStringArray(R.array.array_plant)
         spSelectPlant.apply {
-            adapter = ArrayAdapter<String>(context, com.nexters.android.pliary.R.layout.spinner_item, plantArray).apply {
-                setDropDownViewResource(com.nexters.android.pliary.R.layout.spinner_item)
+            adapter = ArrayAdapter<String>(context, R.layout.spinner_item, plantArray).apply {
+                setDropDownViewResource(R.layout.spinner_item)
             }
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -58,6 +64,26 @@ class AddFragment : BaseFragment<AddViewModel>() {
                     scrollView.isVisible = position != 0
                 }
             }
+        }
+
+        val padding: Int = context?.let{ getScreenWidth(it)/2 - it.dpToPx(40) } ?: 0
+
+        rvDatePicker.apply {
+            layoutManager = SliderLayoutManager(context).apply {
+                callback = object : SliderLayoutManager.OnItemSelectedListener {
+                    override fun onItemSelected(layoutPosition: Int) {
+                        //tvSelectedItem.setText(data[layoutPosition])
+                    }
+                }
+            }
+            adapter = DatePickerAdapter().apply {
+                callback = object : DatePickerAdapter.Callback {
+                    override fun onItemClicked(view: View) {
+                        rvDatePicker.smoothScrollToPosition(rvDatePicker.getChildLayoutPosition(view))
+                    }
+                }
+            }
+            setPadding(padding, 0, padding, 0)
         }
     }
 

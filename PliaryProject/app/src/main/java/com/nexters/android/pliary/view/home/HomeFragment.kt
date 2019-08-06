@@ -51,8 +51,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     }
     private fun initRv() {
         rvCardList.apply{
-            layoutManager =
-                CardLayoutManager(context)//LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = CardLayoutManager(context)
             adapter = cardAdapter
             setHasFixedSize(true)
             clearOnScrollListeners()

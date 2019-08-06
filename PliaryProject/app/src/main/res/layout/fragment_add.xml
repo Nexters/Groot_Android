@@ -9,13 +9,13 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_color">
+        android:background="@color/b_g">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg_color">
+            android:background="@color/b_g">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
@@ -34,7 +34,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTitle"
-                        style="@style/AndH3MediumLeft24"
+                        style="@style/AndH3GothicMediumLeft22Gray2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/add_title"
@@ -72,7 +72,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSelect"
-                    style="@style/AndH4RegularLeft16"
+                    style="@style/AndH6GothicRegularLeft16Gray4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -88,6 +88,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="32dp"
                     android:entries="@array/array_plant"
+                    style="@style/AndH2SerifBoldLeft24Gray1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSelect" />
@@ -152,7 +153,7 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvDone"
-                            style="@style/AndH4RegularCenter18Gray"
+                            style="@style/AndH5GothicRegularCenter18Gray5"
                             android:layout_width="0dp"
                             android:layout_height="56dp"
                             android:layout_marginStart="32dp"

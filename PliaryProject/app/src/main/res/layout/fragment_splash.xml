@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:fitsSystemWindows="true"
-    tools:context=".view.splash.SplashFragment">
+    android:background="@color/b_g"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@+id/subTitle"
@@ -15,7 +14,7 @@
         android:layout_marginTop="62dp"
         android:layout_marginStart="36dp"
         android:text="@string/pliary_subtitle"
-        style="@style/AndH4MediumLeft18Black"
+        style="@style/AndH5GothicRegularLeft18Gray2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +25,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="36dp"
         android:text="@string/app_name"
-        style="@style/AndH1BoldLeft66Black"
+        android:textSize="60sp"
+        android:textColor="@color/gray1"
+        android:lineSpacingExtra="6sp"
         android:fontFamily="serif"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

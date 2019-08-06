@@ -12,7 +12,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_color"
+        android:background="@color/b_g"
         android:elevation="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNickname"
-                style="@style/AndH6RegularLeft14"
+                style="@style/AndH7GothicRegularLeft14Gray3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -62,7 +62,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDDay"
-                style="@style/AndH2BlackLeft22"
+                style="@style/AndH3SerifBoldLeft22Gray1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"

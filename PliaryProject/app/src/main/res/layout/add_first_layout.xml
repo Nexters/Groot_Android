@@ -24,7 +24,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRef"
-            style="@style/AndH4MediumLeft16BabyGreen"
+            style="@style/AndH6GothicMediumLeft16Green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -34,7 +34,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRefContent"
-            style="@style/AndH5RegularLeft14GuideGray"
+            style="@style/AndH7GothicRegularLeft14Gray4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
