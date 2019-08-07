@@ -12,9 +12,13 @@
   <color name="gray5">#cdcdcd</color>
   <color name="white">#ffffff</color>
   <color name="gray3">#787878</color>
-  <color name="blue">#5ea2ff</color>
+  <color name="blue__calendar__select">#5ea2ff</color>
   <color name="pink">#ff7474</color>
   <color name="gray7">#eeeeee</color>
   <color name="b_g">#f9f9f9</color>
+  <color name="blue__calendar">#87bfff</color>
+  <color name="green__calendar__select">#81cc89</color>
+  <color name="green__calendar">#aee6b4</color>
+  <color name="green__dark">#7f9c82</color>
 
 </resources>

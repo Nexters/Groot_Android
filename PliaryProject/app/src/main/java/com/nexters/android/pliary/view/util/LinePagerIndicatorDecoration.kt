@@ -13,8 +13,8 @@ import com.nexters.android.pliary.R
 
 class LinePagerIndicatorDecoration(val context : Context, val count : Int) : RecyclerView.ItemDecoration() {
 
-    private val colorActive = ResUtils.getColor(context, R.color.green)
-    private val colorInactive = ResUtils.getColor(context, R.color.gray3)
+    private val colorActive = ResUtils.getColor(context, R.color.green__dark)
+    private val colorInactive = ResUtils.getColor(context, R.color.gray7)
 
     companion object { private val DP = Resources.getSystem().displayMetrics.density }
 

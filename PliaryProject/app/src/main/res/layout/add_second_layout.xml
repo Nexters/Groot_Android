@@ -139,6 +139,36 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="23dp"
+            android:background="#bbf9f9f9"
+            app:layout_constraintTop_toTopOf="@id/rvDatePicker"
+            app:layout_constraintBottom_toBottomOf="@id/rvDatePicker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/middle"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="23dp"
+            android:background="#bbf9f9f9"
+            app:layout_constraintTop_toTopOf="@id/rvDatePicker"
+            app:layout_constraintBottom_toBottomOf="@id/rvDatePicker"
+            app:layout_constraintStart_toStartOf="@id/middle"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEveryDay"
             android:layout_width="wrap_content"
