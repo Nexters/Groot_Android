@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glUnder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#eed9be"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/glUnder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="34dp"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="34dp"
+            />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src='@drawable/allow_left'
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlantName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/AndH1SerifBlackLeft32Gray1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="2dp"
+            android:text="RosePlant"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintEnd_toStartOf="@id/ivMenu"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSpecies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스투키"
+            style="@style/AndH5GothicRegularLeft18Gray3"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tvPlantName"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            tools:text="스투키"
+            />
+
+        <View
+            android:id="@+id/border"
+            android:layout_width="1dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="7.5dp"
+            android:background="@color/gray3"
+            app:layout_constraintStart_toEndOf="@id/tvSpecies"
+            app:layout_constraintEnd_toStartOf="@id/tvNickname"
+            app:layout_constraintTop_toTopOf="@id/tvSpecies"
+            app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="멋쟁이투투"
+            style="@style/AndH5GothicRegularLeft18Gray3"
+            android:layout_marginStart="9.5dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="@id/tvSpecies"
+            app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
+            app:layout_constraintStart_toEndOf="@id/border"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            tools:text="멋쟁이투투"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/vertical_dot_black"
+            app:layout_constraintTop_toTopOf="@id/tvPlantName"
+            app:layout_constraintBottom_toBottomOf="@id/tvPlantName"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibtnWater"
+            android:layout_width="79dp"
+            android:layout_height="79dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/add_water"
+            app:layout_constraintBottom_toBottomOf="@id/glUnder"
+            app:layout_constraintTop_toTopOf="@+id/glUnder"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDrop"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/black"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/glUnder"
+            app:layout_constraintStart_toStartOf="@id/glStart" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDDay"
+            style="@style/AndH3SerifBoldLeft22Gray1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivDrop"
+            app:layout_constraintStart_toEndOf="@id/ivDrop"
+            app:layout_constraintTop_toTopOf="@id/ivDrop"
+            tools:text="D-day" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvInfo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="6dp"
+            style="@style/AndH7GothicRegularLeft14Gray3"
+            tools:text="유칼립투스는 공기정화 능력이 있습니다.
+습한 환경에서 해충이 잘 생기기때문에 주변 환경을 확인해주세요."
+            app:layout_constraintTop_toBottomOf="@id/ivDrop"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintBottom_toTopOf="@id/ivArrowDown"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivArrowDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_bottom"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

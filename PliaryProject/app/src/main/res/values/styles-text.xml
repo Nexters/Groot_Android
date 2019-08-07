@@ -20,6 +20,7 @@
     <item name="android:textSize">32sp</item>
     <item name="android:lineSpacingExtra">4sp</item>
     <item name="android:fontFamily">serif</item>
+    <item name="android:textStyle">bold</item>
     <item name="android:textColor">@color/gray1</item>
   </style>
 
