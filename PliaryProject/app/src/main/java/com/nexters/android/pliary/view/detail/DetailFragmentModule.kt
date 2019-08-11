@@ -6,6 +6,7 @@ import com.nexters.android.pliary.di.annotation.ViewModelKey
 import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
 import com.nexters.android.pliary.view.detail.diary.adapter.DetailDiaryAdapter
 import com.nexters.android.pliary.view.detail.calendar.viewmodel.DetailCalendarViewModel
+import com.nexters.android.pliary.view.detail.edit.DiaryEditViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -41,4 +42,10 @@ internal interface DetailFragmentModule {
     @IntoMap
     @ViewModelKey(DetailCalendarViewModel::class)
     fun bindDetailCalendarViewModel(detailCalendarViewModel: DetailCalendarViewModel): ViewModel
+
+    @Binds
+    @FragmentScope
+    @IntoMap
+    @ViewModelKey(DiaryEditViewModel::class)
+    fun bindDiaryEditViewModel(diaryEditViewModel: DiaryEditViewModel): ViewModel
 }
