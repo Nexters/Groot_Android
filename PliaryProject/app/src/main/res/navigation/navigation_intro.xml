@@ -12,9 +12,16 @@
         <action
             android:id="@+id/action_homeFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
         android:name="com.nexters.android.pliary.view.add.AddFragment"
         android:label="AddFragment" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.nexters.android.pliary.view.detail.DetailFragment"
+        android:label="DetailFragment" />
 </navigation>

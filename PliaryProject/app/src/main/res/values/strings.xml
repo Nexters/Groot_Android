@@ -7,6 +7,10 @@
     <string name="edit_password">Password</string>
     <string name="cancel">취소</string>
 
+    /* android:transitionName*/
+    <string name="trans_card_detail">trans_card_detail</string>
+    <string name="trans_detail">trans_detail</string>
+
     /*home*/
     <string formatted="false" name="home_wateringFormat">"%s에게 물주기"</string>
 

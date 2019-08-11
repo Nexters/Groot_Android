@@ -3,7 +3,10 @@ package com.nexters.android.pliary.view.home.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.data.PlantCard
@@ -13,10 +16,13 @@ import com.nexters.android.pliary.data.PlantCard.EmptyCard
 import com.nexters.android.pliary.data.PlantCard.PlantCardDummy
 import com.nexters.android.pliary.databinding.PlantCardItemBinding
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.plant_card_item.*
+import kotlinx.android.synthetic.main.plant_card_item.view.*
 
 class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface Callbacks {
+        fun onClickCardDetail(sharedElements: Pair<View, String>?)
         fun onClickAddCard()
     }
     private var callbacks: Callbacks? = null
@@ -68,6 +74,11 @@ class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when(this) {
             is EmptyViewHolder -> itemView.setOnClickListener {
                 callbacks?.onClickAddCard()
+            }
+            is CardViewHolder -> itemView.setOnClickListener {
+                itemView.ivPlant.transitionName = "trans_card_detail"
+                val extra = ViewCompat.getTransitionName(itemView.ivPlant)?.let{ itemView.ivPlant to it }
+                callbacks?.onClickCardDetail(extra)
             }
         }
         return this

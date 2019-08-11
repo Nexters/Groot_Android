@@ -1,7 +1,9 @@
 package com.nexters.android.pliary.view.home
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.FragmentNavigator
 import com.nexters.android.pliary.base.BaseViewModel
 import com.nexters.android.pliary.base.Event
 import com.nexters.android.pliary.base.SingleLiveEvent
@@ -17,6 +19,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     // 새 카드 등록
     private val _addCardEvent = SingleLiveEvent<Unit>()
     val addCardEvent: LiveData<Unit> get() = _addCardEvent
+
+    // 카드 상세
+    private val _cardDetailEvent = SingleLiveEvent<Pair<Int, Pair<View, String>?>>()
+    val cardDetailEvent: LiveData<Pair<Int, Pair<View, String>?>> get() = _cardDetailEvent
 
     fun reqPlantCardData() {
         _listSetData.value = Event(arrayListOf<PlantCard>(
@@ -40,5 +46,9 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     fun onClickAddCard() {
         _addCardEvent.call()
+    }
+
+    fun onClickCardDetail(cardId: Int, sharedElements: Pair<View, String>?) {
+        _cardDetailEvent.value = cardId to sharedElements
     }
 }

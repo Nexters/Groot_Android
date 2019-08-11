@@ -19,16 +19,18 @@
             app:layout_constraintGuide_percent="0.75"
             />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/background"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#eed9be"
-            app:layout_constraintTop_toTopOf="parent"
+            android:transitionName="@string/trans_card_detail"
             app:layout_constraintBottom_toBottomOf="@id/glUnder"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
@@ -66,71 +68,78 @@
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvPlantName"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/plantNameLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/AndH1SerifBlackLeft32Gray1"
-            android:singleLine="true"
-            android:ellipsize="end"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="2dp"
-            android:text="RosePlant"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            app:layout_constraintEnd_toStartOf="@id/ivMenu"
-            />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSpecies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="스투키"
-            style="@style/AndH5GothicRegularLeft18Gray3"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvPlantName"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            tools:text="스투키"
-            />
-
-        <View
-            android:id="@+id/border"
-            android:layout_width="1dp"
-            android:layout_height="12dp"
-            android:layout_marginStart="7.5dp"
-            android:background="@color/gray3"
-            app:layout_constraintStart_toEndOf="@id/tvSpecies"
-            app:layout_constraintEnd_toStartOf="@id/tvNickname"
-            app:layout_constraintTop_toTopOf="@id/tvSpecies"
-            app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
-            />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvNickname"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="멋쟁이투투"
-            style="@style/AndH5GothicRegularLeft18Gray3"
-            android:layout_marginStart="9.5dp"
-            android:singleLine="true"
-            android:ellipsize="end"
-            app:layout_constraintTop_toTopOf="@id/tvSpecies"
-            app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
-            app:layout_constraintStart_toEndOf="@id/border"
+            android:transitionName="@string/trans_detail"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
-            tools:text="멋쟁이투투"
-            />
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:src="@drawable/vertical_dot_black"
-            app:layout_constraintTop_toTopOf="@id/tvPlantName"
-            app:layout_constraintBottom_toBottomOf="@id/tvPlantName"
-            app:layout_constraintEnd_toEndOf="@id/glEnd"
-            />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPlantName"
+                style="@style/AndH1SerifBlackLeft32Gray1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="RosePlant"
+                android:transitionName="@string/trans_detail"
+                app:layout_constraintEnd_toStartOf="@id/ivMenu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSpecies"
+                style="@style/AndH5GothicRegularLeft18Gray3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="스투키"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPlantName"
+                tools:text="스투키" />
+
+            <View
+                android:id="@+id/border"
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="7.5dp"
+                android:background="@color/gray3"
+                app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
+                app:layout_constraintEnd_toStartOf="@id/tvNickname"
+                app:layout_constraintStart_toEndOf="@id/tvSpecies"
+                app:layout_constraintTop_toTopOf="@id/tvSpecies" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNickname"
+                style="@style/AndH5GothicRegularLeft18Gray3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9.5dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="멋쟁이투투"
+                app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/border"
+                app:layout_constraintTop_toTopOf="@id/tvSpecies"
+                tools:text="멋쟁이투투" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/vertical_dot_black"
+                app:layout_constraintBottom_toBottomOf="@id/tvPlantName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvPlantName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibtnWater"
@@ -157,6 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
+            android:text="D-Day"
             app:layout_constraintBottom_toBottomOf="@id/ivDrop"
             app:layout_constraintStart_toEndOf="@id/ivDrop"
             app:layout_constraintTop_toTopOf="@id/ivDrop"

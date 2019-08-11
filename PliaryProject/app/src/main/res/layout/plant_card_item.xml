@@ -28,7 +28,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.80" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivPlant"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -38,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.AppCompatImageView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNickname"

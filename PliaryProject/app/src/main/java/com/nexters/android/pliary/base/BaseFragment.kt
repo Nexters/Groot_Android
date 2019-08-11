@@ -3,11 +3,13 @@ package com.nexters.android.pliary.base
 import android.content.Context
 import android.os.Bundle
 import androidx.annotation.IdRes
+import androidx.annotation.Nullable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -36,14 +38,18 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
         return ViewModelProviders.of(this, viewModelProviderFactory).get(viewModelClass)
     }
 
-    protected fun navigate(@IdRes id: Int) {
+    protected fun navigate(@IdRes id: Int, bundle: Bundle? = null) {
         findNavController().navigate(
-            id
-            /*,
-            Bundle().apply {
-                putSerializable(MealDiaryConst.KEY_ARGS, screen)
-            }*/
+            id,
+            bundle
         )
+    }
+
+    protected fun navigate(@IdRes id: Int, args : Bundle?, navOptions : NavOptions?, extras : Navigator.Extras?) {
+        findNavController().navigate(id,
+            args, // Bundle of args
+            navOptions, // NavOptions
+            extras)
     }
 
     protected fun popBackStack() {
