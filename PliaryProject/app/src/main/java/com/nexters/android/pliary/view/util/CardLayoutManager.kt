@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 internal class CardLayoutManager(context: Context?) : LinearLayoutManager(context, HORIZONTAL, false) {
 
     companion object {
-        private const val SHRINK_SCALE_AMOUNT = 0.15F
+        private const val SHRINK_SCALE_AMOUNT = 0.1F
         private const val SHRINK_DISTANCE = 0.9F
     }
 

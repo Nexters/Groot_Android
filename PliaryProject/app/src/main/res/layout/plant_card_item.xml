@@ -9,31 +9,28 @@
             type="com.nexters.android.pliary.data.PlantCard.PlantCardDummy" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/b_g"
-        android:elevation="16dp">
+        android:layout_height="wrap_content"
+        android:background="@drawable/pliary_home_card"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cardLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="14dp">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideLine"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.80" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            app:layout_constraintDimensionRatio="1:1.4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivPlant"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#eed9be"
-                app:layout_constraintBottom_toTopOf="@id/guideLine"
+                app:layout_constraintDimensionRatio="4:4.75"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -47,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="@{@string/home_wateringFormat(item.plantNickname)}"
-                app:layout_constraintTop_toBottomOf="@id/guideLine"
+                app:layout_constraintTop_toBottomOf="@id/ivPlant"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="멋쟁이투투에게 물주기" />
 
@@ -84,6 +81,5 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
