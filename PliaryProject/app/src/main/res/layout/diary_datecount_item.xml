@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.nexters.android.pliary.view.detail.bottom.data.DiaryData.DateCount" />
+            type="com.nexters.android.pliary.view.detail.diary.data.DiaryData.DateCount" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

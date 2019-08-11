@@ -3,9 +3,9 @@ package com.nexters.android.pliary.view.detail
 import androidx.lifecycle.ViewModel
 import com.nexters.android.pliary.di.annotation.FragmentScope
 import com.nexters.android.pliary.di.annotation.ViewModelKey
-import com.nexters.android.pliary.view.detail.bottom.viewmodel.DetailDiaryViewModel
-import com.nexters.android.pliary.view.detail.bottom.adapter.DetailDiaryAdapter
-import com.nexters.android.pliary.view.detail.bottom.viewmodel.DetailCalendarViewModel
+import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
+import com.nexters.android.pliary.view.detail.diary.adapter.DetailDiaryAdapter
+import com.nexters.android.pliary.view.detail.calendar.viewmodel.DetailCalendarViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.view.detail.bottom.data
+package com.nexters.android.pliary.view.detail.diary.data
 
 sealed class DiaryData {
     data class DateCount(

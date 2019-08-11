@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.view.detail.bottom
+package com.nexters.android.pliary.view.detail.bottom.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,8 @@ import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import com.nexters.android.pliary.view.detail.bottom.adapter.DetailViewPageAdapter
-import com.nexters.android.pliary.view.detail.bottom.fragment.DetailCalendarFragment
-import com.nexters.android.pliary.view.detail.bottom.fragment.DetailDiaryFragment
+import com.nexters.android.pliary.view.detail.calendar.fragment.DetailCalendarFragment
+import com.nexters.android.pliary.view.detail.diary.fragment.DetailDiaryFragment
 import kotlinx.android.synthetic.main.fragment_detail_bottom.*
 
 class DetailBottomFragment : BaseFragment<DetailViewModel>() {
@@ -23,7 +23,8 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
         const val TAB_CALENDAR = 1
     }
 
-    private var currentTab = TAB_DIARY
+    private var currentTab =
+        TAB_DIARY
 
 
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java

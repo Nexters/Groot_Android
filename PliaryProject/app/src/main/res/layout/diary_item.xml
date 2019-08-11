@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.nexters.android.pliary.view.detail.bottom.data.DiaryData.DiaryItem" />
+            type="com.nexters.android.pliary.view.detail.diary.data.DiaryData.DiaryItem" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

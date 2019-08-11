@@ -1,15 +1,13 @@
-package com.nexters.android.pliary.view.detail.bottom.adapter
+package com.nexters.android.pliary.view.detail.diary.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
-import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.databinding.DiaryDatecountItemBinding
 import com.nexters.android.pliary.databinding.DiaryItemBinding
-import com.nexters.android.pliary.view.detail.bottom.data.DiaryData
+import com.nexters.android.pliary.view.detail.diary.data.DiaryData
 
 class DetailDiaryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

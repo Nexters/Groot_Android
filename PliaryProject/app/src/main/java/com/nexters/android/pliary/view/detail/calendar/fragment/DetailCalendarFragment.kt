@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.view.detail.bottom.fragment
+package com.nexters.android.pliary.view.detail.calendar.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
-import com.nexters.android.pliary.view.detail.bottom.viewmodel.DetailCalendarViewModel
+import com.nexters.android.pliary.view.detail.calendar.viewmodel.DetailCalendarViewModel
 
 class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() {
 
