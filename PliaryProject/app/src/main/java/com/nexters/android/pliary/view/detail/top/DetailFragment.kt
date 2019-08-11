@@ -1,15 +1,14 @@
-package com.nexters.android.pliary.view.detail
+package com.nexters.android.pliary.view.detail.top
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
-import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.view.detail.DetailViewModel
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 class DetailFragment  : BaseFragment<DetailViewModel>() {
@@ -43,6 +42,9 @@ class DetailFragment  : BaseFragment<DetailViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+
+        ivBack.setOnClickListener { popBackStack() }
+        ivArrowDown.setOnClickListener { navigate(R.id.action_detailFragment_to_detailBottomFragment) }
 
     }
 

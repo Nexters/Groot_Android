@@ -22,6 +22,18 @@
         android:label="AddFragment" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.nexters.android.pliary.view.detail.DetailFragment"
-        android:label="DetailFragment" />
+        android:name="com.nexters.android.pliary.view.detail.top.DetailFragment"
+        android:label="DetailFragment" >
+        <action
+            android:id="@+id/action_detailFragment_to_detailBottomFragment"
+            app:destination="@id/detailBottomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailBottomFragment"
+        android:name="com.nexters.android.pliary.view.detail.bottom.DetailBottomFragment"
+        android:label="DetailBottomFragment" >
+        <action
+            android:id="@+id/action_detailBottomFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 </navigation>

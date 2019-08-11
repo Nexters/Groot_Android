@@ -12,4 +12,9 @@
         <item>Schefflera</item>
         <item>Your Own</item>
     </array>
+
+    <string-array name="detail_tab">
+        <item>Diary</item>
+        <item>Calendar</item>
+    </string-array>
 </resources>
