@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
@@ -59,6 +60,10 @@ class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             setHasFixedSize(true)
             addItemDecoration(CardItemDecoration(15))
         }
+
+        val isListEmpty = diaryAdapter.getDiaryList().isEmpty()
+        tvEmpty.isVisible = isListEmpty
+        rvDiary.isVisible = !isListEmpty
 
     }
 }
