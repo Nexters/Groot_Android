@@ -6,6 +6,7 @@ import com.nexters.android.pliary.view.add.AddFragmentModule
 import com.nexters.android.pliary.view.detail.top.DetailFragment
 import com.nexters.android.pliary.view.detail.DetailFragmentModule
 import com.nexters.android.pliary.view.detail.bottom.DetailBottomFragment
+import com.nexters.android.pliary.view.detail.bottom.TestFragment
 import com.nexters.android.pliary.view.home.HomeFragment
 import com.nexters.android.pliary.view.home.HomeFragmentModule
 import dagger.Module
@@ -34,4 +35,8 @@ abstract class MainActivityModule {
     @ContributesAndroidInjector(modules = [DetailFragmentModule::class])
     @FragmentScope
     abstract fun bindDetailBottomFragment(): DetailBottomFragment
+
+    @ContributesAndroidInjector(modules = [DetailFragmentModule::class])
+    @FragmentScope
+    abstract fun bindDetailDiaryFragment(): TestFragment
 }

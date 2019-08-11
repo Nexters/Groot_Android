@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.transition.TransitionInflater
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.DetailViewModel
-import com.nexters.android.pliary.view.util.ResUtils
 import kotlinx.android.synthetic.main.fragment_detail_bottom.*
 
 class DetailBottomFragment : BaseFragment<DetailViewModel>() {
@@ -38,20 +37,30 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initTabView()
+        initViewPager()
+    }
 
+    private fun initViewPager() {
+        val vpAdatper = fragmentManager?.let { DetailViewPageAdapter(it, lifecycle) }?.apply {
+            addFragment(TestFragment())
+            addFragment(TestFragment())
+        }
+        vpPage.adapter = vpAdatper
+
+        initTabView()
     }
 
     private fun initTabView() {
-        val tabTextList = resources.getStringArray(R.array.detail_tab)
-        tabTextList.forEach {
-            val tabLinear = LayoutInflater.from(context).inflate(R.layout.tab_custom_item, null) as LinearLayout
-            val tabTitle = tabLinear.findViewById<TextView>(R.id.tvTabTitle)
-            tabTitle.text = it
-            tabLayout.apply {
-                addTab(this.newTab().setCustomView(tabLinear))
-            }
-        }
+        val mediator = TabLayoutMediator(tabLayout, vpPage,
+            TabLayoutMediator.OnConfigureTabCallback { tab, position ->
+                // Styling each tab here
+                val tabTextList = resources.getStringArray(R.array.detail_tab)
+                val tabLinear = LayoutInflater.from(context).inflate(R.layout.tab_custom_item, null) as LinearLayout
+                val tabTitle = tabLinear.findViewById<TextView>(R.id.tvTabTitle)
+                tabTitle.text = tabTextList[position]
+                tab.customView = tabLinear
+            })
+
         tabLayout.getTabAt(0)?.setTabTitleBold(true)
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
@@ -73,6 +82,8 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
             }
 
         })
+
+        mediator.attach()
     }
 
     private fun TabLayout.Tab.setTabTitleBold(isSelect: Boolean) {
@@ -86,6 +97,5 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
         }
 
     }
-
 
 }
