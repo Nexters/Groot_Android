@@ -7,6 +7,7 @@ import com.nexters.android.pliary.view.detail.top.DetailFragment
 import com.nexters.android.pliary.view.detail.DetailFragmentModule
 import com.nexters.android.pliary.view.detail.bottom.DetailBottomFragment
 import com.nexters.android.pliary.view.detail.bottom.TestFragment
+import com.nexters.android.pliary.view.detail.bottom.fragment.DetailCalendarFragment
 import com.nexters.android.pliary.view.detail.bottom.fragment.DetailDiaryFragment
 import com.nexters.android.pliary.view.home.HomeFragment
 import com.nexters.android.pliary.view.home.HomeFragmentModule
@@ -40,4 +41,8 @@ abstract class MainActivityModule {
     @ContributesAndroidInjector(modules = [DetailFragmentModule::class])
     @FragmentScope
     abstract fun bindDetailDiaryFragment(): DetailDiaryFragment
+
+    @ContributesAndroidInjector(modules = [DetailFragmentModule::class])
+    @FragmentScope
+    abstract fun bindDetailCalendarFragment(): DetailCalendarFragment
 }

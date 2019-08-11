@@ -36,4 +36,7 @@
     <string name="diary_date_count">"%d일"</string>
     <string name="diary_date_count_message">"%s와 %d일을 함께했어요!"</string>
     <string name="diary_empty">성장을 기록하세요.</string>
+    <string name="calendar_watered">물 준 날</string>
+    <string name="calendar_watering">물 주는 날</string>
+    <string name="calendar_watered_message">물을 주었습니다.</string>
 </resources>
