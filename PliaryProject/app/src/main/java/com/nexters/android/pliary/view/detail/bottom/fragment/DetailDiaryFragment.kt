@@ -35,28 +35,29 @@ class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     }
 
     private fun initView() {
-        diaryAdapter.diaryList = arrayListOf(DiaryData(
+        diaryAdapter.setDiaryList(arrayListOf(DiaryData.DiaryItem(
             id = 0,
             writeDate = "2019.08.11",
             imageUrl = "https://avatars1.githubusercontent.com/u/7722921?s=460&v=4",
             content = "이것은 테스트입니당당당ㄷ앋앋ㅇ"
-        ),DiaryData(
+        ),DiaryData.DiaryItem(
             id = 0,
             writeDate = "2019.08.11",
             imageUrl = "https://avatars1.githubusercontent.com/u/7722921?s=460&v=4",
             content = "이것은 테스트입니당당당ㄷ앋앋ㅇ"
-        ),DiaryData(
+        ),DiaryData.DiaryItem(
             id = 0,
             writeDate = "2019.08.11",
             imageUrl = "https://avatars1.githubusercontent.com/u/7722921?s=460&v=4",
             content = "이것은 테스트입니당당당ㄷ앋앋ㅇ"
         ))
+        )
 
         rvDiary.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = diaryAdapter
             setHasFixedSize(true)
-            addItemDecoration(CardItemDecoration(20))
+            addItemDecoration(CardItemDecoration(15))
         }
 
     }
