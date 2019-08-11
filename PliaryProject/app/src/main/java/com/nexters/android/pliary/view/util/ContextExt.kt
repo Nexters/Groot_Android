@@ -1,6 +1,7 @@
 package com.nexters.android.pliary.view.util
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.DisplayMetrics
 import android.view.WindowManager
 
@@ -13,3 +14,9 @@ fun getScreenWidth(context: Context): Int {
     windowManager.defaultDisplay.getMetrics(dm)
     return dm.widthPixels
 }
+
+internal val Int.toPx: Int
+    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+internal val Int.toDp: Int
+    get() = (this / Resources.getSystem().displayMetrics.density).toInt()

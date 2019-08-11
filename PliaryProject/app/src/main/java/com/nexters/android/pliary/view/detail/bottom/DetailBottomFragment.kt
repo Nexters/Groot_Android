@@ -11,6 +11,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.DetailViewModel
+import com.nexters.android.pliary.view.detail.bottom.adapter.DetailViewPageAdapter
+import com.nexters.android.pliary.view.detail.bottom.fragment.DetailDiaryFragment
 import kotlinx.android.synthetic.main.fragment_detail_bottom.*
 
 class DetailBottomFragment : BaseFragment<DetailViewModel>() {
@@ -41,9 +43,11 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     }
 
     private fun initViewPager() {
-        val vpAdatper = fragmentManager?.let { DetailViewPageAdapter(it, lifecycle) }?.apply {
-            addFragment(TestFragment())
-            addFragment(TestFragment())
+        val vpAdatper = fragmentManager?.let {
+            DetailViewPageAdapter(it, lifecycle)
+        }?.apply {
+            addFragment(DetailDiaryFragment())
+            addFragment(DetailDiaryFragment())
         }
         vpPage.adapter = vpAdatper
 

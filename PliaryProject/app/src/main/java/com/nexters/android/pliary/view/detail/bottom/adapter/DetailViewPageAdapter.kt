@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.view.detail.bottom
+package com.nexters.android.pliary.view.detail.bottom.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

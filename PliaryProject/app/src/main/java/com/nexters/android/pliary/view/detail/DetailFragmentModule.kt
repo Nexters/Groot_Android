@@ -4,12 +4,24 @@ import androidx.lifecycle.ViewModel
 import com.nexters.android.pliary.di.annotation.FragmentScope
 import com.nexters.android.pliary.di.annotation.ViewModelKey
 import com.nexters.android.pliary.view.detail.bottom.DetailDiaryViewModel
+import com.nexters.android.pliary.view.detail.bottom.adapter.DetailDiaryAdapter
+import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
 
-@Module
+@Module(includes = [DetailFragmentModule.ProvideModule::class])
 internal interface DetailFragmentModule {
+
+    @Module
+    class ProvideModule {
+        @Provides
+        @FragmentScope
+        fun provideDiaryAdapter(): DetailDiaryAdapter {
+            return DetailDiaryAdapter()
+        }
+    }
 
     @Binds
     @FragmentScope
