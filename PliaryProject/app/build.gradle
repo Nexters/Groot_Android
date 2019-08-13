@@ -56,6 +56,9 @@ dependencies {
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutine_versiuon"
 
+    // Ted Permission
+    implementation "gun0912.ted:tedpermission:$rootProject.tedpermission_version"
+
     // Debug
     implementation "com.facebook.stetho:stetho:$rootProject.stetho_version"
     implementation "com.facebook.stetho:stetho-okhttp3:$rootProject.stetho_version"

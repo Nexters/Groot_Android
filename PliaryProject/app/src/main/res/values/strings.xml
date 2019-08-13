@@ -11,6 +11,10 @@
     <string name="trans_card_detail">trans_card_detail</string>
     <string name="trans_detail">trans_detail</string>
 
+    /* permission message */
+    <string name="permission_rational">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
+    <string name="permission_denied">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
+
     /*home*/
     <string formatted="false" name="home_wateringFormat">"%s에게 물주기"</string>
 

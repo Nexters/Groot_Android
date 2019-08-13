@@ -12,6 +12,8 @@ buildscript {
         glide_version = '4.9.0'
         viewpager2_version = '1.0.0-beta03'
         lottie_version = '3.0.5'
+        tedpermission_version = '2.2.2'
+
     }
     repositories {
         google()

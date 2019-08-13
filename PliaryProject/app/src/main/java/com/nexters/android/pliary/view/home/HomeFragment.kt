@@ -1,28 +1,22 @@
 package com.nexters.android.pliary.view.home
 
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
-import com.nexters.android.pliary.view.main.MainActivity
 import com.nexters.android.pliary.view.util.CardLayoutManager
 import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration
 import com.nexters.android.pliary.view.util.eventObserver
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.plant_card_item.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
 import javax.inject.Inject
 

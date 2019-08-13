@@ -6,7 +6,9 @@
     >
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.nexters.android.pliary.view.detail.edit.DiaryEditViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,6 +66,7 @@
                     android:layout_width="0dp"
                     android:layout_height="255dp"
                     android:background="@color/gray7"
+                    app:srcCompat="@{vm.setPhotoView}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -73,6 +76,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@color/gray6"
+                    android:onClick="@{() -> vm.onClickAddPhoto()}"
                     app:layout_constraintBottom_toBottomOf="@id/ivPhoto"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
