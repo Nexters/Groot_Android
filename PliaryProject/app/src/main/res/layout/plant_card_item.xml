@@ -34,30 +34,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
-            <!--<androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clPlant"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#eed9be"
-                app:layout_constraintDimensionRatio="4:4.75"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                >
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/ivPlant"
-                    android:layout_width="0dp"
-                    android:layout_height="285dp"
-                    app:lottie_enableMergePathsForKitKatAndAbove="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
-                </com.airbnb.lottie.LottieAnimationView>
-            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
 
 
             <androidx.appcompat.widget.AppCompatTextView

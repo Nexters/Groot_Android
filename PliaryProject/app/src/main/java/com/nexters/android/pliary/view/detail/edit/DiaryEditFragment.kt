@@ -3,7 +3,6 @@ package com.nexters.android.pliary.view.detail.edit
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import com.gun0912.tedpermission.TedPermission
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryEditLayoutBinding
-import com.nexters.android.pliary.view.util.eventObserver
 import com.nexters.android.pliary.view.util.photoPath
 
 class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {

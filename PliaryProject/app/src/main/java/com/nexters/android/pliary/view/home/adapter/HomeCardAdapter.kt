@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.data.PlantCard.Companion.EMPTY_CARD
@@ -89,6 +90,15 @@ class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class CardViewHolder(private val binding: PlantCardItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindView(data : PlantCardDummy) {
             binding.item = data
+            setGIF()
+        }
+
+        private fun setGIF() {
+            Glide.with(binding.ivPlant.context)
+                .asGif()
+                .load(R.raw.pliary_gif_test)
+                .placeholder(R.drawable.plant_placeholder)
+                .into(binding.ivPlant)
         }
     }
 
