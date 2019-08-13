@@ -5,8 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.data.PlantCard
@@ -16,7 +14,6 @@ import com.nexters.android.pliary.data.PlantCard.EmptyCard
 import com.nexters.android.pliary.data.PlantCard.PlantCardDummy
 import com.nexters.android.pliary.databinding.PlantCardItemBinding
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.plant_card_item.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
 
 class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

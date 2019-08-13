@@ -3,6 +3,7 @@ package com.nexters.android.pliary.view.util
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -20,4 +21,9 @@ internal fun setSrcCompat(imageView: ImageView, url: String?) {
             .apply(RequestOptions().centerCrop())
             .into(imageView)
     }
+}
+
+@BindingAdapter("lottie_fileName")
+internal fun setLottieFilename(view: LottieAnimationView, fileName: String) {
+    view.setAnimation(fileName)
 }
