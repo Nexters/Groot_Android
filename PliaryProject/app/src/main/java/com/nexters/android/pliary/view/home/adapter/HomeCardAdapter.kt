@@ -1,5 +1,6 @@
 package com.nexters.android.pliary.view.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.base.DialogFactory
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.data.PlantCard.Companion.EMPTY_CARD
 import com.nexters.android.pliary.data.PlantCard.Companion.PLANT_CARD
@@ -16,6 +18,7 @@ import com.nexters.android.pliary.data.PlantCard.PlantCardDummy
 import com.nexters.android.pliary.databinding.PlantCardItemBinding
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.plant_card_item.view.*
+import javax.inject.Inject
 
 class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -91,6 +94,8 @@ class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bindView(data : PlantCardDummy) {
             binding.item = data
             setGIF()
+
+            binding.ibtnWater.setOnClickListener { DialogFactory.showHouseHoldConfirmDlg(binding.root.context) }
         }
 
         private fun setGIF() {

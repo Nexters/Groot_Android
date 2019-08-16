@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+  <color name="black_op">#66000000</color>
+
   <color name="gray_2">#585858</color>
   <color name="gray4">#a9a9a9</color>
   <color name="gray1">#2b2d2e</color>
@@ -20,5 +22,6 @@
   <color name="green__calendar__select">#81cc89</color>
   <color name="green__calendar">#aee6b4</color>
   <color name="green__dark">#7f9c82</color>
+
 
 </resources>

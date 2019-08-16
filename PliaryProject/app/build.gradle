@@ -46,6 +46,11 @@ dependencies {
     // Lottie
     implementation "com.airbnb.android:lottie:$rootProject.lottie_version"
 
+    // Calendar & ThreeTen
+    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.threeten_version"
+    implementation "com.github.prolificinteractive:material-calendarview:$rootProject.calendar_version"
+    implementation 'com.afollestad.material-dialogs:commons:0.9.4.5'
+
     // Network
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"

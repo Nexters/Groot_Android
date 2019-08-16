@@ -17,6 +17,8 @@
 
     /*home*/
     <string formatted="false" name="home_wateringFormat">"%s에게 물주기"</string>
+    <string name="alert_delay">미룰 날짜를 입력해주세요.</string>
+    <string name="alert_after_date">일 후 물주기</string>
 
     /*add*/
     <string name="add_title">식물 등록</string>
