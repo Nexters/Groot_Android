@@ -59,6 +59,10 @@ class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
         viewModel.addPhotoEvent.observe(this, Observer {
             checkPermission()
         })
+
+        viewModel.clickDoneEvent.observe(this, Observer {
+            popBackStack()
+        })
     }
 
     private fun checkPermission() {

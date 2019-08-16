@@ -9,6 +9,9 @@
         <variable
             name="vm"
             type="com.nexters.android.pliary.view.detail.edit.DiaryEditViewModel" />
+        <variable
+            name="calendar"
+            type="com.prolificinteractive.materialcalendarview.CalendarDay" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,7 +78,7 @@
                     android:id="@+id/clAddPhoto"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@color/gray6"
+                    android:background="@color/black_op"
                     android:onClick="@{() -> vm.onClickAddPhoto()}"
                     app:layout_constraintBottom_toBottomOf="@id/ivPhoto"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +111,7 @@
                         style="@style/AndH4SerifBlackCenter20Gray1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="29.11.12"
+                        android:text="@{calendar.today().toString()}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

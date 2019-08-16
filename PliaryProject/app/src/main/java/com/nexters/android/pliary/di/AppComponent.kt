@@ -18,6 +18,7 @@ import javax.inject.Singleton
     NetModule::class,
     SplashActivityModule::class,
     ActivityModule::class,
+    RepositoryModule::class,
     AppModule::class
 ])
 interface AppComponent : AndroidInjector<PliaryApplication> {
