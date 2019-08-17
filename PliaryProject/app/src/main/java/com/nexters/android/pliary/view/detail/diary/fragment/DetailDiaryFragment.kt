@@ -32,8 +32,6 @@ class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
-
-        fbWrite.setOnClickListener { navigate(R.id.diaryEditFragment) }
     }
 
     private fun initView() {

@@ -43,10 +43,12 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         initViewPager()
+
+        fbWrite.setOnClickListener { navigate(R.id.diaryEditFragment) }
     }
 
     private fun initViewPager() {
-        val vpAdapter = fragmentManager?.let {
+        val vpAdapter = childFragmentManager?.let {
             DetailViewPageAdapter(it, lifecycle)
         }?.apply {
             addFragment(DetailRoot1Fragment())

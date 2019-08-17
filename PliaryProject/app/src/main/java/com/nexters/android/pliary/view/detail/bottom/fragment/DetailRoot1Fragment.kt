@@ -21,7 +21,6 @@ class DetailRoot1Fragment : BaseFragment<DetailDiaryViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val navHostFragment = childFragmentManager.findFragmentById(R.id.detailRootFragment) as NavHostFragment? ?: return
         navController = navHostFragment.navController
     }

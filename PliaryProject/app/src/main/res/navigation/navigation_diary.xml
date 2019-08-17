@@ -7,13 +7,5 @@
     <fragment
         android:id="@+id/detailDiaryFragment"
         android:name="com.nexters.android.pliary.view.detail.diary.fragment.DetailDiaryFragment"
-        android:label="DetailDiaryFragment" >
-        <action
-            android:id="@+id/action_detailDiaryFragment_to_diaryEditFragment"
-            app:destination="@id/diaryEditFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/diaryEditFragment"
-        android:name="com.nexters.android.pliary.view.detail.edit.DiaryEditFragment"
-        android:label="DiaryEditFragment" />
+        android:label="DetailDiaryFragment" />
 </navigation>
