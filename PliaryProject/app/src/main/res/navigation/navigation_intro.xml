@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.nexters.android.pliary.view.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_addFragment"
             app:destination="@id/addFragment" />
@@ -36,8 +36,4 @@
             android:id="@+id/action_detailBottomFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/diaryEditFragment"
-        android:name="com.nexters.android.pliary.view.detail.edit.DiaryEditFragment"
-        android:label="DiaryEditFragment" />
 </navigation>

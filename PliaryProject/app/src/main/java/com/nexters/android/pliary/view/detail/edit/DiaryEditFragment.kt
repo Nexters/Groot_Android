@@ -29,6 +29,8 @@ class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
         val binding = DataBindingUtil.inflate<FragmentDiaryEditLayoutBinding>(inflater, R.layout.fragment_diary_edit_layout, container, false)
         binding.lifecycleOwner = this
         binding.vm = viewModel
+
+        binding.ivBack.setOnClickListener { popBackStack() }
         return binding.root
     }
 

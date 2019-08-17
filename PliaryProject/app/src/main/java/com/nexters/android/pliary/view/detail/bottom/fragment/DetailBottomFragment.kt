@@ -15,6 +15,7 @@ import com.nexters.android.pliary.view.detail.bottom.adapter.DetailViewPageAdapt
 import com.nexters.android.pliary.view.detail.calendar.fragment.DetailCalendarFragment
 import com.nexters.android.pliary.view.detail.diary.fragment.DetailDiaryFragment
 import kotlinx.android.synthetic.main.fragment_detail_bottom.*
+import kotlinx.android.synthetic.main.fragment_detail_root.*
 
 class DetailBottomFragment : BaseFragment<DetailViewModel>() {
 
@@ -45,13 +46,13 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     }
 
     private fun initViewPager() {
-        val vpAdatper = fragmentManager?.let {
+        val vpAdapter = fragmentManager?.let {
             DetailViewPageAdapter(it, lifecycle)
         }?.apply {
-            addFragment(DetailDiaryFragment())
-            addFragment(DetailCalendarFragment())
+            addFragment(DetailRoot1Fragment())
+            addFragment(DetailRoot2Fragment())
         }
-        vpPage.adapter = vpAdatper
+        vpPage.adapter = vpAdapter
 
         initTabView()
     }
