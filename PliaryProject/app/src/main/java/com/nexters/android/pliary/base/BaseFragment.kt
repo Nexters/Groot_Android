@@ -60,7 +60,7 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
         findNavController().popBackStack(destinationId, inclusive)
     }
 
-    private fun getNavOptions(): NavOptions {
+    protected fun getNavOptions(): NavOptions {
         return NavOptions.Builder()
             .setEnterAnim(R.anim.fade_in)
             .setExitAnim(R.anim.fade_out)

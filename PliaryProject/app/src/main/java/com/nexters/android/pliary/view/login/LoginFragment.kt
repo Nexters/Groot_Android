@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -20,8 +21,23 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnGoogle.setOnClickListener { navigate(R.id.googleLoginFragment) }
+        //btnGoogle.setOnClickListener { navigate(R.id.googleLoginFragment) }
+        tvGuestLogin.setOnClickListener { navigate(R.id.action_loginFragment_to_homeFragment) }
 
+        initView()
     }
 
+    private fun initView() {
+        setGIF()
+    }
+
+    private fun setGIF() {
+        context?.let {
+            Glide.with(it)
+                .asGif()
+                .load(R.raw.and_home)
+                .centerCrop()
+                .into(ivHome)
+        }
+    }
 }
