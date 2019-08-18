@@ -45,7 +45,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         viewModel.listSetData.observe(this, eventObserver {
             cardAdapter.setCardList(it)
             cardAdapter.setCallbacks(object : HomeCardAdapter.Callbacks {
-                override fun onClickCardDetail(sharedElements: Pair<View, String>?) {
+                override fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>) {
                     viewModel.onClickCardDetail(0, sharedElements)
                 }
 
@@ -57,10 +57,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             initIndicatorDeco()
         })
         viewModel.cardDetailEvent.observe(this, Observer {
-            val sharedElements = arrayListOf<Pair<View, String>>(plantNameLayout to getString(R.string.trans_detail))
-            it.second?.let { sharedElements.add(it) }
+            it.second.add(plantNameLayout to getString(R.string.trans_detail))
             val extras = FragmentNavigator.Extras.Builder().apply {
-                sharedElements.forEach { (view, name) ->
+                it.second.filterNotNull().forEach { (view, name) ->
                     addSharedElement(view, name)
                 }
             }.build()

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
 import androidx.transition.TransitionInflater
+import com.bumptech.glide.Glide
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.DetailViewModel
@@ -26,11 +27,11 @@ class DetailFragment  : BaseFragment<DetailViewModel>() {
     private fun prepareTransitions() {
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
-                background?.apply { sharedElements?.put(transitionName, this) }
-                }
+                ivBackGround?.apply { sharedElements?.put(transitionName, this) }
+                ibtnWater?.apply { sharedElements?.put(transitionName, this) }
+                clDday?.apply { sharedElements?.put(transitionName, this) }
             }
-
-        )
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,5 +51,17 @@ class DetailFragment  : BaseFragment<DetailViewModel>() {
 
     private fun initView() {
 
+        setGIF()
+    }
+
+    private fun setGIF() {
+        context?.apply{
+            Glide.with(this)
+                .asGif()
+                .load(R.raw.pliary_gif_test)
+                .centerCrop()
+                .placeholder(R.drawable.plant_placeholder)
+                .into(ivBackGround)
+        }
     }
 }

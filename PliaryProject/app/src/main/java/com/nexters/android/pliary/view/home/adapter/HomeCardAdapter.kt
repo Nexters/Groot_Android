@@ -23,7 +23,7 @@ import javax.inject.Inject
 class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface Callbacks {
-        fun onClickCardDetail(sharedElements: Pair<View, String>?)
+        fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>)
         fun onClickAddCard()
     }
     private var callbacks: Callbacks? = null
@@ -78,7 +78,13 @@ class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
             is CardViewHolder -> itemView.setOnClickListener {
                 itemView.ivPlant.transitionName = "trans_card_detail"
-                val extra = ViewCompat.getTransitionName(itemView.ivPlant)?.let{ itemView.ivPlant to it }
+                itemView.ibtnWater.transitionName = "trans_card_detail_water"
+                itemView.clDday.transitionName = "trans_card_detail_dday"
+                val extra : ArrayList<Pair<View, String>?> = arrayListOf(
+                    ViewCompat.getTransitionName(itemView.ivPlant)?.let{ itemView.ivPlant to it },
+                    ViewCompat.getTransitionName(itemView.ibtnWater)?.let { itemView.ibtnWater to it },
+                    ViewCompat.getTransitionName(itemView.clDday)?.let { itemView.clDday to it }
+                )
                 callbacks?.onClickCardDetail(extra)
             }
         }

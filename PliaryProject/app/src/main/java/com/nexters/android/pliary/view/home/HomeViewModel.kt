@@ -21,8 +21,8 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     val addCardEvent: LiveData<Unit> get() = _addCardEvent
 
     // 카드 상세
-    private val _cardDetailEvent = SingleLiveEvent<Pair<Int, Pair<View, String>?>>()
-    val cardDetailEvent: LiveData<Pair<Int, Pair<View, String>?>> get() = _cardDetailEvent
+    private val _cardDetailEvent = SingleLiveEvent<Pair<Int, ArrayList<Pair<View, String>?>>>()
+    val cardDetailEvent: LiveData<Pair<Int, ArrayList<Pair<View, String>?>>> get() = _cardDetailEvent
 
     fun reqPlantCardData() {
         _listSetData.value = Event(arrayListOf<PlantCard>(
@@ -48,7 +48,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         _addCardEvent.call()
     }
 
-    fun onClickCardDetail(cardId: Int, sharedElements: Pair<View, String>?) {
+    fun onClickCardDetail(cardId: Int, sharedElements: ArrayList<Pair<View, String>?>) {
         _cardDetailEvent.value = cardId to sharedElements
     }
 }
