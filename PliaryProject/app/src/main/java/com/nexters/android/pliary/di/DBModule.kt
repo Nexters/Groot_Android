@@ -3,15 +3,14 @@ package com.nexters.android.pliary.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.nexters.android.pliary.db.LocalDataSource
 import com.nexters.android.pliary.db.LocalDataSourceImpl
 import com.nexters.android.pliary.db.PliaryRoomDatabase
 import com.nexters.android.pliary.db.dao.DiaryDao
 import com.nexters.android.pliary.db.dao.PlantDao
 import dagger.Module
-import javax.inject.Singleton
 import dagger.Provides
 import javax.inject.Named
+import javax.inject.Singleton
 
 
 @Module

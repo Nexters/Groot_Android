@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.nexters.android.pliary.data.PlantCard.PlantCardDummy" />
+            type="com.nexters.android.pliary.data.PlantCard.PlantCardItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="@{@string/home_wateringFormat(item.plantNickname)}"
+                android:text="@{@string/home_wateringFormat(item.plant.nickName)}"
                 app:layout_constraintTop_toBottomOf="@id/ivPlant"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="멋쟁이투투에게 물주기" />
@@ -73,7 +73,6 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="serif"
                     android:textStyle="bold"
-                    android:text="@{item.plantDate}"
                     app:layout_constraintBottom_toBottomOf="@id/ivDrop"
                     app:layout_constraintStart_toEndOf="@id/ivDrop"
                     app:layout_constraintTop_toTopOf="@id/ivDrop"

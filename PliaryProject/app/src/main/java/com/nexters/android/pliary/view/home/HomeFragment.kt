@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
 import com.nexters.android.pliary.view.util.CardLayoutManager
 import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment<HomeViewModel>() {
+internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
     @Inject
     lateinit var cardAdapter : HomeCardAdapter
@@ -43,7 +44,13 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private fun initObserver() {
         viewModel.listSetData.observe(this, eventObserver {
-            cardAdapter.setCardList(it)
+
+            /*val list = arrayListOf<PlantCard>()
+            it?.let { list.addAll(it) }
+            list.add(PlantCard.EmptyCard())*/
+
+            cardAdapter.submitList(it)
+            //cardAdapter.setCardList(it)
             cardAdapter.setCallbacks(object : HomeCardAdapter.Callbacks {
                 override fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>) {
                     viewModel.onClickCardDetail(0, sharedElements)
@@ -82,7 +89,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    val postion = (rvCardList.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                    val position = (rvCardList.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
                 }
             })
         }

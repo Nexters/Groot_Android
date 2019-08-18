@@ -3,14 +3,14 @@ package com.nexters.android.pliary.view.home
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.fragment.FragmentNavigator
 import com.nexters.android.pliary.base.BaseViewModel
 import com.nexters.android.pliary.base.Event
 import com.nexters.android.pliary.base.SingleLiveEvent
 import com.nexters.android.pliary.data.PlantCard
+import com.nexters.android.pliary.db.LocalDataSource
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor() : BaseViewModel() {
+internal class HomeViewModel @Inject constructor(val localDataSource: LocalDataSource) : BaseViewModel() {
 
     // 리스트 초기화
     private val _listSetData = MutableLiveData<Event<ArrayList<PlantCard>>>()
@@ -25,15 +25,21 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     val cardDetailEvent: LiveData<Pair<Int, ArrayList<Pair<View, String>?>>> get() = _cardDetailEvent
 
     fun reqPlantCardData() {
-        _listSetData.value = Event(arrayListOf<PlantCard>(
-            PlantCard.PlantCardDummy(
+        val list = arrayListOf<PlantCard>()
+        val local = localDataSource.plants().value?.map { PlantCard.PlantCardItem(it) }
+        local?.let { list.addAll(it) }
+        list.add(PlantCard.EmptyCard())
+        _listSetData.value = Event(list)
+
+        /*_listSetData.value = Event(arrayListOf<PlantCard>(
+            PlantCard.PlantCardItem(
                 plantSpecies = "Rose",
                 plantName = "장미",
                 plantNickname = "미정이",
                 plantDate = "2019.08.02",
                 isWatered = false,
                 plantImage = null
-            ), PlantCard.PlantCardDummy(
+            ), PlantCard.PlantCardItem(
                 plantSpecies = "SumFlower",
                 plantName = "해바라기",
                 plantNickname = "해해",
@@ -41,7 +47,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                 isWatered = false,
                 plantImage = null
             )
-        ))
+        ))*/
     }
 
     fun onClickAddCard() {

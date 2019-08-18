@@ -2,10 +2,35 @@ package com.nexters.android.pliary.db
 
 import androidx.lifecycle.LiveData
 import com.nexters.android.pliary.db.entity.Diary
+import com.nexters.android.pliary.db.entity.Plant
 import javax.inject.Inject
 
 internal class LocalDataSourceImpl @Inject constructor(
     private val roomDatabase: PliaryRoomDatabase) : LocalDataSource {
+
+    override fun plants(): LiveData<List<Plant>> {
+        return roomDatabase.plantDao().get()
+    }
+
+    override fun plant(id: Long): LiveData<Plant> {
+        return roomDatabase.plantDao().getById(id)
+    }
+
+    override fun deletePlant(id: Long) {
+        return roomDatabase.plantDao().deleteById(id)
+    }
+
+    override fun upsertPlants(vararg plants: Plant) {
+        return roomDatabase.plantDao().upserts(*plants)
+    }
+
+    override fun deletePlants(vararg plants: Plant) {
+        roomDatabase.plantDao().deletes(*plants)
+    }
+
+    override fun deleteAllPlants() {
+        roomDatabase.plantDao().deleteAll()
+    }
 
     override fun diaries(): LiveData<List<Diary>> {
         return roomDatabase.diaryDao().get()

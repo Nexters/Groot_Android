@@ -13,7 +13,8 @@ import com.nexters.android.pliary.db.entity.Plant
         Diary::class,
         Plant::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(
     ZonedDateTimeConverter::class

@@ -23,7 +23,7 @@ internal interface AppModule {
     @Binds
     @Named("appContext")
     @Singleton
-    fun bindContext(application: PliaryApplication): Context
+    fun bindContext(application: Application): Context
 
     @Binds
     fun bindViewModelFactory(providerFactory: ViewModelProviderFactory): ViewModelProvider.Factory
