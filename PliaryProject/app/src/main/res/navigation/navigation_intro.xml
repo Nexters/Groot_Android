@@ -11,10 +11,16 @@
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_addFragment"
-            app:destination="@id/addFragment" />
+            app:destination="@id/addFragment"
+            app:enterAnim="@anim/slide_to_top"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/slide_to_bottom_bottom" />
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -26,16 +32,16 @@
         android:label="DetailFragment" >
         <action
             android:id="@+id/action_detailFragment_to_detailBottomFragment"
-            app:destination="@id/detailBottomFragment" />
+            app:destination="@id/detailBottomFragment"
+            app:enterAnim="@anim/slide_to_top"
+            app:exitAnim="@anim/slide_to_top_top"
+            app:popEnterAnim="@anim/slide_to_bottom"
+            app:popExitAnim="@anim/slide_to_bottom_bottom" />
     </fragment>
     <fragment
         android:id="@+id/detailBottomFragment"
         android:name="com.nexters.android.pliary.view.detail.bottom.fragment.DetailBottomFragment"
-        android:label="DetailBottomFragment" >
-        <action
-            android:id="@+id/action_detailBottomFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-    </fragment>
+        android:label="DetailBottomFragment" />
     <fragment
         android:id="@+id/diaryEditFragment"
         android:name="com.nexters.android.pliary.view.detail.edit.DiaryEditFragment"
@@ -43,7 +49,15 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.nexters.android.pliary.view.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment"
+        >
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/googleLoginFragment"
         android:name="com.nexters.android.pliary.view.login.signin.GoogleLoginFragment"

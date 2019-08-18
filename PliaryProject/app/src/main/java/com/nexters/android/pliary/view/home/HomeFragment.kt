@@ -64,7 +64,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
                     addSharedElement(view, name)
                 }
             }.build()
-            navigate(R.id.detailFragment,
+            navigate(R.id.action_homeFragment_to_detailFragment,
                 null, // Bundle of args
                 null, // NavOptions
                 extras)

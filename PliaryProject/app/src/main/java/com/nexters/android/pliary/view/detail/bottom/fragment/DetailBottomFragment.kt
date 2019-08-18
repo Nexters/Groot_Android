@@ -44,6 +44,7 @@ class DetailBottomFragment : BaseFragment<DetailViewModel>() {
 
         initViewPager()
 
+        ivArrowUp.setOnClickListener { popBackStack() }
         fbWrite.setOnClickListener { navigate(R.id.diaryEditFragment) }
     }
 
