@@ -1,4 +1,4 @@
-package com.nexters.android.pliary.db
+package com.nexters.android.pliary.db.converter
 
 import androidx.room.TypeConverter
 import org.threeten.bp.ZoneId

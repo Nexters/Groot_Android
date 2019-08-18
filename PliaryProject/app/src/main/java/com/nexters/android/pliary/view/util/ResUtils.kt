@@ -5,8 +5,11 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.core.content.ContextCompat
 import android.graphics.Paint
+import android.widget.ImageView
 import android.widget.TextView
-
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.nexters.android.pliary.R
 
 
 class ResUtils {

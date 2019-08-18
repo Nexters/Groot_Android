@@ -1,7 +1,6 @@
 package com.nexters.android.pliary.view.add
 
 import android.app.DatePickerDialog
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.data.PlantSpecies
+import com.nexters.android.pliary.data.makePlantArray
 import com.nexters.android.pliary.view.add.adapter.DatePickerAdapter
 import com.nexters.android.pliary.view.util.*
+import kotlinx.android.synthetic.main.add_first_layout.*
 import kotlinx.android.synthetic.main.add_second_layout.*
 import kotlinx.android.synthetic.main.fragment_add.*
 import java.text.SimpleDateFormat
@@ -27,6 +26,8 @@ class AddFragment : BaseFragment<AddViewModel>() {
 
     //TODO : AndroidThreeTen 적용하기
     val dateFormatter = SimpleDateFormat("yyyy.MM.dd", Locale.US)
+
+    private val plantList = makePlantArray()
 
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
@@ -39,6 +40,7 @@ class AddFragment : BaseFragment<AddViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        setObserver()
 
         etGetDate.setOnClickListener { showDatePickerDialog(etGetDate) }
         ivClose.setOnClickListener { popBackStack() }
@@ -47,7 +49,7 @@ class AddFragment : BaseFragment<AddViewModel>() {
     private fun initView(){
         val plantArray = resources.getStringArray(R.array.array_plant)
         spSelectPlant.apply {
-            adapter = ArrayAdapter<String>(context, R.layout.spinner_item, plantArray).apply {
+            adapter = ArrayAdapter<String>(context, R.layout.spinner_item, R.id.tvName, plantArray).apply {
                 setDropDownViewResource(R.layout.spinner_item)
             }
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -62,6 +64,8 @@ class AddFragment : BaseFragment<AddViewModel>() {
                     id: Long
                 ) {
                     scrollView.isVisible = position != 0
+                    viewModel.onSelectPlant(getPlantSpecies(position))
+
                 }
             }
         }
@@ -87,10 +91,22 @@ class AddFragment : BaseFragment<AddViewModel>() {
         }
     }
 
+    private fun getPlantSpecies(position: Int) : PlantSpecies {
+        return plantList.first { it.id == position }
+    }
+
+    private fun setObserver() {
+        viewModel.plantSelectEvent.observe(this, eventObserver {
+            clPlantImage.setGIF(it.posUrl)
+            clInfo.isVisible = !it.info.isNullOrEmpty()
+            tvRefContent.text = it.info
+        })
+    }
+
     private fun showDatePickerDialog(view: View) {
         val newCalendar = Calendar.getInstance()
 
-        DatePickerDialog(context,
+        DatePickerDialog(view.context,
             R.style.PliaryDatePickerSpinnerTheme,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 val newDate = Calendar.getInstance()

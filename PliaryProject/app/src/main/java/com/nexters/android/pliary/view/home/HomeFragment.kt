@@ -104,9 +104,9 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     fun onSwipCard(card: PlantCard) {
         when(card) {
             is PlantCard.PlantCardItem -> {
-                tvPlantName.text = card.plant.nameEng
+                tvPlantName.text = card.plant.species.name
                 tvNickname.text = card.plant.nickName
-                tvSpecies.text = card.plant.nameKor
+                tvSpecies.text = card.plant.species.nameKr
             }
             is PlantCard.EmptyCard -> {
                 context?.apply {

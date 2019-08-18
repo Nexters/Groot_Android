@@ -3,14 +3,27 @@
     <array name="array_plant">
         <item>@string/add_select_hint</item>
         <item>Stuki</item>
-        <item>Sansevieria</item>
         <item>Eucalyptus</item>
+        <item>Sansevieria</item>
         <item>Monstera</item>
         <item>Parlour palm</item>
         <item>Elastica</item>
         <item>Traveler’s palm</item>
         <item>Schefflera</item>
-        <item>Your Own</item>
+        <item>직접 입력</item>
+    </array>
+
+    <array name="array_plant_kr">
+        <item>""</item>
+        <item>스투키</item>
+        <item>유칼립투스</item>
+        <item>산세베리아</item>
+        <item>몬스테라</item>
+        <item>테이블 야자</item>
+        <item>고무나무</item>
+        <item>여인초</item>
+        <item>홍콩야자</item>
+        <item>""</item>
     </array>
 
     <string-array name="detail_tab">
