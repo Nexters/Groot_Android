@@ -1,5 +1,7 @@
 package com.nexters.android.pliary.data
 
+import java.io.Serializable
+
 
 sealed class PlantSpecies(val id: Int = -1,
                           val name: String,
@@ -7,7 +9,7 @@ sealed class PlantSpecies(val id: Int = -1,
                           val posUrl: String,
                           val nagUrl: String,
                           val info: String? = "",
-                          val tip: String?) {
+                          val tip: String?) : Serializable {
 
     companion object{
         const val PLANT_STUKI = 1

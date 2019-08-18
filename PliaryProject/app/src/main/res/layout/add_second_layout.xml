@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.nexters.android.pliary.view.add.AddViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,9 +31,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/AndH2SerifBoldLeft24Gray1"
-            android:text="Tory"
-            android:fontFamily="serif"
-            android:textStyle="bold"
+            android:hint="Tory"
+            android:text="@={vm.nickname}"
+            android:singleLine="true"
             android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@id/tvSpeciesTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,29 +61,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPS" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etGetDate"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clGetDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/AndH2SerifBoldLeft24Gray6"
-            android:hint="2019.09.12"
-            android:fontFamily="serif"
-            android:textStyle="bold"
             android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@id/tvGetDateTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            >
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivCalendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/calendar"
-            app:layout_constraintTop_toTopOf="@id/etGetDate"
-            app:layout_constraintBottom_toBottomOf="@id/etGetDate"
-            app:layout_constraintEnd_toEndOf="@id/etGetDate"
-            />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvGetDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/AndH2SerifBoldLeft24Gray1"
+                android:hint="2019.09.12"
+                android:text="@={vm.takeDate}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/calendar"
+                app:layout_constraintTop_toTopOf="@id/tvGetDate"
+                app:layout_constraintBottom_toBottomOf="@id/tvGetDate"
+                app:layout_constraintEnd_toEndOf="@id/tvGetDate"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray7"
+                app:layout_constraintTop_toBottomOf="@id/tvGetDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLastDateTitle"
@@ -91,32 +112,50 @@
             android:text="@string/add_last_water_date"
             android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etGetDate" />
+            app:layout_constraintTop_toBottomOf="@id/clGetDate" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etLastDate"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clLastDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/AndH2SerifBoldLeft24Gray6"
-            android:hint="2019.09.12"
-            android:fontFamily="serif"
-            android:textStyle="bold"
             android:layout_marginTop="12dp"
-            android:clickable="false"
             app:layout_constraintTop_toBottomOf="@id/tvLastDateTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            >
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivCalendar2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/calendar"
-            app:layout_constraintTop_toTopOf="@id/etLastDate"
-            app:layout_constraintBottom_toBottomOf="@id/etLastDate"
-            app:layout_constraintEnd_toEndOf="@id/etLastDate"
-            />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLastDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/AndH2SerifBoldLeft24Gray1"
+                android:hint="2019.09.12"
+                android:text="@={vm.lastWateredDate}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCalendar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/calendar"
+                app:layout_constraintTop_toTopOf="@id/tvLastDate"
+                app:layout_constraintBottom_toBottomOf="@id/tvLastDate"
+                app:layout_constraintEnd_toEndOf="@id/tvLastDate"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray7"
+                app:layout_constraintTop_toBottomOf="@id/tvLastDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSettingTitle"
@@ -126,7 +165,7 @@
             android:text="@string/add_everyday_setting"
             android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etLastDate" />
+            app:layout_constraintTop_toBottomOf="@id/clLastDate" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDatePicker"

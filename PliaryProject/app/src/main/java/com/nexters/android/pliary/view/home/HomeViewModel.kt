@@ -10,12 +10,15 @@ import com.nexters.android.pliary.base.Event
 import com.nexters.android.pliary.base.SingleLiveEvent
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.db.LocalDataSource
+import com.nexters.android.pliary.db.entity.Plant
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class HomeViewModel @Inject constructor(
-    private val localDataSource: LocalDataSource
-    ) : BaseViewModel() {
+internal class HomeViewModel @Inject constructor(localDataSource: LocalDataSource) : BaseViewModel() {
 
+    val liveList = localDataSource.plants()
     // 리스트 초기화
     private val _listSetData = MutableLiveData<Event<ArrayList<PlantCard>>>()
     val listSetData: LiveData<Event<ArrayList<PlantCard>>> get() = _listSetData
@@ -29,12 +32,16 @@ internal class HomeViewModel @Inject constructor(
     private val _cardDetailEvent = SingleLiveEvent<Pair<Int, ArrayList<Pair<View, String>?>>>()
     val cardDetailEvent: LiveData<Pair<Int, ArrayList<Pair<View, String>?>>> get() = _cardDetailEvent
 
-    fun reqPlantCardData() {
+    fun reqPlantCardData(local : List<Plant>) {
+
         val list = arrayListOf<PlantCard>()
-        val local = localDataSource.plants().value?.map { PlantCard.PlantCardItem(it) }
-        local?.let { list.addAll(it) }
+        val item = local?.map { PlantCard.PlantCardItem(it) }
+        item?.let { list.addAll(it) }
         list.add(PlantCard.EmptyCard())
         _listSetData.value = Event(list)
+
+        //val local = localDataSource.plants().await()
+
 
         /*_listSetData.value = Event(arrayListOf<PlantCard>(
             PlantCard.PlantCardItem(

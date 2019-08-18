@@ -39,12 +39,14 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.reqPlantCardData()
         initObserver()
 
     }
 
     private fun initObserver() {
+        viewModel.liveList.observe(this, Observer {
+            viewModel.reqPlantCardData(it)
+        })
         viewModel.listSetData.observe(this, eventObserver {
             cardList.clear()
             cardList.addAll(it)
@@ -104,9 +106,9 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     fun onSwipCard(card: PlantCard) {
         when(card) {
             is PlantCard.PlantCardItem -> {
-                tvPlantName.text = card.plant.species.name
+                tvPlantName.text = card.plant.species?.name
                 tvNickname.text = card.plant.nickName
-                tvSpecies.text = card.plant.species.nameKr
+                tvSpecies.text = card.plant.species?.nameKr
             }
             is PlantCard.EmptyCard -> {
                 context?.apply {

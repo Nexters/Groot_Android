@@ -11,12 +11,11 @@ internal data class Plant(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    val species: PlantSpecies,
-    val tip: String?,
+    val species: PlantSpecies?,
 
-    val nickName: String,
-    val bringDate: ZonedDateTime,
-    val lastWateredDate: ZonedDateTime,
+    val nickName: String? = "",
+    val takeDate: String?,
+    val lastWateredDate: String?,
     val waterTerm: Int? = 1,
 
     val isWatered: Boolean = false
