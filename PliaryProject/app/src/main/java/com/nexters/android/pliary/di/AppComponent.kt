@@ -19,7 +19,8 @@ import javax.inject.Singleton
     SplashActivityModule::class,
     ActivityModule::class,
     RepositoryModule::class,
-    AppModule::class
+    AppModule::class,
+    DBModule::class
 ])
 interface AppComponent : AndroidInjector<PliaryApplication> {
     @Component.Builder

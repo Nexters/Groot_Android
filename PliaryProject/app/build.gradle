@@ -41,7 +41,7 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glide_version"
+    kapt "com.github.bumptech.glide:compiler:$rootProject.glide_version"
 
     // Lottie
     implementation "com.airbnb.android:lottie:$rootProject.lottie_version"
@@ -64,6 +64,11 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp_version"
+
+    // Room DB
+    implementation "androidx.room:room-runtime:$rootProject.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.room_version" // use kapt for Kotlin
+    implementation "androidx.room:room-coroutines:$rootProject.room_version"
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutine_versiuon"

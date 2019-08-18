@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.DialogFactory
 import com.nexters.android.pliary.data.PlantCard
@@ -105,10 +106,13 @@ class HomeCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
         private fun setGIF() {
+            // 파일 S3 경로 "https://dailyissue.s3.ap-northeast-2.amazonaws.com/[gif파일명]"
+
             Glide.with(binding.ivPlant.context)
                 .asGif()
-                .load(R.raw.pliary_gif_test)
+                .load("https://dailyissue.s3.ap-northeast-2.amazonaws.com/And_Posi_Eucalyptus.gif")
                 .placeholder(R.drawable.plant_placeholder)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(binding.ivPlant)
         }
     }
