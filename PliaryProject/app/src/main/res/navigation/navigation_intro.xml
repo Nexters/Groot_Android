@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_intro"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -40,4 +40,12 @@
         android:id="@+id/diaryEditFragment"
         android:name="com.nexters.android.pliary.view.detail.edit.DiaryEditFragment"
         android:label="DiaryEditFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.nexters.android.pliary.view.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/googleLoginFragment"
+        android:name="com.nexters.android.pliary.view.login.signin.GoogleLoginFragment"
+        android:label="GoogleLoginFragment" />
 </navigation>

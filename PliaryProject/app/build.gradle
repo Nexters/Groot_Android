@@ -51,6 +51,13 @@ dependencies {
     implementation "com.github.prolificinteractive:material-calendarview:$rootProject.calendar_version"
     implementation 'com.afollestad.material-dialogs:commons:0.9.4.5'
 
+    //Firebase
+    implementation "com.google.firebase:firebase-core:$rootProject.firebasecore_version"
+    implementation "com.google.firebase:firebase-database:$rootProject.firebase_version"
+    implementation "com.google.firebase:firebase-auth:$rootProject.firebase_version"
+    //Google Login
+    implementation "com.google.android.gms:play-services-auth:$rootProject.playservice_version"
+
     // Network
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
@@ -80,3 +87,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

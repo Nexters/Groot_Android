@@ -13,6 +13,9 @@ import com.nexters.android.pliary.view.detail.diary.fragment.DetailDiaryFragment
 import com.nexters.android.pliary.view.detail.edit.DiaryEditFragment
 import com.nexters.android.pliary.view.home.HomeFragment
 import com.nexters.android.pliary.view.home.HomeFragmentModule
+import com.nexters.android.pliary.view.login.LoginFragment
+import com.nexters.android.pliary.view.login.LoginFragmentModule
+import com.nexters.android.pliary.view.login.signin.GoogleLoginFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -23,6 +26,14 @@ abstract class MainActivityModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [(MainFragmentModule::class)])
     abstract fun bindMainFragment(): MainFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [(LoginFragmentModule::class)])
+    abstract fun bindLoginFragment(): LoginFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [(LoginFragmentModule::class)])
+    abstract fun bindGoogleLoginFragment(): GoogleLoginFragment
 
     @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
     @FragmentScope
