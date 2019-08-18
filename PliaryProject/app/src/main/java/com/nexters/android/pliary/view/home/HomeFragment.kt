@@ -28,6 +28,8 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
     override fun getModelClass() = HomeViewModel::class.java
 
+    private val cardList = arrayListOf<PlantCard>()
+
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,6 +46,8 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private fun initObserver() {
         viewModel.listSetData.observe(this, eventObserver {
+            cardList.clear()
+            cardList.addAll(it)
 
             /*val list = arrayListOf<PlantCard>()
             it?.let { list.addAll(it) }
@@ -89,11 +93,29 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    val position = (rvCardList.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                    val position = (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                    onSwipCard(cardList[position])
                 }
             })
         }
         //prepareTransitions()
+    }
+
+    fun onSwipCard(card: PlantCard) {
+        when(card) {
+            is PlantCard.PlantCardItem -> {
+                tvPlantName.text = card.plant.nameEng
+                tvNickname.text = card.plant.nickName
+                tvSpecies.text = card.plant.nameKor
+            }
+            is PlantCard.EmptyCard -> {
+                context?.apply {
+                    tvPlantName.text = getString(R.string.home_add_plant)
+                    tvNickname.text = getString(R.string.home_add_plant_msg)
+                    tvSpecies.text = ""
+                }
+            }
+        }
     }
 
     private fun initIndicatorDeco() {

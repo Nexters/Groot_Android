@@ -2,6 +2,7 @@ package com.nexters.android.pliary.di
 
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import androidx.lifecycle.ViewModelProvider
 import com.nexters.android.pliary.PliaryApplication
 import com.nexters.android.pliary.base.ViewModelProviderFactory
@@ -18,6 +19,12 @@ internal interface AppModule {
         @Provides
         @Singleton
         fun provideHelloWorld() = "Hello!!!!!!!!!!"
+
+        @Provides
+        @Singleton
+        fun provideResources(context: Context): Resources {
+            return context.resources
+        }
     }
 
     @Binds
