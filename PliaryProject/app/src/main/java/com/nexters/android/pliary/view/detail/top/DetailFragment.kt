@@ -5,16 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.databinding.FragmentDetailBinding
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import kotlinx.android.synthetic.main.fragment_detail.*
 
-class DetailFragment  : BaseFragment<DetailViewModel>() {
+internal class DetailFragment  : BaseFragment<DetailViewModel>() {
 
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
+
+    private val careID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
+    private lateinit var binding : FragmentDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +41,16 @@ class DetailFragment  : BaseFragment<DetailViewModel>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_detail, container, false)
-        return view
+        //val view = inflater.inflate(R.layout.fragment_detail, container, false)
+        binding = DataBindingUtil.inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getLivePlantData(careID)
+        initObserver()
         initView()
 
         ivBack.setOnClickListener { popBackStack() }
@@ -49,9 +58,14 @@ class DetailFragment  : BaseFragment<DetailViewModel>() {
 
     }
 
+    private fun initObserver(){
+        viewModel.liveData.observe(this, Observer {
+            binding.item = it
+        })
+    }
     private fun initView() {
 
-        setGIF()
+        //setGIF()
     }
 
     private fun setGIF() {

@@ -17,7 +17,7 @@ import com.nexters.android.pliary.view.detail.diary.fragment.DetailDiaryFragment
 import kotlinx.android.synthetic.main.fragment_detail_bottom.*
 import kotlinx.android.synthetic.main.fragment_detail_root.*
 
-class DetailBottomFragment : BaseFragment<DetailViewModel>() {
+internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
 
     companion object{
         const val TAB_DIARY = 0

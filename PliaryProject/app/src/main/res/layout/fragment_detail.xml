@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="item"
+            type="com.nexters.android.pliary.db.entity.Plant" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +27,7 @@
             android:layout_height="0dp"
             android:background="#eed9be"
             android:transitionName="@string/trans_card_detail"
+            app:srcCompatGif="@{item.species.posUrl}"
             app:layout_constraintBottom_toBottomOf="@id/glUnder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -87,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="RosePlant"
+                android:text="@{item.species.name}"
                 android:transitionName="@string/trans_detail"
                 app:layout_constraintEnd_toStartOf="@id/ivMenu"
                 app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="스투키"
+                android:text="@{item.species.nameKr}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPlantName"
                 tools:text="스투키" />
@@ -123,7 +126,7 @@
                 android:layout_marginStart="9.5dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="멋쟁이투투"
+                android:text="@{item.nickName}"
                 app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/border"
@@ -192,6 +195,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="6dp"
+            android:text="@{item.species.tip}"
             style="@style/AndH7GothicRegularLeft14Gray3"
             tools:text="유칼립투스는 공기정화 능력이 있습니다.
 습한 환경에서 해충이 잘 생기기때문에 주변 환경을 확인해주세요."

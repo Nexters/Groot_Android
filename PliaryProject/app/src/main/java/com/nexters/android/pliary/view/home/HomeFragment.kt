@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
@@ -30,6 +32,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun getModelClass() = HomeViewModel::class.java
 
     private val cardList = arrayListOf<PlantCard>()
+    private var currentPosition = 0
 
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
@@ -40,7 +43,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(viewModel.currentPos.value == -1) initObserver()
+        initObserver()
 
     }
 
@@ -52,17 +55,20 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             cardList.clear()
             cardList.addAll(it)
 
+            onScrollCard(cardList[0])
+
             cardAdapter.submitList(it)
-            //cardAdapter.setCardList(it)
             cardAdapter.setCallbacks(object : HomeCardAdapter.Callbacks {
                 override fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>) {
-                    viewModel.onClickCardDetail(0, sharedElements)
+                    val id = (cardList[currentPosition] as PlantCard.PlantCardItem).plant.id
+                    viewModel.onClickCardDetail(id, sharedElements)
                 }
 
                 override fun onClickAddCard() {
                     viewModel.onClickAddCard()
                 }
             })
+
             initRv()
             initIndicatorDeco()
         })
@@ -73,13 +79,14 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                     addSharedElement(view, name)
                 }
             }.build()
+
             navigate(
-                com.nexters.android.pliary.R.id.action_homeFragment_to_detailFragment,
-                null, // Bundle of args
+                R.id.action_homeFragment_to_detailFragment,
+                Bundle().apply { putLong("cardID", it.first) }, // Bundle of args
                 null, // NavOptions
                 extras)
         })
-        viewModel.addCardEvent.observe(this, Observer{ navigate(com.nexters.android.pliary.R.id.action_homeFragment_to_addFragment) })
+        viewModel.addCardEvent.observe(this, Observer{ navigate(R.id.action_homeFragment_to_addFragment) })
     }
 
     private fun initRv() {
@@ -102,16 +109,16 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                         visibleFirstPos = manager.findFirstVisibleItemPosition()
                         visibleEndPos = manager.findLastVisibleItemPosition()
 
-                        viewModel.currentPos.value = when {
+                        currentPosition = when {
                             visibleFirstPos == 0 -> visibleFirstPos
                             visibleEndPos == cardList.lastIndex -> visibleEndPos
                             else -> (visibleFirstPos + visibleEndPos) / 2
                         }
+                        onScrollCard(cardList[currentPosition])
                     }
                 }
             })
         }
-        viewModel.currentPos.observe(this, Observer { onScrollCard(cardList[it]) })
         //prepareTransitions()
     }
 

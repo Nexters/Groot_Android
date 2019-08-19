@@ -37,6 +37,10 @@
             app:exitAnim="@anim/slide_to_top_top"
             app:popEnterAnim="@anim/slide_to_bottom"
             app:popExitAnim="@anim/slide_to_bottom_bottom" />
+        <argument
+            android:name="cardID"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/detailBottomFragment"
