@@ -1,24 +1,20 @@
 package com.nexters.android.pliary.view.home
 
-import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseViewModel
 import com.nexters.android.pliary.base.Event
 import com.nexters.android.pliary.base.SingleLiveEvent
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.db.LocalDataSource
 import com.nexters.android.pliary.db.entity.Plant
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class HomeViewModel @Inject constructor(localDataSource: LocalDataSource) : BaseViewModel() {
 
     val liveList = localDataSource.plants()
+    val currentPos = MutableLiveData<Int>().apply { postValue(-1) }
     // 리스트 초기화
     private val _listSetData = MutableLiveData<Event<ArrayList<PlantCard>>>()
     val listSetData: LiveData<Event<ArrayList<PlantCard>>> get() = _listSetData

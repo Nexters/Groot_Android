@@ -10,24 +10,22 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantSpecies
-import com.nexters.android.pliary.data.makePlantArray
+import com.nexters.android.pliary.data.PlantSpecies.Companion.makePlantArray
 import com.nexters.android.pliary.databinding.FragmentAddBinding
 import com.nexters.android.pliary.view.add.adapter.DatePickerAdapter
-import com.nexters.android.pliary.view.util.*
+import com.nexters.android.pliary.view.util.SliderLayoutManager
+import com.nexters.android.pliary.view.util.dpToPx
+import com.nexters.android.pliary.view.util.getScreenWidth
+import com.nexters.android.pliary.view.util.setGIF
 import kotlinx.android.synthetic.main.add_first_layout.*
 import kotlinx.android.synthetic.main.add_second_layout.*
 import kotlinx.android.synthetic.main.fragment_add.*
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.lifecycle.Observer
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZonedDateTime
-import org.threeten.bp.format.DateTimeFormatter
 
 
 internal class AddFragment : BaseFragment<AddViewModel>() {

@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
@@ -20,6 +20,7 @@ import com.nexters.android.pliary.view.util.eventObserver
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
 import javax.inject.Inject
+
 
 internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
@@ -33,13 +34,13 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(com.nexters.android.pliary.R.layout.fragment_home, container, false)
         return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObserver()
+        if(viewModel.currentPos.value == -1) initObserver()
 
     }
 
@@ -50,10 +51,6 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         viewModel.listSetData.observe(this, eventObserver {
             cardList.clear()
             cardList.addAll(it)
-
-            /*val list = arrayListOf<PlantCard>()
-            it?.let { list.addAll(it) }
-            list.add(PlantCard.EmptyCard())*/
 
             cardAdapter.submitList(it)
             //cardAdapter.setCardList(it)
@@ -70,18 +67,19 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             initIndicatorDeco()
         })
         viewModel.cardDetailEvent.observe(this, Observer {
-            it.second.add(plantNameLayout to getString(R.string.trans_detail))
+            it.second.add(plantNameLayout to getString(com.nexters.android.pliary.R.string.trans_detail))
             val extras = FragmentNavigator.Extras.Builder().apply {
                 it.second.filterNotNull().forEach { (view, name) ->
                     addSharedElement(view, name)
                 }
             }.build()
-            navigate(R.id.action_homeFragment_to_detailFragment,
+            navigate(
+                com.nexters.android.pliary.R.id.action_homeFragment_to_detailFragment,
                 null, // Bundle of args
                 null, // NavOptions
                 extras)
         })
-        viewModel.addCardEvent.observe(this, Observer{ navigate(R.id.action_homeFragment_to_addFragment) })
+        viewModel.addCardEvent.observe(this, Observer{ navigate(com.nexters.android.pliary.R.id.action_homeFragment_to_addFragment) })
     }
 
     private fun initRv() {
@@ -95,26 +93,42 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    val position = (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                    onSwipCard(cardList[position])
+
+                    val manager = recyclerView.layoutManager
+                    var visibleFirstPos = -1
+                    var visibleEndPos = -1
+
+                    if (manager is LinearLayoutManager) {
+                        visibleFirstPos = manager.findFirstVisibleItemPosition()
+                        visibleEndPos = manager.findLastVisibleItemPosition()
+
+                        viewModel.currentPos.value = when {
+                            visibleFirstPos == 0 -> visibleFirstPos
+                            visibleEndPos == cardList.lastIndex -> visibleEndPos
+                            else -> (visibleFirstPos + visibleEndPos) / 2
+                        }
+                    }
                 }
             })
         }
+        viewModel.currentPos.observe(this, Observer { onScrollCard(cardList[it]) })
         //prepareTransitions()
     }
 
-    fun onSwipCard(card: PlantCard) {
+    fun onScrollCard(card: PlantCard) {
         when(card) {
             is PlantCard.PlantCardItem -> {
                 tvPlantName.text = card.plant.species?.name
                 tvNickname.text = card.plant.nickName
                 tvSpecies.text = card.plant.species?.nameKr
+                border.isVisible = true
             }
             is PlantCard.EmptyCard -> {
                 context?.apply {
-                    tvPlantName.text = getString(R.string.home_add_plant)
-                    tvNickname.text = getString(R.string.home_add_plant_msg)
+                    tvPlantName.text = getString(com.nexters.android.pliary.R.string.home_add_plant)
+                    tvNickname.text = getString(com.nexters.android.pliary.R.string.home_add_plant_msg)
                     tvSpecies.text = ""
+                    border.isVisible = false
                 }
             }
         }
