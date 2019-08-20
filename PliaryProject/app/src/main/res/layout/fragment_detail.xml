@@ -25,15 +25,11 @@
             android:id="@+id/ivBackGround"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#eed9be"
             android:transitionName="@string/trans_card_detail"
-            app:srcCompatGif="@{item.species.posUrl}"
             app:layout_constraintBottom_toBottomOf="@id/glUnder"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
             />
 
         <androidx.constraintlayout.widget.Guideline
@@ -89,9 +85,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@{item.species.name}"
-                android:transitionName="@string/trans_detail"
                 app:layout_constraintEnd_toStartOf="@id/ivMenu"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -102,7 +95,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{item.species.nameKr}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPlantName"
                 tools:text="스투키" />
@@ -126,7 +118,6 @@
                 android:layout_marginStart="9.5dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@{item.nickName}"
                 app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/border"

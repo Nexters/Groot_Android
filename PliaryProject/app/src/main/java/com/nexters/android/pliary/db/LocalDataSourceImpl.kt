@@ -13,7 +13,7 @@ internal class LocalDataSourceImpl @Inject constructor(
     }
 
     override fun plant(id: Long): LiveData<Plant> {
-        return roomDatabase.plantDao().getById(id)
+        return roomDatabase.plantDao().getDistinctUserById(id)
     }
 
     override fun deletePlant(id: Long) {

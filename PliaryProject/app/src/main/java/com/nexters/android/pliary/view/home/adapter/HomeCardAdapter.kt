@@ -109,7 +109,7 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
     inner class CardViewHolder(private val binding: PlantCardItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindView(data : PlantCardItem) {
             binding.item = data
-            setGIF()
+            //setGIF()
 
             binding.ibtnWater.setOnClickListener { DialogFactory.showHouseHoldConfirmDlg(binding.root.context) }
         }
