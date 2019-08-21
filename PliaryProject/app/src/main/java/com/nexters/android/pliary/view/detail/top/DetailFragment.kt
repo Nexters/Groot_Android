@@ -43,18 +43,26 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //val view = inflater.inflate(R.layout.fragment_detail, container, false)
-        binding = DataBindingUtil.inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
-        return binding.root
+        return if(::binding.isInitialized) {
+            binding.root
+        } else {
+            binding = DataBindingUtil.inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
+            with(binding) {
+                root
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObserver()
-        setBundleImage()
+        if(plantData == null) {
+            initObserver()
+            setBundleImage()
+            ivBack.setOnClickListener { popBackStack() }
+            ivArrowDown.setOnClickListener { navigate(R.id.action_detailFragment_to_detailBottomFragment) }
+        }
 
-        ivBack.setOnClickListener { popBackStack() }
-        ivArrowDown.setOnClickListener { navigate(R.id.action_detailFragment_to_detailBottomFragment) }
 
     }
 
@@ -113,7 +121,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
     private fun initView() {
         plantData?.let {
             binding.apply {
-                //ivBackGround.setGIF(it.species?.posUrl)
+                ivBackGround.setGIF(it.species?.posUrl)
                 tvPlantName.text = it.species?.name
                 tvSpecies.text = it.species?.nameKr ?: ""
                 tvNickname.text = it.nickName
@@ -128,6 +136,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
                 .asGif()
                 .load("https://dailyissue.s3.ap-northeast-2.amazonaws.com/${url}.gif")
                 .placeholder(R.drawable.and_posi_placeholer)
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .listener(object : RequestListener<GifDrawable> {
                     override fun onResourceReady(
@@ -138,7 +147,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
                         isFirstResource: Boolean
                     ): Boolean {
                         startPostponedEnterTransition()
-                        initView()
+                        //initView()
                         return false
                     }
 
@@ -150,7 +159,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
                     ): Boolean {
                         binding.ivBackGround?.let { it -> Glide.get(it.context).clearMemory() }
                         startPostponedEnterTransition()
-                        initView()
+                        //initView()
                         return false
                     }
                 })
