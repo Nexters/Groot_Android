@@ -122,14 +122,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCardList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="46dp"
-        android:paddingEnd="46dp"
-        android:clipToPadding="false"
-        tools:listitem="@layout/plant_card_item"
-        />
-    </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCardList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="46dp"
+            android:paddingEnd="46dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/plant_card_item"
+            />
+        </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

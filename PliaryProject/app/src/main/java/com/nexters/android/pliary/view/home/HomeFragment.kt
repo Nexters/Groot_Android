@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
+import com.nexters.android.pliary.db.dao.PlantDao_Impl
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
 import com.nexters.android.pliary.view.util.CardLayoutManager
 import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration
@@ -60,8 +61,12 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             cardAdapter.submitList(it)
             cardAdapter.setCallbacks(object : HomeCardAdapter.Callbacks {
                 override fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>) {
-                    val id = (cardList[currentPosition] as PlantCard.PlantCardItem).plant.id
-                    viewModel.onClickCardDetail(id, sharedElements)
+                    cardList[currentPosition].apply {
+                        if(this is PlantCard.PlantCardItem) {
+                            val id = this.plant.id
+                            viewModel.onClickCardDetail(id, sharedElements)
+                        }
+                    }
                 }
 
                 override fun onClickAddCard() {
