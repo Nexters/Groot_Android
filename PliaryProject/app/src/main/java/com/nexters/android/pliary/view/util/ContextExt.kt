@@ -32,7 +32,7 @@ internal val Int.toDp: Int
 
 fun ImageView.setGIF(url: String?) {
     url?.apply {
-        Glide.with(this@setGIF)
+        Glide.with(this@setGIF.context)
             .asGif()
             .load("https://dailyissue.s3.ap-northeast-2.amazonaws.com/${this}.gif")
             .placeholder(R.drawable.and_posi_placeholer)

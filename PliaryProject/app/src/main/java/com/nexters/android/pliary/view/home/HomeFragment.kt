@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigator
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
+import com.nexters.android.pliary.databinding.FragmentHomeBinding
 import com.nexters.android.pliary.db.dao.PlantDao_Impl
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
 import com.nexters.android.pliary.view.util.CardLayoutManager
@@ -31,6 +33,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     lateinit var cardAdapter : HomeCardAdapter
 
     override fun getModelClass() = HomeViewModel::class.java
+    private lateinit var binding: FragmentHomeBinding
 
     private val cardList = arrayListOf<PlantCard>()
     private var currentPosition = 0
@@ -38,13 +41,21 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(com.nexters.android.pliary.R.layout.fragment_home, container, false)
-        return view
+        return if(::binding.isInitialized) {
+            binding.root
+        } else {
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+            with(binding) {
+                root
+            }
+        }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //cardList.isEmpty()
         initObserver()
+        initRv()
 
     }
 
@@ -56,29 +67,13 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             cardList.clear()
             cardList.addAll(it)
 
-            onScrollCard(cardList[0])
+            onScrollCard(it[currentPosition])
 
             cardAdapter.submitList(it)
-            cardAdapter.setCallbacks(object : HomeCardAdapter.Callbacks {
-                override fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>) {
-                    cardList[currentPosition].apply {
-                        if(this is PlantCard.PlantCardItem) {
-                            val id = this.plant.id
-                            viewModel.onClickCardDetail(id, sharedElements)
-                        }
-                    }
-                }
-
-                override fun onClickAddCard() {
-                    viewModel.onClickAddCard()
-                }
-            })
-
-            initRv()
             initIndicatorDeco()
         })
         viewModel.cardDetailEvent.observe(this, Observer {
-            it.second.add(plantNameLayout to getString(com.nexters.android.pliary.R.string.trans_detail))
+            it.second.add(binding.plantNameLayout to getString(com.nexters.android.pliary.R.string.trans_detail))
             val extras = FragmentNavigator.Extras.Builder().apply {
                 it.second.filterNotNull().forEach { (view, name) ->
                     addSharedElement(view, name)
@@ -95,7 +90,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     }
 
     private fun initRv() {
-        rvCardList.apply{
+        binding.rvCardList.apply{
             layoutManager = CardLayoutManager(context)
             adapter = cardAdapter
             setHasFixedSize(true)
@@ -124,23 +119,41 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 }
             })
         }
+        cardAdapter.setCallbacks(object : HomeCardAdapter.Callbacks {
+            override fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>, position: Int) {
+                cardList[position].apply {
+                    if(this is PlantCard.PlantCardItem) {
+                        val id = this.plant.id
+                        viewModel.onClickCardDetail(id, sharedElements)
+                    }
+                }
+            }
+
+            override fun onClickAddCard() {
+                viewModel.onClickAddCard()
+            }
+        })
         //prepareTransitions()
     }
 
     fun onScrollCard(card: PlantCard) {
         when(card) {
             is PlantCard.PlantCardItem -> {
-                tvPlantName.text = card.plant.species?.name
-                tvNickname.text = card.plant.nickName
-                tvSpecies.text = card.plant.species?.nameKr
-                border.isVisible = true
+                binding.apply {
+                    tvPlantName.text = card.plant.species?.name
+                    tvNickname.text = card.plant.nickName
+                    tvSpecies.text = card.plant.species?.nameKr
+                    border.isVisible = true
+                }
             }
             is PlantCard.EmptyCard -> {
-                context?.apply {
-                    tvPlantName.text = getString(com.nexters.android.pliary.R.string.home_add_plant)
-                    tvNickname.text = getString(com.nexters.android.pliary.R.string.home_add_plant_msg)
-                    tvSpecies.text = ""
-                    border.isVisible = false
+                context?.let {
+                    binding.apply {
+                        tvPlantName.text = it.getString(R.string.home_add_plant)
+                        tvNickname.text = it.getString(R.string.home_add_plant_msg)
+                        tvSpecies.text = ""
+                        border.isVisible = false
+                    }
                 }
             }
         }
@@ -148,7 +161,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private fun initIndicatorDeco() {
         cardIndicator?.apply {
-            rvCardList.removeItemDecoration(this)
+            binding.rvCardList.removeItemDecoration(this)
         }
         setRvIndicator()
     }
@@ -158,7 +171,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             if(cardAdapter.itemCount > 1) {
                 LinePagerIndicatorDecoration(this, cardAdapter.itemCount).run {
                     cardIndicator = this
-                    rvCardList.addItemDecoration(this)
+                    binding.rvCardList.addItemDecoration(this)
                 }
             }
         }

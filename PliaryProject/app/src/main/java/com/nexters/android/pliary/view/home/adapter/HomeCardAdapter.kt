@@ -33,7 +33,7 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
 })  {
 
     interface Callbacks {
-        fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>)
+        fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>, position: Int)
         fun onClickAddCard()
     }
     private var callbacks: Callbacks? = null
@@ -95,7 +95,7 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
                     ViewCompat.getTransitionName(itemView.ibtnWater)?.let { itemView.ibtnWater to it },
                     ViewCompat.getTransitionName(itemView.clDday)?.let { itemView.clDday to it }
                 )
-                callbacks?.onClickCardDetail(extra)
+                callbacks?.onClickCardDetail(extra, adapterPosition)
             }
         }
         return this

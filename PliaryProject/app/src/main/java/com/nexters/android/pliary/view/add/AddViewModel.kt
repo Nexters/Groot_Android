@@ -58,11 +58,11 @@ internal class AddViewModel @Inject constructor(private val localDataSource: Loc
             lastWateredDate = lastWateredDate.value,
             waterTerm = waterTerm.value?.toInt()
         )
-        val job= CoroutineScope(Dispatchers.IO).launch {
+
+        CoroutineScope(Dispatchers.IO).launch {
             localDataSource.upsertPlants(plant)
         }
-        if(job.isCompleted) {
-            _plantDoneEvent.call()
-        }
+
+        _plantDoneEvent.call()
     }
 }

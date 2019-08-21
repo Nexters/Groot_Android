@@ -26,6 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#eed9be"
+            android:scaleType="fitXY"
             android:transitionName="@string/trans_card_detail"
             app:layout_constraintBottom_toBottomOf="@id/glUnder"
             app:layout_constraintEnd_toEndOf="parent"

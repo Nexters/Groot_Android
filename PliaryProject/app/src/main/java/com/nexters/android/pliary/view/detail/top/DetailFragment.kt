@@ -32,21 +32,11 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
     private lateinit var binding : FragmentDetailBinding
     private var plantData : Plant? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        /*val transition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        sharedElementEnterTransition = transition
-        //sharedElementReturnTransition = transition
-        //prepareTransitions()
-        setBundleImage()*/
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //val view = inflater.inflate(R.layout.fragment_detail, container, false)
         return if(::binding.isInitialized) {
             binding.root
         } else {
-            binding = DataBindingUtil.inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
             with(binding) {
                 root
             }
@@ -61,6 +51,8 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
             setBundleImage()
             ivBack.setOnClickListener { popBackStack() }
             ivArrowDown.setOnClickListener { navigate(R.id.action_detailFragment_to_detailBottomFragment) }
+        } else {
+            initView()
         }
 
 
