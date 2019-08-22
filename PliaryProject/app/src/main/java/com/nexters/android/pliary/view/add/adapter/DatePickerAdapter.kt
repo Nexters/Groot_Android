@@ -14,7 +14,7 @@ class DatePickerAdapter : RecyclerView.Adapter<DatePickerAdapter.DateHolder>() {
 
     companion object {
         const val MIN_VALUE = 1
-        const val MAX_VALUE = 30
+        const val MAX_VALUE = 60
         const val MULTIPLE_SIZE = 1
     }
 
