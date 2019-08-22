@@ -82,7 +82,7 @@ data class PlantSpecies(val id: Int = -1,
                 PLANT_TRAVELERS_PALM,
                 "Traveler’s palm",
                 "여인초",
-                "And_Posi_traveler's palm",
+                "And_Posi_traveler_s_palm",
                 "And_Nega_Traveler’s-palm",
                 "여인초는 대부분 10일에 1번 물을 주는 것을 추천합니다.",
                 "여인초는 통풍이 잘 되는 곳을 선호합니다. 잦은 장소 이동은 스트레스를 줄 수 있습니다."

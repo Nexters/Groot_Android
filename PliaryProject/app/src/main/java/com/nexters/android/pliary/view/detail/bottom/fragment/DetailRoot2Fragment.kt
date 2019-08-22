@@ -10,7 +10,7 @@ import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
 
-class DetailRoot2Fragment : BaseFragment<DetailDiaryViewModel>() {
+internal class DetailRoot2Fragment : BaseFragment<DetailDiaryViewModel>() {
     private lateinit var navController: NavController
 
     override fun getModelClass(): Class<DetailDiaryViewModel> = DetailDiaryViewModel::class.java

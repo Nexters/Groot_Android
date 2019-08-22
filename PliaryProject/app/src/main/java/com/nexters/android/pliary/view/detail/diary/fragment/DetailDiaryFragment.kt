@@ -16,7 +16,7 @@ import com.nexters.android.pliary.view.util.CardItemDecoration
 import kotlinx.android.synthetic.main.fragment_diary_layout.*
 import javax.inject.Inject
 
-class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
+internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
     @Inject
     lateinit var diaryAdapter : DetailDiaryAdapter
@@ -35,6 +35,7 @@ class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     }
 
     private fun initView() {
+        viewModel
         diaryAdapter.setDiaryList(arrayListOf(
             DiaryData.DiaryItem(
             id = 0,
