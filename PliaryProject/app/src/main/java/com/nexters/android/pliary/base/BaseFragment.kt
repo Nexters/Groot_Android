@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.annotation.Nullable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -36,6 +37,10 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
 
     protected fun <VM : ViewModel> createViewModel(viewModelClass: Class<VM>): VM {
         return ViewModelProviders.of(this, viewModelProviderFactory).get(viewModelClass)
+    }
+
+    protected fun <VM : ViewModel> createSharedViewModel(fragment: Fragment, viewModelClass: Class<VM>) : VM {
+        return ViewModelProviders.of(fragment, viewModelProviderFactory).get(viewModelClass)
     }
 
     protected fun navigate(@IdRes id: Int, bundle: Bundle? = null) {

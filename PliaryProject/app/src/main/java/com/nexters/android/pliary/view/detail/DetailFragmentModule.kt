@@ -1,6 +1,7 @@
 package com.nexters.android.pliary.view.detail
 
 import androidx.lifecycle.ViewModel
+import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.di.annotation.FragmentScope
 import com.nexters.android.pliary.di.annotation.ViewModelKey
 import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
@@ -11,6 +12,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import javax.inject.Singleton
 
 @Module(includes = [DetailFragmentModule.ProvideModule::class])
 internal interface DetailFragmentModule {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -50,7 +51,12 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
             initObserver()
             setBundleImage()
             ivBack.setOnClickListener { popBackStack() }
-            ivArrowDown.setOnClickListener { navigate(R.id.action_detailFragment_to_detailBottomFragment) }
+            ivArrowDown.setOnClickListener {
+                navigate(R.id.action_detailFragment_to_detailBottomFragment,
+                    Bundle().apply { putLong("cardID", cardID) },
+                    null,
+                    null)
+            }
         } else {
             initView()
         }
@@ -64,8 +70,6 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
         viewModel.localDataSource.plant(cardID).observe(this, Observer {
             plantData = it
             binding.item = it
-            viewModel.cardLiveID.value = cardID
-            viewModel.plantLiveData.value = it
         })
     }
 

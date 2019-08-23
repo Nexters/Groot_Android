@@ -1,15 +1,19 @@
 package com.nexters.android.pliary.view.detail.bottom.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import com.nexters.android.pliary.view.detail.bottom.adapter.DetailViewPageAdapter
 import com.nexters.android.pliary.view.detail.calendar.fragment.DetailCalendarFragment
@@ -18,14 +22,16 @@ import kotlinx.android.synthetic.main.fragment_detail_bottom.*
 import kotlinx.android.synthetic.main.fragment_detail_root.*
 
 internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
+    private val TAG = this.toString()
 
     companion object{
         const val TAB_DIARY = 0
         const val TAB_CALENDAR = 1
     }
 
-    private var currentTab =
-        TAB_DIARY
+    private var currentTab = TAB_DIARY
+    private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
+    private var plantData : Plant? = null
 
 
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
@@ -35,12 +41,20 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        val parent = requireParentFragment()
+        Log.d(TAG, "얍얍얍얍얍얍얍 parent ${parent.toString()}")
         val view = inflater.inflate(R.layout.fragment_detail_bottom, container, false)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.cardLiveID = cardID
+        viewModel.localDataSource.plant(cardID).observe(this, Observer {
+            viewModel.plantLiveData.postValue(it)
+        })
 
         initViewPager()
 

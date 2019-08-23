@@ -17,50 +17,58 @@ import com.nexters.android.pliary.view.util.CardItemDecoration
 import androidx.lifecycle.Observer
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
+import com.nexters.android.pliary.view.detail.bottom.fragment.DetailBottomFragment
 import com.nexters.android.pliary.view.util.eventObserver
 import kotlinx.android.synthetic.main.fragment_diary_layout.*
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
-    private val TAG = this::getTag.toString()
+    private val TAG = this.toString()
 
     @Inject
     lateinit var diaryAdapter : DetailDiaryAdapter
-    @Inject
     lateinit var detailVM : DetailViewModel
 
     private var cardID : Long = 0
-    private lateinit var plantData : Plant
+    private var plantData : Plant? = null
 
     override fun getModelClass(): Class<DetailDiaryViewModel> = DetailDiaryViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val parent = parentFragment?.parentFragment?.parentFragment
+        Log.d(TAG, "얍얍얍얍얍얍얍 parent ${parent.toString()}")
+        detailVM = createSharedViewModel(parent!!, DetailViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_diary_layout, container, false)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cardID = detailVM.cardLiveID.value ?: 0
-        //detailVM.plantLiveData.observe(this, Observer { plantData = it })
+        cardID = detailVM.cardLiveID
+        Log.d(TAG, "얍얍얍얍얍얍얍 plantData ${plantData}")
 
         getData()
         initView()
     }
 
     private fun getData() {
+        detailVM.plantLiveData.observe(this, Observer {
+            viewModel.reqDateCount(it)
+        })
+
         viewModel.localDataSource.diaries(cardID).observe(this, Observer {
-            viewModel.reqDiaryList(detailVM.plantLiveData.value, it)
+            viewModel.reqDiaryList(it)
         })
 
         viewModel.diaryList.observe(this, eventObserver {
             diaryAdapter.setDiaryList(it)
+            diaryAdapter.notifyDataSetChanged()
         })
     }
+
     private fun initView() {
-
-
         rvDiary.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = diaryAdapter

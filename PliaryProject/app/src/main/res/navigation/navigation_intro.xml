@@ -45,7 +45,12 @@
     <fragment
         android:id="@+id/detailBottomFragment"
         android:name="com.nexters.android.pliary.view.detail.bottom.fragment.DetailBottomFragment"
-        android:label="DetailBottomFragment" />
+        android:label="DetailBottomFragment" >
+        <argument
+                android:name="cardID"
+                app:argType="long"
+                android:defaultValue="0L" />
+    </fragment>
     <fragment
         android:id="@+id/diaryEditFragment"
         android:name="com.nexters.android.pliary.view.detail.edit.DiaryEditFragment"

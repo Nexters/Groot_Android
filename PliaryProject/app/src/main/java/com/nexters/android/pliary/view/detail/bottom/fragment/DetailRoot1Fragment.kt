@@ -8,12 +8,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
-import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
+import com.nexters.android.pliary.view.detail.DetailViewModel
 
-internal class DetailRoot1Fragment : BaseFragment<DetailDiaryViewModel>() {
+internal class DetailRoot1Fragment() : BaseFragment<DetailViewModel>() {
     private lateinit var navController: NavController
 
-    override fun getModelClass(): Class<DetailDiaryViewModel> = DetailDiaryViewModel::class.java
+    override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
         = inflater.inflate(R.layout.fragment_detail_root, container, false)

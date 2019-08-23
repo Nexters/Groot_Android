@@ -3,7 +3,7 @@ package com.nexters.android.pliary.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.nexters.android.pliary.data.PlantSpecies
-import org.threeten.bp.ZonedDateTime
+import java.io.Serializable
 
 @Entity(tableName = "plant")
 internal data class Plant(
@@ -19,4 +19,4 @@ internal data class Plant(
     val waterTerm: Int? = 1,
 
     val isWatered: Boolean = false
-)
+) : Serializable
