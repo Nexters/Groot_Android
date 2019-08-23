@@ -8,7 +8,6 @@ import androidx.core.app.SharedElementCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -17,7 +16,6 @@ import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.databinding.FragmentHomeBinding
-import com.nexters.android.pliary.db.dao.PlantDao_Impl
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
 import com.nexters.android.pliary.view.util.CardLayoutManager
 import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration

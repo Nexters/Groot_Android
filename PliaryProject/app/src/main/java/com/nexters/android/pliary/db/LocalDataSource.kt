@@ -12,7 +12,7 @@ internal interface LocalDataSource {
     fun deletePlants(vararg plants: Plant)
     fun deleteAllPlants()
 
-    fun diaries(): LiveData<List<Diary>>
+    fun diaries(plantId: Long) : LiveData<List<Diary>>
     fun diary(id: Long): LiveData<Diary>
     fun deleteDiary(id: Long)
     fun upsertDiaries(vararg diaries: Diary)

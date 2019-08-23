@@ -1,6 +1,7 @@
 package com.nexters.android.pliary.view.detail.diary.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,24 @@ import com.nexters.android.pliary.view.detail.diary.data.DiaryData
 import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
 import com.nexters.android.pliary.view.detail.diary.adapter.DetailDiaryAdapter
 import com.nexters.android.pliary.view.util.CardItemDecoration
+import androidx.lifecycle.Observer
+import com.nexters.android.pliary.db.entity.Plant
+import com.nexters.android.pliary.view.detail.DetailViewModel
+import com.nexters.android.pliary.view.util.eventObserver
 import kotlinx.android.synthetic.main.fragment_diary_layout.*
 import javax.inject.Inject
 
 internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
+    private val TAG = this::getTag.toString()
+
     @Inject
     lateinit var diaryAdapter : DetailDiaryAdapter
+    @Inject
+    lateinit var detailVM : DetailViewModel
+
+    private var cardID : Long = 0
+    private lateinit var plantData : Plant
 
     override fun getModelClass(): Class<DetailDiaryViewModel> = DetailDiaryViewModel::class.java
 
@@ -30,30 +42,24 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        cardID = detailVM.cardLiveID.value ?: 0
+        //detailVM.plantLiveData.observe(this, Observer { plantData = it })
 
+        getData()
         initView()
     }
 
+    private fun getData() {
+        viewModel.localDataSource.diaries(cardID).observe(this, Observer {
+            viewModel.reqDiaryList(detailVM.plantLiveData.value, it)
+        })
+
+        viewModel.diaryList.observe(this, eventObserver {
+            diaryAdapter.setDiaryList(it)
+        })
+    }
     private fun initView() {
-        viewModel
-        diaryAdapter.setDiaryList(arrayListOf(
-            DiaryData.DiaryItem(
-            id = 0,
-            writeDate = "2019.08.11",
-            imageUrl = "https://avatars1.githubusercontent.com/u/7722921?s=460&v=4",
-            content = "이것은 테스트입니당당당ㄷ앋앋ㅇ"
-        ), DiaryData.DiaryItem(
-            id = 0,
-            writeDate = "2019.08.11",
-            imageUrl = "https://avatars1.githubusercontent.com/u/7722921?s=460&v=4",
-            content = "이것은 테스트입니당당당ㄷ앋앋ㅇ"
-        ), DiaryData.DiaryItem(
-            id = 0,
-            writeDate = "2019.08.11",
-            imageUrl = "https://avatars1.githubusercontent.com/u/7722921?s=460&v=4",
-            content = "이것은 테스트입니당당당ㄷ앋앋ㅇ"
-        ))
-        )
+
 
         rvDiary.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -62,9 +68,8 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             addItemDecoration(CardItemDecoration(15))
         }
 
-        val isListEmpty = diaryAdapter.getDiaryList().isEmpty()
+        val isListEmpty = diaryAdapter.getDiaryList().count() <= 1
         tvEmpty.isVisible = isListEmpty
-        rvDiary.isVisible = !isListEmpty
 
     }
 }

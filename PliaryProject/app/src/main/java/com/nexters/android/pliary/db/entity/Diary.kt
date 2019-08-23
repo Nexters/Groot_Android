@@ -9,6 +9,7 @@ internal data class Diary(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    val plantId: Long = 0,
 
     val title: String,
     val content: String?,

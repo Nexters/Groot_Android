@@ -32,8 +32,8 @@ internal class LocalDataSourceImpl @Inject constructor(
         roomDatabase.plantDao().deleteAll()
     }
 
-    override fun diaries(): LiveData<List<Diary>> {
-        return roomDatabase.diaryDao().get()
+    override fun diaries(plantId: Long): LiveData<List<Diary>> {
+        return roomDatabase.diaryDao().get(plantId)
     }
 
     override fun diary(id: Long): LiveData<Diary> {

@@ -22,8 +22,6 @@ class DetailDiaryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if(diaryList.isNotEmpty()) {
             diaryList.clear()
         }
-        diaryList = arrayListOf<DiaryData>()
-        diaryList.add(DiaryData.DateCount(dateCount = 100, nickName = "머째이투투"))
         diaryList.addAll(list)
     }
 

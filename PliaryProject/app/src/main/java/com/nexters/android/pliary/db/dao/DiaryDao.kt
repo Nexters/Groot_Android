@@ -10,8 +10,8 @@ internal abstract class DiaryDao : BaseDao<Diary>() {
     @Query("SELECT * FROM diary WHERE id = :id")
     abstract fun getById(id: Long): LiveData<Diary>
 
-    @Query("SELECT * FROM diary")
-    abstract fun get(): LiveData<List<Diary>>
+    @Query("SELECT * FROM diary WHERE plantId = :plantId")
+    abstract fun get(plantId: Long): LiveData<List<Diary>>
 
     @Query("DELETE FROM diary WHERE id = :id")
     abstract fun deleteById(id: Long)

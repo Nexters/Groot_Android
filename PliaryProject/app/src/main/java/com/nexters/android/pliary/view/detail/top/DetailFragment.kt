@@ -64,7 +64,8 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
         viewModel.localDataSource.plant(cardID).observe(this, Observer {
             plantData = it
             binding.item = it
-
+            viewModel.cardLiveID.value = cardID
+            viewModel.plantLiveData.value = it
         })
     }
 
