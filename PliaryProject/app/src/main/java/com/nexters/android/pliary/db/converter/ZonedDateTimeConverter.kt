@@ -10,7 +10,7 @@ internal class ZonedDateTimeConverter {
     companion object {
         val ISO8601: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.KOREA)
 
-        private val ZONE_SEOUL = ZoneId.of("Asia/Seoul")
+        val ZONE_SEOUL = ZoneId.of("Asia/Seoul")
 
         private val days = listOf("월", "화", "수", "목", "금", "토", "일")
 

@@ -10,8 +10,8 @@
             name="vm"
             type="com.nexters.android.pliary.view.detail.edit.DiaryEditViewModel" />
         <variable
-            name="calendar"
-            type="com.prolificinteractive.materialcalendarview.CalendarDay" />
+            name="time"
+            type="org.threeten.bp.ZonedDateTime" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,7 +111,7 @@
                         style="@style/AndH4SerifBlackCenter20Gray1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{calendar.today().toString()}"
+                        app:textDate="@{time.now()}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,6 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:hint="@string/diary_contents_hint"
+                        android:text="@={vm.content}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/border" />

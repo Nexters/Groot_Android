@@ -2,12 +2,15 @@ package com.nexters.android.pliary.view.util
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.nexters.android.pliary.R
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 
 @BindingAdapter("android:visibility")
@@ -40,4 +43,21 @@ internal fun setSrcCompatGif(imageView: ImageView, url: String?) {
 @BindingAdapter("lottie_fileName")
 internal fun setLottieFilename(view: LottieAnimationView, fileName: String) {
     view.setAnimation(fileName)
+}
+
+@BindingAdapter("textDate")
+internal fun setTextDate(textView: TextView, date: ZonedDateTime?) {
+    date?.let {
+        textView.text = DateTimeFormatter.ofPattern("YY.MM.dd").format(it)
+    }
+}
+
+
+@BindingAdapter(value = [
+    "textDDay", "dayTerm"
+], requireAll = false)
+internal fun setTextDDay(textView: TextView, lastWatered: String?, dayTerm: Int) {
+    lastWatered?.let {
+        textView.text = getWateredDDay(lastWatered, dayTerm)
+    }
 }

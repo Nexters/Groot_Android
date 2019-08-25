@@ -17,19 +17,21 @@ import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryEditLayoutBinding
 import com.nexters.android.pliary.view.util.photoPath
 
-class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
+internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
 
     companion object{
         const val REQUEST_PICK_FROM_ALBUM = 10
     }
 
     override fun getModelClass(): Class<DiaryEditViewModel> = DiaryEditViewModel::class.java
+    private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentDiaryEditLayoutBinding>(inflater, R.layout.fragment_diary_edit_layout, container, false)
         binding.lifecycleOwner = this
         binding.vm = viewModel
 
+        binding.ivDone.setOnClickListener { viewModel.onClickDone(cardID) }
         binding.ivBack.setOnClickListener { popBackStack() }
         return binding.root
     }

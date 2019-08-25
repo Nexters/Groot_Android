@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ import com.nexters.android.pliary.view.util.setGIF
 import kotlinx.android.synthetic.main.add_first_layout.*
 import kotlinx.android.synthetic.main.add_second_layout.*
 import kotlinx.android.synthetic.main.fragment_add.*
+import org.threeten.bp.ZonedDateTime
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -123,7 +125,10 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
         viewModel.enableDone.observe(this, Observer { tvDone.isEnabled = it })
 
-        viewModel.plantDoneEvent.observe(this, Observer { popBackStack() })
+        viewModel.plantDoneEvent.observe(this, Observer {
+            popBackStack()
+            Toast.makeText(context, getString(R.string.add_complete), Toast.LENGTH_LONG).show()
+        })
     }
 
     private fun showDatePickerDialog(view: View) {

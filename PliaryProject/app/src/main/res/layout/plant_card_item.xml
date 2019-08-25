@@ -75,6 +75,8 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="serif"
                     android:textStyle="bold"
+                    app:textDDay="@{item.plant.lastWateredDate}"
+                    app:dayTerm="@{item.plant.waterTerm}"
                     app:layout_constraintBottom_toBottomOf="@id/ivDrop"
                     app:layout_constraintStart_toEndOf="@id/ivDrop"
                     app:layout_constraintTop_toTopOf="@id/ivDrop"

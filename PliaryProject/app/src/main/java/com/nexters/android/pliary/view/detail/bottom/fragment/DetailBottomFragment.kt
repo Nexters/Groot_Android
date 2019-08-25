@@ -42,8 +42,6 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val parent = requireParentFragment()
-        Log.d(TAG, "얍얍얍얍얍얍얍 parent ${parent.toString()}")
         val view = inflater.inflate(R.layout.fragment_detail_bottom, container, false)
         return view
     }
@@ -59,13 +57,18 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
         initViewPager()
 
         ivArrowUp.setOnClickListener { popBackStack() }
-        fbWrite.setOnClickListener { navigate(R.id.diaryEditFragment) }
+        fbWrite.setOnClickListener {
+            navigate(
+                R.id.diaryEditFragment,
+                Bundle().apply { putLong("cardID", cardID) },
+                null,
+                null
+            )
+        }
     }
 
     private fun initViewPager() {
-        val vpAdapter = childFragmentManager?.let {
-            DetailViewPageAdapter(it, lifecycle)
-        }?.apply {
+        val vpAdapter = DetailViewPageAdapter(childFragmentManager, lifecycle).apply {
             addFragment(DetailRoot1Fragment())
             addFragment(DetailRoot2Fragment())
         }
