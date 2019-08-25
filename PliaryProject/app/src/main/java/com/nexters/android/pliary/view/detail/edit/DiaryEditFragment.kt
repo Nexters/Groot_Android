@@ -12,10 +12,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryEditLayoutBinding
 import com.nexters.android.pliary.view.util.photoPath
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+import com.nexters.android.pliary.R
 
 internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
 
@@ -23,16 +25,13 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
         const val REQUEST_PICK_FROM_ALBUM = 10
     }
 
+    lateinit var binding : FragmentDiaryEditLayoutBinding
+
     override fun getModelClass(): Class<DiaryEditViewModel> = DiaryEditViewModel::class.java
     private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = DataBindingUtil.inflate<FragmentDiaryEditLayoutBinding>(inflater, R.layout.fragment_diary_edit_layout, container, false)
-        binding.lifecycleOwner = this
-        binding.vm = viewModel
-
-        binding.ivDone.setOnClickListener { viewModel.onClickDone(cardID) }
-        binding.ivBack.setOnClickListener { popBackStack() }
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_edit_layout, container, false)
         return binding.root
     }
 
@@ -50,9 +49,17 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = this
+        binding.vm = viewModel
+
 
         initView()
         initObserver()
+
+        binding.ivDone.setOnClickListener {
+            viewModel.onClickDone(cardID)
+        }
+        binding.ivBack.setOnClickListener { popBackStack() }
     }
 
     private fun initView() {
@@ -65,6 +72,7 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
         })
 
         viewModel.clickDoneEvent.observe(this, Observer {
+            //hideKeyboard()
             popBackStack()
         })
     }
@@ -88,4 +96,12 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
             .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
             .check()
     }
+
+    private fun hideKeyboard() {
+
+        val im = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        im.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+        //im.hideSoftInputFromWindow(binding.tvContents.windowToken, 0)
+    }
+
 }

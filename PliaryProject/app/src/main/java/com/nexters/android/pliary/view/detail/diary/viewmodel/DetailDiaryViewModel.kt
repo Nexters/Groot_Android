@@ -16,22 +16,19 @@ internal class DetailDiaryViewModel @Inject constructor(val localDataSource: Loc
     private val _diaryList = MutableLiveData<Event<ArrayList<DiaryData>>>()
     val diaryList : LiveData<Event<ArrayList<DiaryData>>> get() = _diaryList
 
-    var plantData : Plant? = null
+    var plantData = MutableLiveData<Event<Plant>>()
 
     val list = arrayListOf<DiaryData>()
 
     fun reqDateCount(plant: Plant?) {
         plant?.let {
-            plantData = plant
-            list.add(0, DiaryData.DateCount(
-            dateCount = 100, //plant.takeDate,
-            nickName = it.nickName
-            ))
+            plantData.value = Event(plant)
         }
     }
 
     fun reqDiaryList(diaryList: List<Diary>) {
-        diaryList.forEach {
+        list.clear()
+        diaryList.asReversed().forEach {
             list.add(DiaryData.DiaryItem(
                 id = it.id.toInt(),
                 writeDate = DateTimeFormatter.ofPattern("YY.MM.dd").format(it.date),
