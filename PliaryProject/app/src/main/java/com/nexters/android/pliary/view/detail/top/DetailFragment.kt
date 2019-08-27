@@ -2,12 +2,14 @@ package com.nexters.android.pliary.view.detail.top
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
@@ -22,12 +24,17 @@ import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDetailBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
+import com.nexters.android.pliary.view.main.MainViewModel
 import com.nexters.android.pliary.view.util.setGIF
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 internal class DetailFragment  : BaseFragment<DetailViewModel>() {
 
+    private val TAG = this.tag.toString()
+
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
+
+    private lateinit var mainVM : MainViewModel
 
     private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
     private lateinit var binding : FragmentDetailBinding
@@ -37,6 +44,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
         return if(::binding.isInitialized) {
             binding.root
         } else {
+            mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
             with(binding) {
                 root
@@ -67,9 +75,11 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
 
 
     private fun initObserver(){
+        mainVM.cardLiveID = cardID
         viewModel.localDataSource.plant(cardID).observe(this, Observer {
             plantData = it
             binding.item = it
+            mainVM.plantLiveData = it
         })
     }
 

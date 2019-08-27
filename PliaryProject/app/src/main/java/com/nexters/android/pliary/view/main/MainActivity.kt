@@ -1,6 +1,7 @@
 package com.nexters.android.pliary.view.main
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.nexters.android.pliary.R
@@ -14,6 +15,8 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 
     override fun onBackPressed() {
