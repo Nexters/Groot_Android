@@ -68,7 +68,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             onScrollCard(it[currentPosition])
 
             cardAdapter.submitList(it)
-            initIndicatorDeco()
+            initIndicatorDeco(it)
         })
         viewModel.cardDetailEvent.observe(this, Observer {
             it.second.add(binding.plantNameLayout to getString(com.nexters.android.pliary.R.string.trans_detail))
@@ -157,21 +157,25 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         }
     }
 
-    private fun initIndicatorDeco() {
+    private fun initIndicatorDeco(list: ArrayList<PlantCard>) {
         cardIndicator?.apply {
             binding.rvCardList.removeItemDecoration(this)
         }
-        setRvIndicator()
+        setRvIndicator(list)
     }
 
-    private fun setRvIndicator(){
+    private fun setRvIndicator(list: ArrayList<PlantCard>){
         context?.run {
-            if(cardAdapter.itemCount > 1) {
-                LinePagerIndicatorDecoration(this, cardAdapter.itemCount).run {
+            LinePagerIndicatorDecoration(this, list.count()).run {
+                cardIndicator = this
+                binding.rvCardList.addItemDecoration(this)
+            }
+            /*if(list.count() > 1) {
+                LinePagerIndicatorDecoration(this, list.count()).run {
                     cardIndicator = this
                     binding.rvCardList.addItemDecoration(this)
                 }
-            }
+            }*/
         }
     }
 

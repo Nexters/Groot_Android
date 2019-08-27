@@ -40,7 +40,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     lateinit var binding : FragmentDiaryLayoutBinding
 
     private var cardID : Long = -1
-    val diaryList = arrayListOf<DiaryData>()
+    private val diaryList = arrayListOf<DiaryData>()
 
     override fun getModelClass(): Class<DetailDiaryViewModel> = DetailDiaryViewModel::class.java
 
@@ -48,53 +48,41 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
         return if(::binding.isInitialized) {
             binding.root
         } else {
-            //val parent = parentFragment?.parentFragment?.parentFragment
-            //detailVM = createSharedViewModel(parent!!, DetailViewModel::class.java)
-
             mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_layout, container, false)
             with(binding) {
                 root
             }
         }
+        /*mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_layout, container, false)
+        return binding.root*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cardID = mainVM.cardLiveID
+        diaryList.clear()
+        diaryList.add(DiaryData.DateCount(
+            dateCount = 100, //plant.takeDate,
+            nickName = mainVM.plantLiveData.nickName
+        ))
 
         getData()
         //initView()
     }
 
     private fun getData() {
-        Log.d(TAG, "cardID : ${mainVM.cardLiveID}" )
-        /*mainVM.plantLiveData.observe(this, Observer {
-            viewModel.reqDateCount(it)
-        })*/
-
-        viewModel.plantData.observe(this, eventObserver {
-            if(diaryList[0] !is DiaryData.DateCount) {
-                diaryList.add(
-                    0, DiaryData.DateCount(
-                        dateCount = 100, //plant.takeDate,
-                        nickName = it.nickName
-                    )
-                )
-                diaryAdapter.submitList(diaryList)
-            }
-        })
-
         viewModel.localDataSource.diaries(cardID).observe(this, Observer {
             viewModel.reqDiaryList(it)
         })
 
         viewModel.diaryList.observe(this, eventObserver {
-            diaryList.clear()
             diaryList.addAll(it)
             diaryAdapter.submitList(diaryList)
             initView()
         })
+
     }
 
     private fun initView() {
@@ -105,7 +93,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             addItemDecoration(CardItemDecoration(15))
         }
 
-        binding.tvEmpty.isVisible = diaryAdapter.itemCount <= 1
+        binding.tvEmpty.isVisible = diaryList.count() <= 1
 
     }
 }

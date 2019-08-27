@@ -50,6 +50,9 @@
                 android:name="cardID"
                 app:argType="long"
                 android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_detailBottomFragment_to_diaryEditFragment"
+            app:destination="@id/diaryEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/diaryEditFragment"
