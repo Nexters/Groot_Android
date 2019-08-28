@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.nexters.android.pliary.R
-import com.nexters.android.pliary.base.DialogFactory
+import com.nexters.android.pliary.view.util.DialogFactory
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.data.PlantCard.Companion.EMPTY_CARD
 import com.nexters.android.pliary.data.PlantCard.Companion.PLANT_CARD
@@ -106,12 +106,20 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
     }
 
 
-    inner class CardViewHolder(private val binding: PlantCardItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CardViewHolder(private val binding: PlantCardItemBinding) : RecyclerView.ViewHolder(binding.root), DialogFactory.WateringDialogListener {
         fun bindView(data : PlantCardItem) {
             binding.item = data
             //setGIF()
 
-            binding.ibtnWater.setOnClickListener { DialogFactory.showWateringDialog(binding.root.context) }
+            binding.ibtnWater.setOnClickListener { DialogFactory.showWateringDialog(binding.root.context, this) }
+        }
+
+        override fun onWatering() {
+            binding.lottiePlant.setAnimation("lottie/and_water.json")
+        }
+
+        override fun onDelay(day: Long) {
+
         }
 
         private fun setGIF() {

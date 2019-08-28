@@ -31,12 +31,22 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#eed9be"
-                    android:scaleType="fitXY"
+                android:scaleType="fitXY"
                 app:srcCompatGif="@{item.plant.species.posUrl}"
                 app:layout_constraintHeight_percent="0.77"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottiePlant"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.77"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
 
             <androidx.appcompat.widget.AppCompatTextView
