@@ -64,11 +64,6 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cardID = mainVM.cardLiveID
-        diaryList.clear()
-        diaryList.add(DiaryData.DateCount(
-            dateCount = getFirstMetDDay(mainVM.plantLiveData.takeDate ?: today()), //plant.takeDate,
-            nickName = mainVM.plantLiveData.nickName
-        ))
 
         initView()
         getData()
@@ -80,6 +75,11 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
         })
 
         viewModel.diaryList.observe(this, eventObserver {
+            diaryList.clear()
+            diaryList.add(DiaryData.DateCount(
+                dateCount = getFirstMetDDay(mainVM.plantLiveData.takeDate ?: today()), //plant.takeDate,
+                nickName = mainVM.plantLiveData.nickName
+            ))
             diaryList.addAll(it)
             diaryAdapter.submitList(diaryList)
             binding.tvEmpty.isVisible = diaryList.count() <= 1
