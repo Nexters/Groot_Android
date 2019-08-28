@@ -44,4 +44,13 @@
         <item name="tabPaddingEnd">0dp</item>
     </style>
 
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/gray1</item>
+        <item name="android:textColorHighlight">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
+
 </resources>

@@ -111,7 +111,7 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
             binding.item = data
             //setGIF()
 
-            binding.ibtnWater.setOnClickListener { DialogFactory.showHouseHoldConfirmDlg(binding.root.context) }
+            binding.ibtnWater.setOnClickListener { DialogFactory.showWateringDialog(binding.root.context) }
         }
 
         private fun setGIF() {

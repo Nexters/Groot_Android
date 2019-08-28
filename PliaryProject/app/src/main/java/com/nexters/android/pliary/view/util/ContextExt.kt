@@ -25,10 +25,10 @@ fun getScreenWidth(context: Context): Int {
 }
 
 internal val Int.toPx: Int
-    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 internal val Int.toDp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 fun ImageView.setGIF(url: String?) {
     url?.apply {
