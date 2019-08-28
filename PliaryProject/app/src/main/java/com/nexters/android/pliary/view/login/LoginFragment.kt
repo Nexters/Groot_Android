@@ -1,10 +1,12 @@
 package com.nexters.android.pliary.view.login
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
@@ -21,10 +23,15 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.window?.run{
+            addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+
         //btnGoogle.setOnClickListener { navigate(R.id.googleLoginFragment) }
         tvGuestLogin.setOnClickListener { navigate(R.id.action_loginFragment_to_homeFragment) }
 
         initView()
+
     }
 
     private fun initView() {

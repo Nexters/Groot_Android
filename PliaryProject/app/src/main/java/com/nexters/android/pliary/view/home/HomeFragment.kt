@@ -1,9 +1,11 @@
 package com.nexters.android.pliary.view.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -50,6 +52,9 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.window?.run{
+            clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
 
         //cardList.isEmpty()
         initObserver()
