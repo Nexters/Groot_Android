@@ -52,7 +52,11 @@
                 android:defaultValue="0L" />
         <action
             android:id="@+id/action_detailBottomFragment_to_diaryEditFragment"
-            app:destination="@id/diaryEditFragment" />
+            app:destination="@id/diaryEditFragment"
+            app:enterAnim="@anim/slide_to_top"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/slide_to_bottom_bottom" />
     </fragment>
     <fragment
         android:id="@+id/diaryEditFragment"

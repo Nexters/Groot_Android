@@ -81,6 +81,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             diaryList.addAll(it)
             diaryAdapter.submitList(diaryList)
             binding.tvEmpty.isVisible = diaryList.count() <= 1
+            diaryAdapter.notifyDataSetChanged()
         })
 
     }
