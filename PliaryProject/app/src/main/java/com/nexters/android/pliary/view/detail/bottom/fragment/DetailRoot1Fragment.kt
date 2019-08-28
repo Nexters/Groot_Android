@@ -12,20 +12,22 @@ import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDetailRootBinding
 import com.nexters.android.pliary.view.detail.DetailViewModel
 
-internal class DetailRoot1Fragment() : BaseFragment<DetailViewModel>() {
+internal class DetailRoot1Fragment : BaseFragment<DetailViewModel>() {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDetailRootBinding
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return if(::binding.isInitialized) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_root, container, false)
+        return binding.root
+        /*return if(::binding.isInitialized) {
             binding.root
         } else {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_root, container, false)
             with(binding) {
                 root
             }
-        }
+        }*/
     }
 
 

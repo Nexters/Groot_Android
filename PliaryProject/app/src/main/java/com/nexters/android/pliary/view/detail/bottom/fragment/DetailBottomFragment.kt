@@ -41,7 +41,9 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return if(::binding.isInitialized) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_bottom, container, false)
+        return binding.root
+        /*return if(::binding.isInitialized) {
             binding.root
         } else {
             //val view = inflater.inflate(R.layout.fragment_detail_bottom, container, false)
@@ -49,7 +51,7 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
             with(binding) {
                 root
             }
-        }
+        }*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,11 +62,7 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
             viewModel.plantLiveData.postValue(it)
         })*/
 
-        if(::vpAdapter.isInitialized) {
-            
-        } else {
-            initViewPager()
-        }
+        initViewPager()
 
         binding.ivArrowUp.setOnClickListener { popBackStack() }
         binding.fbWrite.setOnClickListener {

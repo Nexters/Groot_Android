@@ -45,7 +45,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     override fun getModelClass(): Class<DetailDiaryViewModel> = DetailDiaryViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return if(::binding.isInitialized) {
+        /*return if(::binding.isInitialized) {
             binding.root
         } else {
             mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
@@ -53,10 +53,10 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             with(binding) {
                 root
             }
-        }
-        /*mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+        }*/
+        mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_layout, container, false)
-        return binding.root*/
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,8 +68,8 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             nickName = mainVM.plantLiveData.nickName
         ))
 
+        initView()
         getData()
-        //initView()
     }
 
     private fun getData() {
@@ -80,7 +80,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
         viewModel.diaryList.observe(this, eventObserver {
             diaryList.addAll(it)
             diaryAdapter.submitList(diaryList)
-            initView()
+            binding.tvEmpty.isVisible = diaryList.count() <= 1
         })
 
     }
@@ -92,8 +92,5 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             setHasFixedSize(true)
             addItemDecoration(CardItemDecoration(15))
         }
-
-        binding.tvEmpty.isVisible = diaryList.count() <= 1
-
     }
 }
