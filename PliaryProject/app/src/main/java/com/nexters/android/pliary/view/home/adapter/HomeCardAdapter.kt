@@ -1,5 +1,6 @@
 package com.nexters.android.pliary.view.home.adapter
 
+import android.animation.Animator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +20,15 @@ import com.nexters.android.pliary.data.PlantCard.Companion.PLANT_CARD
 import com.nexters.android.pliary.data.PlantCard.EmptyCard
 import com.nexters.android.pliary.data.PlantCard.PlantCardItem
 import com.nexters.android.pliary.databinding.PlantCardItemBinding
+import com.nexters.android.pliary.db.LocalDataSource
+import com.nexters.android.pliary.db.entity.Plant
+import com.nexters.android.pliary.view.home.HomeViewModel
+import com.nexters.android.pliary.view.home.holder.PlantCardViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.plant_card_item.view.*
+import javax.inject.Inject
 
-internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<PlantCard>() {
+internal class HomeCardAdapter @Inject constructor(val plantVM: PlantCardViewModel): ListAdapter<PlantCard, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<PlantCard>() {
     override fun areItemsTheSame(oldItem: PlantCard, newItem: PlantCard): Boolean {
         return oldItem.listItemId == newItem.listItemId
     }
@@ -38,21 +44,6 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
         fun onClickAddCard()
     }
     private var callbacks: Callbacks? = null
-
-    /*private var cardList : ArrayList<PlantCard> = arrayListOf()
-
-    override fun getItemCount(): Int = cardList.size
-
-    fun getCardList() : ArrayList<PlantCard> = cardList
-
-    fun setCardList(list: ArrayList<PlantCard>) {
-        if(cardList.isNotEmpty()) {
-            cardList.clear()
-        }
-        cardList = arrayListOf<PlantCard>()
-        cardList.addAll(list)
-        cardList.add(EmptyCard())
-    }*/
 
     override fun getItemViewType(position: Int) = currentList[position].type //cardList[position].type
 
@@ -108,19 +99,31 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
 
 
     inner class CardViewHolder(private val binding: PlantCardItemBinding) : RecyclerView.ViewHolder(binding.root), DialogFactory.WateringDialogListener {
-        fun bindView(data : PlantCardItem) {
-            binding.item = data
-            //setGIF()
+        lateinit var plantCard : Plant
 
-            binding.ibtnWater.setOnClickListener { DialogFactory.showWateringDialog(binding.root.context, this) }
+        fun bindView(data : PlantCardItem) {
+            plantCard = data.plant
+            binding.item = data
+
+            binding.ibtnWater.setOnClickListener {
+                DialogFactory.showWateringDialog(binding.root.context, this)
+                plantVM.onSelectPlant(plantCard.id)
+            }
         }
 
         override fun onWatering() {
             binding.lottiePlant.apply {
                 setAnimation("lottie/and_water.json")
                 playAnimation()
+                addAnimatorListener(object : Animator.AnimatorListener{
+                    override fun onAnimationRepeat(animation: Animator?) {}
+                    override fun onAnimationCancel(animation: Animator?) {}
+                    override fun onAnimationStart(animation: Animator?) {}
+                    override fun onAnimationEnd(animation: Animator?) {
+                        plantVM.onWateringPlant()
+                    }
+                })
             }
-
         }
 
         override fun onDelay(day: Int) {

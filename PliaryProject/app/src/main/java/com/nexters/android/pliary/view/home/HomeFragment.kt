@@ -2,6 +2,7 @@ package com.nexters.android.pliary.view.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,16 +19,21 @@ import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.databinding.FragmentHomeBinding
+import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
+import com.nexters.android.pliary.view.home.holder.PlantCardViewModel
+import com.nexters.android.pliary.view.util.*
 import com.nexters.android.pliary.view.util.CardLayoutManager
-import com.nexters.android.pliary.view.util.LinePagerIndicatorDecoration
-import com.nexters.android.pliary.view.util.eventObserver
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 internal class HomeFragment : BaseFragment<HomeViewModel>() {
+    val TAG = this.toString()
 
     @Inject
     lateinit var cardAdapter : HomeCardAdapter
@@ -37,6 +43,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private val cardList = arrayListOf<PlantCard>()
     private var currentPosition = 0
+    private var plantData : Plant? = null
 
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
@@ -90,6 +97,28 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 extras)
         })
         viewModel.addCardEvent.observe(this, Observer{ navigate(R.id.action_homeFragment_to_addFragment) })
+
+        cardAdapter.plantVM.plantID.observe(this, Observer {
+            //cardAdapter.plantVM.getPlantCardData(it)
+            Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 plantID : $it")
+            getPlantData(it)
+        })
+        cardAdapter.plantVM.wateringEvent.observe(this, Observer {
+            plantData?.let {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    cardAdapter.plantVM.localDataSource.upsertPlants(it.apply { lastWateredDate = todayValue() })
+                }
+                if(job.isCompleted) Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 lastWateredDate : $plantData")
+            }
+
+        })
+    }
+
+    private fun getPlantData(id : Long) {
+        cardAdapter.plantVM.localDataSource.plant(id).observe(this, Observer {
+            plantData = it
+            Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 plantData : $plantData")
+        })
     }
 
     private fun initRv() {
@@ -175,13 +204,8 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 cardIndicator = this
                 binding.rvCardList.addItemDecoration(this)
             }
-            /*if(list.count() > 1) {
-                LinePagerIndicatorDecoration(this, list.count()).run {
-                    cardIndicator = this
-                    binding.rvCardList.addItemDecoration(this)
-                }
-            }*/
         }
+        binding.rvCardList.scrollToPosition(currentPosition)
     }
 
     private fun prepareTransitions() {

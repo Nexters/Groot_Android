@@ -18,7 +18,6 @@ internal class HomeViewModel @Inject constructor(localDataSource: LocalDataSourc
     private val _listSetData = MutableLiveData<Event<ArrayList<PlantCard>>>()
     val listSetData: LiveData<Event<ArrayList<PlantCard>>> get() = _listSetData
 
-
     // 새 카드 등록
     private val _addCardEvent = SingleLiveEvent<Unit>()
     val addCardEvent: LiveData<Unit> get() = _addCardEvent

@@ -17,7 +17,6 @@ import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.diary.data.DiaryData
 import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
 import com.nexters.android.pliary.view.detail.diary.adapter.DetailDiaryAdapter
-import com.nexters.android.pliary.view.util.CardItemDecoration
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nexters.android.pliary.databinding.FragmentDiaryLayoutBinding
@@ -25,9 +24,7 @@ import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import com.nexters.android.pliary.view.detail.bottom.fragment.DetailBottomFragment
 import com.nexters.android.pliary.view.main.MainViewModel
-import com.nexters.android.pliary.view.util.eventObserver
-import com.nexters.android.pliary.view.util.getFirstMetDDay
-import com.nexters.android.pliary.view.util.today
+import com.nexters.android.pliary.view.util.*
 import kotlinx.android.synthetic.main.fragment_diary_layout.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -77,7 +74,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
         viewModel.diaryList.observe(this, eventObserver {
             diaryList.clear()
             diaryList.add(DiaryData.DateCount(
-                dateCount = getFirstMetDDay(mainVM.plantLiveData.takeDate ?: today()), //plant.takeDate,
+                dateCount = getFirstMetDDay(mainVM.plantLiveData.takeDate ?: todayValue()), //plant.takeDate,
                 nickName = mainVM.plantLiveData.nickName
             ))
             diaryList.addAll(it)
