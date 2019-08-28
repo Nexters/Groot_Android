@@ -3,6 +3,7 @@ package com.nexters.android.pliary.view.home.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -115,11 +116,15 @@ internal class HomeCardAdapter : ListAdapter<PlantCard, RecyclerView.ViewHolder>
         }
 
         override fun onWatering() {
-            binding.lottiePlant.setAnimation("lottie/and_water.json")
+            binding.lottiePlant.apply {
+                setAnimation("lottie/and_water.json")
+                playAnimation()
+            }
+
         }
 
-        override fun onDelay(day: Long) {
-
+        override fun onDelay(day: Int) {
+            Toast.makeText(binding.root.context, "delay : $day", Toast.LENGTH_SHORT).show()
         }
 
         private fun setGIF() {

@@ -94,39 +94,70 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvDelayMessage"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clDelayContent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/alert_delay"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="18dp"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivWatering"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        >
 
-    <NumberPicker
-        android:id="@+id/npDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintTop_toBottomOf="@id/tvDelayMessage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvAfterDate"
-        />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDelayMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="@string/home_watering_dlg_delay_title"
+            style="@style/AndH5GothicRegularCenter18Gray1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvAfterDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="@string/alert_after_date"
-        android:visibility="gone"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintTop_toTopOf="@id/npDate"
-        app:layout_constraintBottom_toBottomOf="@id/npDate"
-        app:layout_constraintStart_toEndOf="@id/npDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        <NumberPicker
+            android:id="@+id/npDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@id/tvDelayMessage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvAfterDate"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAfterDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/home_watering_dlg_delay_after"
+            style="@style/AndH8GothicRegularCenter12Gray2"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="@id/npDate"
+            app:layout_constraintBottom_toBottomOf="@id/npDate"
+            app:layout_constraintStart_toEndOf="@id/npDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDelayDone"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/home_watering_dlg_delay_done"
+            style="@style/AndH5GothicRegularCenter18Green"
+            android:enabled="false"
+            android:background="@drawable/selector_plant_card_done"
+            android:textColor="@drawable/selector_plant_card_done_txt"
+            app:layout_constraintTop_toBottomOf="@id/npDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
