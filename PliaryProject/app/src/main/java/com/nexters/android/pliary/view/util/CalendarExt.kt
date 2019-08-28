@@ -37,6 +37,11 @@ fun DayOfWeek.weekDay(): String {
     return days[this.value - 1]
 }
 
+fun getFirstMetDDay(takeDate: String) : Int {
+    val take = takeDate.toZonedDateTime()
+    return calculateDDay(take).toInt()
+}
+
 fun getWateredDDay(lastWatered: String, dayTerm: Int) : String {
     val last = lastWatered.toZonedDateTime().plusDays(dayTerm.toLong())
     return last.getDday()
@@ -44,26 +49,37 @@ fun getWateredDDay(lastWatered: String, dayTerm: Int) : String {
 
 fun ZonedDateTime.getDday(): String {
 
-    val ONE_DAY = 24 * 60 * 60 * 1000
-    // D-day 설정
-    /*val ddayCalendar = Calendar.getInstance()
-    ddayCalendar.set(a_year, a_monthOfYear, a_dayOfMonth)*/
-
-    // D-day 를 구하기 위해 millisecond 으로 환산하여 d-day 에서 today 의 차를 구한다.
-    val dday = this.toInstant().toEpochMilli() / ONE_DAY
-    val today = Instant.now().toEpochMilli() / ONE_DAY
-    var result = dday - today
+    val result = calculateDDay(this)
 
     // 출력 시 d-day 에 맞게 표시
     val strFormat: String
-    if (result > 0) {
+    if(result > 0) {
+        strFormat = "D+%d"
+    } else if (result == 0L) {
+        strFormat = "D-Day"
+    } else {
+        strFormat = "D%d"
+    }
+    /*if (result > 0) {
         strFormat = "D-%d"
     } else if (result == 0L) {
         strFormat = "D-Day"
     } else {
         result *= -1
         strFormat = "D+%d"
-    }
+    }*/
 
     return String.format(strFormat, result)
+}
+
+private fun calculateDDay(target: ZonedDateTime) : Long{
+    val ONE_DAY = 24 * 60 * 60 * 1000
+    // D-day 설정
+    /*val ddayCalendar = Calendar.getInstance()
+    ddayCalendar.set(a_year, a_monthOfYear, a_dayOfMonth)*/
+
+    // D-day 를 구하기 위해 millisecond 으로 환산하여 d-day 에서 today 의 차를 구한다.
+    val dday = target.toInstant().toEpochMilli() / ONE_DAY
+    val today = Instant.now().toEpochMilli() / ONE_DAY
+    return today - dday
 }
