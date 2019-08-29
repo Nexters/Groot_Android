@@ -21,6 +21,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.data.PlantCardUI
+import com.nexters.android.pliary.data.getLocalImage
 import com.nexters.android.pliary.data.toUIData
 import com.nexters.android.pliary.databinding.FragmentDetailBinding
 import com.nexters.android.pliary.db.entity.Plant
@@ -40,6 +42,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
     private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
     private lateinit var binding : FragmentDetailBinding
     private var plantData : Plant? = null
+    private var plantUIData : PlantCardUI? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return if(::binding.isInitialized) {
@@ -79,6 +82,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
         mainVM.cardLiveID = cardID
         viewModel.localDataSource.plant(cardID).observe(this, Observer {
             plantData = it
+            plantUIData = it.toUIData()
             binding.item = it.toUIData()
             mainVM.plantLiveData = it
         })
@@ -86,7 +90,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
 
     private fun setBundleImage() {
         postponeEnterTransition()
-        setGIF(plantData?.species?.posUrl)
+        setGIF(plantUIData?.photoUrl, !(plantUIData?.isDayPast ?: false))
         startPostponedEnterTransition()
         initTransition()
     }
@@ -129,7 +133,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
     private fun initView() {
         plantData?.let {
             binding.apply {
-                ivBackGround.setGIF(it.species?.posUrl)
+                ivBackGround.setGIF(plantUIData?.photoUrl, !(plantUIData?.isDayPast ?: false))
                 tvPlantName.text = it.species?.name
                 tvSpecies.text = it.species?.nameKr ?: ""
                 tvNickname.text = it.nickName
@@ -138,12 +142,14 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
         }
     }
 
-    private fun setGIF(url: String? = ""){
+    private fun setGIF(url: String? = "", isPositive: Boolean){
         context?.let {
+            val drawable = if(url.isNullOrEmpty()) R.drawable.and_posi_placeholer else url.getLocalImage(isPositive)
+
             Glide.with(it)
                 .asGif()
                 .load("https://dailyissue.s3.ap-northeast-2.amazonaws.com/${url}.gif")
-                .placeholder(R.drawable.and_posi_placeholer)
+                .placeholder(drawable)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .listener(object : RequestListener<GifDrawable> {
