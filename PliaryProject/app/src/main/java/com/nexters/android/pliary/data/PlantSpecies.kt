@@ -1,5 +1,6 @@
 package com.nexters.android.pliary.data
 
+import com.nexters.android.pliary.R
 import java.io.Serializable
 
 
@@ -192,6 +193,30 @@ data class PlantSpecies(val id: Int = -1,
         "물을 줄때 겉흙이 말랐는지 참고해주세요. 햇빛과 통풍 모두 신경써주는게 좋습니다.")*/
 
 }
+
+fun String.getLocalImage(isPositive: Boolean) : Int {
+    val name = this.toLowerCase()
+    return if(name.contains("stuki")) {
+        if(isPositive) R.drawable.and_posi_stuki else R.drawable.and_nega_stuki
+    } else if(name.contains("eucalyptus")) {
+        if(isPositive) R.drawable.and_posi_eucalyptus else R.drawable.and_nega_eucalyptus
+    } else if(name.contains("sansevieria")) {
+        if(isPositive) R.drawable.and_posi_sansevieria else R.drawable.and_nega_sansevieria
+    } else if(name.contains("monstera")) {
+        if(isPositive) R.drawable.and_posi_monstera else R.drawable.and_nega_monstera
+    } else if(name.contains("chamaedorea")) {
+        if(isPositive) R.drawable.and_posi_chamaedorea_elegans else R.drawable.and_nega_chamaedorea_elegans
+    } else if(name.contains("gomu")) {
+        if(isPositive) R.drawable.and_posi_gomu else R.drawable.and_nega_gomu
+    } else if(name.contains("traveler")) {
+        if(isPositive) R.drawable.and_posi_travelers_palm else R.drawable.and_nega_travelers_palm
+    } else if(name.contains("hongkong")) {
+        if(isPositive) R.drawable.and_posi_hongkong else R.drawable.and_nega_hongkong
+    } else {
+        if(isPositive) R.drawable.and_posi_usermakeplant else R.drawable.and_nega_usermakeplant
+    }
+}
+
 /*
 fun makePlantArray(): ArrayList<PlantSpecies> = arrayListOf(
     PlantSpecies.Empty(),

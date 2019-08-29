@@ -19,6 +19,7 @@ import com.nexters.android.pliary.data.PlantCard.Companion.EMPTY_CARD
 import com.nexters.android.pliary.data.PlantCard.Companion.PLANT_CARD
 import com.nexters.android.pliary.data.PlantCard.EmptyCard
 import com.nexters.android.pliary.data.PlantCard.PlantCardItem
+import com.nexters.android.pliary.data.toUIData
 import com.nexters.android.pliary.databinding.PlantCardItemBinding
 import com.nexters.android.pliary.db.LocalDataSource
 import com.nexters.android.pliary.db.entity.Plant
@@ -103,7 +104,7 @@ internal class HomeCardAdapter @Inject constructor(val plantVM: PlantCardViewMod
 
         fun bindView(data : PlantCardItem) {
             plantCard = data.plant
-            binding.item = data
+            binding.item = data.plant.toUIData()
 
             binding.ibtnWater.setOnClickListener {
                 DialogFactory.showWateringDialog(binding.root.context, this)

@@ -39,12 +39,24 @@ fun DayOfWeek.weekDay(): String {
     return days[this.value - 1]
 }
 
+fun isWateredDayPast(lastWatered: String?, dayTerm: Int = 1) : Boolean {
+    if(lastWatered.isNullOrEmpty()) return false
+
+    val last = lastWatered.toZonedDateTime().plusDays(dayTerm.toLong())
+    val result = calculateDDay(last)
+    return when {
+        result < 0 -> false
+        else -> true
+    }
+}
+
 fun getFirstMetDDay(takeDate: String) : Int {
     val take = takeDate.toZonedDateTime()
     return calculateDDay(take).toInt()
 }
 
-fun getWateredDDay(lastWatered: String, dayTerm: Int) : String {
+fun getWateredDDay(lastWatered: String?, dayTerm: Int = 1) : String {
+    if(lastWatered.isNullOrEmpty()) return ""
     val last = lastWatered.toZonedDateTime().plusDays(dayTerm.toLong())
     return last.getDday()
 }
