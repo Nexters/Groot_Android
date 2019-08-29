@@ -16,6 +16,7 @@ internal data class Plant(
     var nickName: String? = "",
     val takeDate: String?,
     var lastWateredDate: String?,
+    var willbeWateringDate: String,
     var waterTerm: Int? = 1
 
 ) : Serializable

@@ -106,11 +106,22 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         cardAdapter.plantVM.wateringEvent.observe(this, Observer {
             plantData?.let {
                 val job = CoroutineScope(Dispatchers.IO).launch {
-                    cardAdapter.plantVM.localDataSource.upsertPlants(it.apply { lastWateredDate = todayValue() })
+                    cardAdapter.plantVM.localDataSource.upsertPlants(it.apply {
+                        lastWateredDate = todayValue()
+                        willbeWateringDate = todayValue().getFutureWateringDate(it.waterTerm ?: 1)
+                    })
                 }
-                if(job.isCompleted) Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 lastWateredDate : $plantData")
+                if(job.isCompleted) Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 lastWateredDate : ${plantData}")
             }
 
+        })
+
+        cardAdapter.plantVM.delayDateEvent.observe(this, Observer {delay ->
+            plantData?.let {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    cardAdapter.plantVM.localDataSource.upsertPlants(it.apply { willbeWateringDate = willbeWateringDate.getFutureWateringDate(delay) })
+                }
+            }
         })
     }
 

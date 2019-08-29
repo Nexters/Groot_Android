@@ -54,13 +54,3 @@ internal fun setTextDate(textView: TextView, date: ZonedDateTime?) {
         textView.text = DateTimeFormatter.ofPattern("YY.MM.dd").format(it)
     }
 }
-
-
-@BindingAdapter(value = [
-    "textDDay", "dayTerm"
-], requireAll = false)
-internal fun setTextDDay(textView: TextView, lastWatered: String?, dayTerm: Int) {
-    lastWatered?.let {
-        textView.text = getWateredDDay(lastWatered, dayTerm)
-    }
-}

@@ -128,7 +128,7 @@ internal class HomeCardAdapter @Inject constructor(val plantVM: PlantCardViewMod
         }
 
         override fun onDelay(day: Int) {
-            Toast.makeText(binding.root.context, "delay : $day", Toast.LENGTH_SHORT).show()
+            plantVM.onDelayWateringDate(day)
         }
 
         private fun setGIF() {

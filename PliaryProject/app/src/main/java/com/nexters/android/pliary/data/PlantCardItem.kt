@@ -20,15 +20,17 @@ data class PlantCardUI(
     var isDayPast: Boolean,
     var photoUrl: String?,
     var nickName: String,
-    var waterDday: String
+    var waterDday: String,
+    val tip: String?
 )
 
 internal fun Plant.toUIData() = PlantCardUI(
-    isDayPast = isWateredDayPast(this.lastWateredDate, this.waterTerm ?: 1),
-    photoUrl = when(isWateredDayPast(this.lastWateredDate, this.waterTerm ?: 1)) {
+    isDayPast = isWateredDayPast(this.willbeWateringDate),
+    photoUrl = when(isWateredDayPast(this.willbeWateringDate)) {
         true -> this.species?.nagUrl
         false -> this.species?.posUrl
     },
     nickName = this.nickName ?: "",
-    waterDday = getWateredDDay(this.lastWateredDate, this.waterTerm ?: 1)
+    waterDday = getWateredDDay(this.willbeWateringDate),
+    tip = this.species?.tip ?: ""
 )

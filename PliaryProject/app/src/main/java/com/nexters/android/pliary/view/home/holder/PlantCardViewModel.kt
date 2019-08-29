@@ -18,6 +18,9 @@ internal class PlantCardViewModel @Inject constructor(val localDataSource: Local
     private val _wateringEvent = SingleLiveEvent<Unit>()
     val wateringEvent get() = _wateringEvent
 
+    private val _delayDateEvent = SingleLiveEvent<Int>()
+    val delayDateEvent : LiveData<Int> get() = _delayDateEvent
+
     fun onSelectPlant(id: Long) {
         _plantID.value = id
     }
@@ -27,6 +30,10 @@ internal class PlantCardViewModel @Inject constructor(val localDataSource: Local
     }
 
     fun onWateringPlant() {
-        wateringEvent.call()
+        _wateringEvent.call()
+    }
+
+    fun onDelayWateringDate(delay: Int) {
+        _delayDateEvent.value = delay
     }
 }

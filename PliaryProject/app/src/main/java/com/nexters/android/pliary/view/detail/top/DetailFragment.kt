@@ -21,6 +21,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.data.toUIData
 import com.nexters.android.pliary.databinding.FragmentDetailBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
@@ -78,7 +79,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
         mainVM.cardLiveID = cardID
         viewModel.localDataSource.plant(cardID).observe(this, Observer {
             plantData = it
-            binding.item = it
+            binding.item = it.toUIData()
             mainVM.plantLiveData = it
         })
     }
