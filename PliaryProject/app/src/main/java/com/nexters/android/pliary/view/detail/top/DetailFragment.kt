@@ -1,5 +1,6 @@
 package com.nexters.android.pliary.view.detail.top
 
+import android.animation.Animator
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -27,11 +28,19 @@ import com.nexters.android.pliary.data.toUIData
 import com.nexters.android.pliary.databinding.FragmentDetailBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
+import com.nexters.android.pliary.view.home.holder.PlantCardViewModel
 import com.nexters.android.pliary.view.main.MainViewModel
+import com.nexters.android.pliary.view.util.DialogFactory
+import com.nexters.android.pliary.view.util.getFutureWateringDate
 import com.nexters.android.pliary.view.util.setGIF
+import com.nexters.android.pliary.view.util.todayValue
 import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class DetailFragment  : BaseFragment<DetailViewModel>() {
+internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.WateringDialogListener  {
 
     private val TAG = this.tag.toString()
 
@@ -62,21 +71,40 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
         if(plantData == null) {
             initObserver()
             setBundleImage()
-            ivBack.setOnClickListener { popBackStack() }
-            ivArrowDown.setOnClickListener {
-                navigate(R.id.action_detailFragment_to_detailBottomFragment,
-                    Bundle().apply { putLong("cardID", cardID) },
-                    null,
-                    null)
-            }
         } else {
             initView()
         }
 
-
+        binding.ibtnWater.setOnClickListener {
+            DialogFactory.showWateringDialog(binding.root.context, this)
+        }
+        binding.ivBack.setOnClickListener { popBackStack() }
+        binding.ivArrowDown.setOnClickListener {
+            navigate(R.id.action_detailFragment_to_detailBottomFragment,
+                Bundle().apply { putLong("cardID", cardID) },
+                null,
+                null)
+        }
     }
 
+    override fun onWatering() {
+        binding.lottieBackGround.apply {
+            setAnimation("lottie/and_water.json")
+            playAnimation()
+            addAnimatorListener(object : Animator.AnimatorListener{
+                override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationCancel(animation: Animator?) {}
+                override fun onAnimationStart(animation: Animator?) {}
+                override fun onAnimationEnd(animation: Animator?) {
+                    viewModel.onWateringPlant()
+                }
+            })
+        }
+    }
 
+    override fun onDelay(day: Int) {
+        viewModel.onDelayWateringDate(day)
+    }
 
     private fun initObserver(){
         mainVM.cardLiveID = cardID
@@ -85,6 +113,28 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
             plantUIData = it.toUIData()
             binding.item = it.toUIData()
             mainVM.plantLiveData = it
+        })
+
+        viewModel.wateringEvent.observe(this, Observer {
+            plantData?.let {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.localDataSource.upsertPlants(it.apply {
+                        lastWateredDate = todayValue()
+                        willbeWateringDate = todayValue().getFutureWateringDate(it.waterTerm ?: 1)
+                    })
+                }
+                if(job.isCompleted) // initObserver()
+            }
+
+        })
+
+        viewModel.delayDateEvent.observe(this, Observer {delay ->
+            plantData?.let {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.localDataSource.upsertPlants(it.apply { willbeWateringDate = willbeWateringDate.getFutureWateringDate(delay) })
+                }
+                if(job.isCompleted) // initObserver()
+            }
         })
     }
 
@@ -122,9 +172,9 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
     private fun prepareTransitions() {
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
-                ivBackGround?.apply { sharedElements?.put(transitionName, this) }
-                ibtnWater?.apply { sharedElements?.put(transitionName, this) }
-                clDday?.apply { sharedElements?.put(transitionName, this) }
+                binding.ivBackGround?.apply { sharedElements?.put(transitionName, this) }
+                binding.ibtnWater?.apply { sharedElements?.put(transitionName, this) }
+                binding.clDday?.apply { sharedElements?.put(transitionName, this) }
             }
         })
     }
@@ -137,7 +187,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>() {
                 tvPlantName.text = it.species?.name
                 tvSpecies.text = it.species?.nameKr ?: ""
                 tvNickname.text = it.nickName
-
+                tvDDay.text = plantUIData?.waterDday
             }
         }
     }

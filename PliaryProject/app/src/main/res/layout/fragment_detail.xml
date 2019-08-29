@@ -34,6 +34,16 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieBackGround"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/glUnder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
             android:layout_width="wrap_content"
