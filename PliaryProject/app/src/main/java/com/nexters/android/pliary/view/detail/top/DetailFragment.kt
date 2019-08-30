@@ -11,6 +11,7 @@ import androidx.core.app.SharedElementCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
@@ -148,7 +149,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
     private fun reloadFragment() {
         navigate(R.id.action_detailFragment_self,
             Bundle().apply { putLong("cardID", cardID) },
-            null,
+            NavOptions.Builder().setPopUpTo(R.id.detailFragment,true).build(),
             null)
     }
 
