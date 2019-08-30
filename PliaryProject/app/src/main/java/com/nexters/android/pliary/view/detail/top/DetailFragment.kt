@@ -49,6 +49,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
     private lateinit var mainVM : MainViewModel
 
     private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
+    private val defaultImage : Int by lazy { arguments?.getInt("defaultImage") ?: 0 }
     private lateinit var binding : FragmentDetailBinding
     private var plantData : Plant? = null
     private var plantUIData : PlantCardUI? = null
@@ -71,7 +72,9 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
         if(plantData == null) {
             initObserver()
             setBundleImage()
+            //initView()
         } else {
+            initObserver()
             initView()
         }
 
@@ -113,6 +116,10 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
             plantUIData = it.toUIData()
             binding.item = it.toUIData()
             mainVM.plantLiveData = it
+            if(defaultImage == 0) {
+                initView()
+                ivBackGround.setGIF(plantUIData?.photoUrl, !(plantUIData?.isDayPast ?: false))
+            }
         })
 
         viewModel.wateringEvent.observe(this, Observer {
@@ -123,7 +130,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                         willbeWateringDate = todayValue().getFutureWateringDate(it.waterTerm ?: 1)
                     })
                 }
-                if(job.isCompleted) // initObserver()
+                reloadFragment()// initObserver()
             }
 
         })
@@ -133,25 +140,34 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                 val job = CoroutineScope(Dispatchers.IO).launch {
                     viewModel.localDataSource.upsertPlants(it.apply { willbeWateringDate = willbeWateringDate.getFutureWateringDate(delay) })
                 }
-                if(job.isCompleted) // initObserver()
+                reloadFragment()// initObserver()
             }
         })
     }
 
+    private fun reloadFragment() {
+        navigate(R.id.action_detailFragment_self,
+            Bundle().apply { putLong("cardID", cardID) },
+            null,
+            null)
+    }
+
     private fun setBundleImage() {
-        postponeEnterTransition()
-        setGIF(plantUIData?.photoUrl, !(plantUIData?.isDayPast ?: false))
-        startPostponedEnterTransition()
-        initTransition()
+        if(defaultImage > 0) {
+            postponeEnterTransition()
+            setGIF(plantUIData?.photoUrl)
+            prepareTransitions()
+            initTransition()
+        }
+        //startPostponedEnterTransition()
     }
 
     private fun initTransition() {
-        prepareTransitions()
         val trans = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         trans.addListener(object : androidx.transition.Transition.TransitionListener {
             override fun onTransitionEnd(transition: androidx.transition.Transition) {
                 transition.removeListener(this)
-                initView()
+                ivBackGround.setGIF(plantUIData?.photoUrl, !(plantUIData?.isDayPast ?: false))
             }
 
             override fun onTransitionResume(transition: androidx.transition.Transition) {
@@ -183,7 +199,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
     private fun initView() {
         plantData?.let {
             binding.apply {
-                ivBackGround.setGIF(plantUIData?.photoUrl, !(plantUIData?.isDayPast ?: false))
+                //ivBackGround.setGIF(plantUIData?.photoUrl, !(plantUIData?.isDayPast ?: false))
                 tvPlantName.text = it.species?.name
                 tvSpecies.text = it.species?.nameKr ?: ""
                 tvNickname.text = it.nickName
@@ -192,15 +208,14 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
         }
     }
 
-    private fun setGIF(url: String? = "", isPositive: Boolean){
+    private fun setGIF(url: String? = ""){
         context?.let {
-            val drawable = if(url.isNullOrEmpty()) R.drawable.and_posi_placeholer else url.getLocalImage(isPositive)
+            //val drawable = if(url.isNullOrEmpty()) R.drawable.and_posi_placeholer else url.getLocalImage(isPositive)
 
             Glide.with(it)
                 .asGif()
                 .load("https://dailyissue.s3.ap-northeast-2.amazonaws.com/${url}.gif")
-                .placeholder(drawable)
-                .centerCrop()
+                .placeholder(defaultImage)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .listener(object : RequestListener<GifDrawable> {
                     override fun onResourceReady(
@@ -211,7 +226,8 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                         isFirstResource: Boolean
                     ): Boolean {
                         startPostponedEnterTransition()
-                        //initView()
+                        initView()
+                        Log.d(TAG, "얍얍얍얍얍얍얍얍얍 Glide : onResoureReady")
                         return false
                     }
 
@@ -223,7 +239,8 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                     ): Boolean {
                         binding.ivBackGround?.let { it -> Glide.get(it.context).clearMemory() }
                         startPostponedEnterTransition()
-                        //initView()
+                        initView()
+                        Log.d(TAG, "얍얍얍얍얍얍얍얍얍 Glide : onLoadFailed ${e?.message}")
                         return false
                     }
                 })

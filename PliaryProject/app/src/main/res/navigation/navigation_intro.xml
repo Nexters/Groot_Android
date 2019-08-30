@@ -41,6 +41,9 @@
             android:name="cardID"
             app:argType="long"
             android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_detailFragment_self"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailBottomFragment"

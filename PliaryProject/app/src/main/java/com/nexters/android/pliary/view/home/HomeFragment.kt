@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
+import com.nexters.android.pliary.data.getLocalImage
+import com.nexters.android.pliary.data.toUIData
 import com.nexters.android.pliary.databinding.FragmentHomeBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
@@ -92,7 +94,10 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
             navigate(
                 R.id.action_homeFragment_to_detailFragment,
-                Bundle().apply { putLong("cardID", it.first) }, // Bundle of args
+                Bundle().apply {
+                    putLong("cardID", it.first.cardID)
+                    putInt("defaultImage", it.first.defaultImage)
+                }, // Bundle of args
                 null, // NavOptions
                 extras)
         })
@@ -167,7 +172,11 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 cardList[position].apply {
                     if(this is PlantCard.PlantCardItem) {
                         val id = this.plant.id
-                        viewModel.onClickCardDetail(id, sharedElements)
+                        val ui = this.plant.toUIData()
+                        viewModel.onClickCardDetail(
+                            IntoDetailInfo(id, ui.photoUrl?.getLocalImage(!ui.isDayPast) ?: 0),
+                            sharedElements
+                        )
                     }
                 }
             }
