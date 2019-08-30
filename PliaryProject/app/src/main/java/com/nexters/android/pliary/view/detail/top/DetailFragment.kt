@@ -154,7 +154,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
     }
 
     private fun setBundleImage() {
-        if(defaultImage > 0) {
+        if(defaultImage != 0) {
             postponeEnterTransition()
             setGIF(plantUIData?.photoUrl)
             prepareTransitions()
