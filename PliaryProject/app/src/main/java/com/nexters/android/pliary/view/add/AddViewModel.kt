@@ -57,6 +57,7 @@ internal class AddViewModel @Inject constructor(private val localDataSource: Loc
             nickName = nickname.value,
             takeDate = takeDate.value,
             lastWateredDate = lastWateredDate.value,
+            wateredDays = arrayListOf(lastWateredDate.value ?: ""),
             willbeWateringDate = lastWateredDate.value.getFutureWateringDate(waterTerm.value?.toInt() ?: 1),
             waterTerm = waterTerm.value?.toInt()
         )

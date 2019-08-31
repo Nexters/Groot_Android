@@ -113,6 +113,11 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 val job = CoroutineScope(Dispatchers.IO).launch {
                     cardAdapter.plantVM.localDataSource.upsertPlants(it.apply {
                         lastWateredDate = todayValue()
+                        val set = wateredDays.toHashSet()
+                        set.add(todayValue())
+                        val result = arrayListOf<String>()
+                        set.forEach { result.add(it) }
+                        wateredDays = result
                         willbeWateringDate = todayValue().getFutureWateringDate(it.waterTerm ?: 1)
                     })
                 }

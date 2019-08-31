@@ -128,6 +128,11 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                 val job = CoroutineScope(Dispatchers.IO).launch {
                     viewModel.localDataSource.upsertPlants(it.apply {
                         lastWateredDate = todayValue()
+                        val set = wateredDays.toHashSet()
+                        set.add(todayValue())
+                        val result = arrayListOf<String>()
+                        set.forEach { result.add(it) }
+                        wateredDays = result
                         willbeWateringDate = todayValue().getFutureWateringDate(it.waterTerm ?: 1)
                     })
                 }

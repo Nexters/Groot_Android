@@ -1,14 +1,19 @@
 package com.nexters.android.pliary.view.detail.calendar.fragment
 
-import android.graphics.Color
+import android.content.res.Resources
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
+import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.calendar.EventDecorator
+import com.nexters.android.pliary.view.detail.calendar.EventDecorator.Companion.BG_CIRCLE_BLUE
+import com.nexters.android.pliary.view.detail.calendar.EventDecorator.Companion.BG_CIRCLE_GREEN
 import com.nexters.android.pliary.view.detail.calendar.viewmodel.DetailCalendarViewModel
+import com.nexters.android.pliary.view.main.MainViewModel
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import kotlinx.android.synthetic.main.fragment_calendar_layout.*
@@ -17,21 +22,32 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
+data class CalendarEventData(
+    val shape: Int,
+    val dates: ArrayList<CalendarDay>
+)
 
-class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() {
+internal class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() {
+
+    private lateinit var mainVM : MainViewModel
+    private var cardID : Long = -1
 
     override fun getModelClass(): Class<DetailCalendarViewModel> = DetailCalendarViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(com.nexters.android.pliary.R.layout.fragment_calendar_layout, container, false)
+        mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        cardID = mainVM.cardLiveID
 
         initView()
+        drawEventDates()
     }
 
     private fun initView() {
@@ -42,27 +58,48 @@ class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() {
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
 
-        val result = arrayOf("2019,08,18", "2019,07,18", "2019,08,19", "2019,08,08")
-
-        ApiSimulator(result).executeOnExecutor(Executors.newSingleThreadExecutor())
 
     }
 
-    private inner class ApiSimulator internal constructor(internal var Time_Result: Array<String>) :
-        AsyncTask<Void, Void, List<CalendarDay>>() {
+    private fun drawEventDates() {
 
-        override fun doInBackground(vararg voids: Void): List<CalendarDay> {
+        val wateredList = arrayListOf<CalendarDay>()
+        mainVM.plantLiveData.wateredDays.forEach { wateredList.add(it.toCalendarDay()) }
+
+        // 물 예정 날 / 물 준날
+        val datesEvent = arrayOf(
+            CalendarEventData(
+                shape = BG_CIRCLE_BLUE,
+                dates = arrayListOf(mainVM.plantLiveData.willbeWateringDate.toCalendarDay())
+            ),
+            CalendarEventData(
+                shape = BG_CIRCLE_GREEN,
+                dates = wateredList
+            )
+        )
+
+        ApiSimulator(datesEvent).executeOnExecutor(Executors.newSingleThreadExecutor())
+
+    }
+
+    private fun String.toCalendarDay() : CalendarDay {
+        return CalendarDay.from(LocalDate.from(DateTimeFormatter.ofPattern("yyyy.MM.dd").parse(this)))
+    }
+
+    private inner class ApiSimulator internal constructor(internal var eventDataList: Array<CalendarEventData>) :
+        AsyncTask<Void, Void, List<CalendarEventData>>() {
+
+        override fun doInBackground(vararg voids: Void): List<CalendarEventData> {
             try {
                 Thread.sleep(500)
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
 
-            val calendar = Calendar.getInstance()
-            val dates = arrayListOf<CalendarDay>()
+            /*val calendar = Calendar.getInstance()
 
-            /*특정날짜 달력에 점표시해주는곳*/
-            /*월은 0이 1월 년,일은 그대로*/
+            *//*특정날짜 달력에 점표시해주는곳*//*
+            *//*월은 0이 1월 년,일은 그대로*//*
             //string 문자열인 Time_Result 을 받아와서 ,를 기준으로짜르고 string을 int 로 변환
             for (i in Time_Result.indices) {
 
@@ -75,22 +112,39 @@ class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() {
 
                 dates.add(day)
                 calendar.set(year, month - 1, dayy)
-            }
+            }*/
 
 
 
-            return dates
+            return eventDataList.asList()
         }
 
-        override fun onPostExecute(calendarDays: List<CalendarDay>) {
+        override fun onPostExecute(calendarDays: List<CalendarEventData>) {
             super.onPostExecute(calendarDays)
 
+
+            val willbe = calendarDays.filter {
+                it.shape == BG_CIRCLE_BLUE
+            }.flatMap { it.dates }
 
             calendarView.addDecorator(
                 this@DetailCalendarFragment.context?.let {
                     EventDecorator(
-                        Color.GREEN,
-                        calendarDays,
+                        BG_CIRCLE_BLUE,
+                        willbe,
+                        it
+                    )
+                }
+            )
+
+            var watered = calendarDays.filter { it.shape == BG_CIRCLE_GREEN }
+                .flatMap { it.dates }
+
+            calendarView.addDecorator(
+                this@DetailCalendarFragment.context?.let {
+                    EventDecorator(
+                        BG_CIRCLE_GREEN,
+                        watered,
                         it
                     )
                 }
