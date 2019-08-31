@@ -12,6 +12,7 @@ import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.calendar.EventDecorator
 import com.nexters.android.pliary.view.detail.calendar.EventDecorator.Companion.BG_CIRCLE_BLUE
 import com.nexters.android.pliary.view.detail.calendar.EventDecorator.Companion.BG_CIRCLE_GREEN
+import com.nexters.android.pliary.view.detail.calendar.EventDecorator.Companion.UNDER_DOT
 import com.nexters.android.pliary.view.detail.calendar.viewmodel.DetailCalendarViewModel
 import com.nexters.android.pliary.view.main.MainViewModel
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -122,6 +123,15 @@ internal class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() 
         override fun onPostExecute(calendarDays: List<CalendarEventData>) {
             super.onPostExecute(calendarDays)
 
+            calendarView.addDecorator(
+                this@DetailCalendarFragment.context?.let {
+                    EventDecorator(
+                        UNDER_DOT,
+                        arrayListOf(CalendarDay.today()),
+                        it
+                    )
+                }
+            )
 
             val willbe = calendarDays.filter {
                 it.shape == BG_CIRCLE_BLUE
