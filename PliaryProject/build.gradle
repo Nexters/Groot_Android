@@ -20,6 +20,7 @@ buildscript {
         googleservice_version = '4.3.0'
         firebasecore_version = '17.1.0'
         room_version = '2.1.0-alpha03'
+        work_version = '2.2.0'
     }
     repositories {
         google()

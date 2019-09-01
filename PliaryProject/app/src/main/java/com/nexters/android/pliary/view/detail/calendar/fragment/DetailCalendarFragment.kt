@@ -38,7 +38,7 @@ internal class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() 
     override fun getModelClass(): Class<DetailCalendarViewModel> = DetailCalendarViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(com.nexters.android.pliary.R.layout.fragment_calendar_layout, container, false)
+        val view = inflater.inflate(R.layout.fragment_calendar_layout, container, false)
         mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         return view
     }

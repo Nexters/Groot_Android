@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.notification.JobSchedulerStart
 import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity() {
@@ -15,6 +16,8 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        JobSchedulerStart.start(this)
 
         ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
