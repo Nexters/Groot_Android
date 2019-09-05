@@ -5,8 +5,8 @@ import java.io.Serializable
 
 
 data class PlantSpecies(val id: Int = -1,
-                          val name: String,
-                          val nameKr: String?,
+                          var name: String,
+                          var nameKr: String = "",
                           val posUrl: String,
                           val nagUrl: String,
                           val info: String? = "",
@@ -99,8 +99,8 @@ data class PlantSpecies(val id: Int = -1,
             ),
             PlantSpecies(
                 PLANT_USERS,
+                "My Plant",
                 "",
-                null,
                 "And_Posi_UserMakePlant",
                 "And_Nega_UserMakePlant",
                 null,

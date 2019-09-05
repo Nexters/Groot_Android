@@ -117,6 +117,7 @@
                         <include
                             android:id="@+id/firstSection"
                             layout="@layout/add_first_layout"
+                            app:vm="@{vm}"
                             />
 
                         <View
@@ -148,7 +149,7 @@
                             >
 
                             <include
-                                    android:id="@+id/secondLayout"
+                                android:id="@+id/secondLayout"
                                 layout="@layout/add_second_layout"
                                 app:vm="@{vm}"
                                 />

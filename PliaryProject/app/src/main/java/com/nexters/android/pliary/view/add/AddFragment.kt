@@ -18,6 +18,7 @@ import com.nexters.android.pliary.data.PlantSpecies
 import com.nexters.android.pliary.data.PlantSpecies.Companion.PLANT_USERS
 import com.nexters.android.pliary.data.PlantSpecies.Companion.makePlantArray
 import com.nexters.android.pliary.databinding.FragmentAddBinding
+import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.add.adapter.DatePickerAdapter
 import com.nexters.android.pliary.view.util.SliderLayoutManager
 import com.nexters.android.pliary.view.util.dpToPx
@@ -41,6 +42,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
     private lateinit var binding : FragmentAddBinding
     private val plantList = makePlantArray()
+    private var selectPlant : PlantSpecies? = null
 
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
@@ -125,15 +127,24 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
     private fun setObserver() {
         viewModel.plantSelectEvent.observe(this, Observer {
+            selectPlant = it
             binding.firstSection.clUserInput.isVisible = it.id == PLANT_USERS
             binding.apply {
+                etEngName.setText(it.name)
+                etKorName.setText(it.nameKr)
                 clPlantImage.setGIF(it.posUrl, true)
                 clInfo.isVisible = !it.info.isNullOrEmpty()
                 tvRefContent.text = it.info
             }
         })
 
-        viewModel.enableDone.observe(this, Observer { binding.tvDone.isEnabled = it })
+        viewModel.engName.observe(this, Observer { selectPlant?.name = it })
+
+        viewModel.korName.observe(this, Observer { selectPlant?.nameKr = it })
+
+        viewModel.enableDone.observe(this, Observer {
+            binding.tvDone.isEnabled = it
+        })
 
         viewModel.plantDoneEvent.observe(this, Observer {
             popBackStack()

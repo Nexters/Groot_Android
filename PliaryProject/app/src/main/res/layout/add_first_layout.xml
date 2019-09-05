@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
+        <variable
+            name="vm"
+            type="com.nexters.android.pliary.view.add.AddViewModel" />
+    </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +42,7 @@
                     android:layout_marginTop="12dp"
                     android:inputType="textWebEmailAddress"
                     android:singleLine="true"
-                    android:text="@string/add_eng_name_default"
+                    android:text="@={vm.engName}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvEngName" />
@@ -70,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:singleLine="true"
+                    android:text="@={vm.korName}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvKorName" />

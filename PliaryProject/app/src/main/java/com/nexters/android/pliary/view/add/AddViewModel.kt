@@ -22,6 +22,8 @@ import javax.inject.Inject
 
 internal class AddViewModel @Inject constructor(private val localDataSource: LocalDataSource) : BaseViewModel() {
 
+    val engName = MutableLiveData<String>()
+    val korName = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
     val takeDate = MutableLiveData<String>()
     val lastWateredDate = MutableLiveData<String>()
@@ -52,6 +54,7 @@ internal class AddViewModel @Inject constructor(private val localDataSource: Loc
     }
 
     fun onClickDone() {
+
         val plant = Plant(
             species = plantSelectEvent.value,
             nickName = nickname.value,
