@@ -21,6 +21,7 @@ import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import com.nexters.android.pliary.BuildConfig
 import com.nexters.android.pliary.network.LoginService
+import com.nexters.android.pliary.notification.JobSchedulerStart
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.util.concurrent.TimeUnit
 
@@ -83,6 +84,12 @@ internal interface NetModule {
             }
 
             return okHttpClientBuilder.build()
+        }
+
+        @Provides
+        @Singleton
+        fun provideJobService() : JobSchedulerStart {
+            return JobSchedulerStart
         }
     }
 
