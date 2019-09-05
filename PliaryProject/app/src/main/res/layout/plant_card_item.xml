@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.nexters.android.pliary.data.PlantCard.PlantCardItem" />
+            type="com.nexters.android.pliary.data.PlantCardUI" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,12 +31,23 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#eed9be"
-                    android:scaleType="fitXY"
-                app:srcCompatGif="@{item.plant.species.posUrl}"
+                android:scaleType="fitXY"
+                app:srcCompatGif="@{item.photoUrl}"
+                app:isPositive="@{!item.dayPast}"
                 app:layout_constraintHeight_percent="0.77"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottiePlant"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.77"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -45,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="@{@string/home_wateringFormat(item.plant.nickName)}"
+                android:text="@{@string/home_wateringFormat(item.nickName)}"
                 app:layout_constraintTop_toBottomOf="@id/ivPlant"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="멋쟁이투투에게 물주기" />
@@ -75,8 +86,7 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="serif"
                     android:textStyle="bold"
-                    app:textDDay="@{item.plant.lastWateredDate}"
-                    app:dayTerm="@{item.plant.waterTerm}"
+                    android:text="@{item.waterDday}"
                     app:layout_constraintBottom_toBottomOf="@id/ivDrop"
                     app:layout_constraintStart_toEndOf="@id/ivDrop"
                     app:layout_constraintTop_toTopOf="@id/ivDrop"

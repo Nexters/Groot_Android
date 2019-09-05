@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.util.set
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
+import com.nexters.android.pliary.databinding.FragmentDetailBottomBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import com.nexters.android.pliary.view.detail.bottom.adapter.DetailViewPageAdapter
@@ -31,35 +34,40 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
 
     private var currentTab = TAB_DIARY
     private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
-    private var plantData : Plant? = null
+    private lateinit var binding : FragmentDetailBottomBinding
+    private lateinit var vpAdapter : DetailViewPageAdapter
 
 
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        val view = inflater.inflate(R.layout.fragment_detail_bottom, container, false)
-        return view
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_bottom, container, false)
+        return binding.root
+        /*return if(::binding.isInitialized) {
+            binding.root
+        } else {
+            //val view = inflater.inflate(R.layout.fragment_detail_bottom, container, false)
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_bottom, container, false)
+            with(binding) {
+                root
+            }
+        }*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.cardLiveID = cardID
+        /*viewModel.cardLiveID = cardID
         viewModel.localDataSource.plant(cardID).observe(this, Observer {
             viewModel.plantLiveData.postValue(it)
-        })
+        })*/
 
         initViewPager()
 
-        ivArrowUp.setOnClickListener { popBackStack() }
-        fbWrite.setOnClickListener {
+        binding.ivArrowUp.setOnClickListener { popBackStack() }
+        binding.fbWrite.setOnClickListener {
             navigate(
-                R.id.diaryEditFragment,
+                R.id.action_detailBottomFragment_to_diaryEditFragment,
                 Bundle().apply { putLong("cardID", cardID) },
                 null,
                 null
@@ -68,17 +76,16 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     }
 
     private fun initViewPager() {
-        val vpAdapter = DetailViewPageAdapter(childFragmentManager, lifecycle).apply {
-            addFragment(DetailRoot1Fragment())
-            addFragment(DetailRoot2Fragment())
+        vpAdapter = DetailViewPageAdapter(childFragmentManager, lifecycle).apply {
+            addFragment()
         }
-        vpPage.adapter = vpAdapter
+        binding.vpPage.adapter = vpAdapter
 
         initTabView()
     }
 
     private fun initTabView() {
-        val mediator = TabLayoutMediator(tabLayout, vpPage,
+        val mediator = TabLayoutMediator(binding.tabLayout, binding.vpPage,
             TabLayoutMediator.OnConfigureTabCallback { tab, position ->
                 // Styling each tab here
                 val tabTextList = resources.getStringArray(R.array.detail_tab)
@@ -88,9 +95,9 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
                 tab.customView = tabLinear
             })
 
-        tabLayout.getTabAt(0)?.setTabTitleBold(true)
+        binding.tabLayout.getTabAt(0)?.setTabTitleBold(true)
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

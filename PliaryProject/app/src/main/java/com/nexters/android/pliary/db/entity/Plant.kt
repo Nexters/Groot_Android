@@ -13,10 +13,11 @@ internal data class Plant(
 
     val species: PlantSpecies?,
 
-    val nickName: String? = "",
+    var nickName: String? = "",
     val takeDate: String?,
-    val lastWateredDate: String?,
-    val waterTerm: Int? = 1,
+    var lastWateredDate: String?,
+    var wateredDays: ArrayList<String>,
+    var willbeWateringDate: String,
+    var waterTerm: Int? = 1
 
-    val isWatered: Boolean = false
 ) : Serializable

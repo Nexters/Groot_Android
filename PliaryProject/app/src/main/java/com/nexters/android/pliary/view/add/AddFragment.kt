@@ -118,7 +118,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
     private fun setObserver() {
         viewModel.plantSelectEvent.observe(this, Observer {
-            clPlantImage.setGIF(it.posUrl)
+            clPlantImage.setGIF(it.posUrl, true)
             clInfo.isVisible = !it.info.isNullOrEmpty()
             tvRefContent.text = it.info
         })

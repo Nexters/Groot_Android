@@ -7,13 +7,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowContentTransitions">false</item>
     </style>
     <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="PliaryDatePickerSpinnerTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -42,6 +42,15 @@
         <item name="android:maxLines">1</item>
         <item name="tabPaddingStart">0dp</item>
         <item name="tabPaddingEnd">0dp</item>
+    </style>
+
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/gray1</item>
+        <item name="android:textColorHighlight">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+
     </style>
 
 </resources>

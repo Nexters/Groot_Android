@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.nexters.android.pliary.db.entity.Plant" />
+            type="com.nexters.android.pliary.data.PlantCardUI" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +28,16 @@
             android:background="#eed9be"
             android:scaleType="fitXY"
             android:transitionName="@string/trans_card_detail"
+            app:layout_constraintBottom_toBottomOf="@id/glUnder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieBackGround"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/glUnder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -173,8 +183,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                app:textDDay="@{item.lastWateredDate}"
-                app:dayTerm="@{item.waterTerm}"
                 app:layout_constraintBottom_toBottomOf="@id/ivDrop"
                 app:layout_constraintStart_toEndOf="@id/ivDrop"
                 app:layout_constraintTop_toTopOf="@id/ivDrop"
@@ -199,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="6dp"
-                    android:text="@{item.species.tip}"
+                    android:text="@{item.tip}"
                     style="@style/AndH7GothicRegularLeft14Gray3"
                     tools:text="유칼립투스는 공기정화 능력이 있습니다.
 습한 환경에서 해충이 잘 생기기때문에 주변 환경을 확인해주세요."

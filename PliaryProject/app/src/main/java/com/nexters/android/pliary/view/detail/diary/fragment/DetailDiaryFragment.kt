@@ -17,13 +17,14 @@ import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.detail.diary.data.DiaryData
 import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
 import com.nexters.android.pliary.view.detail.diary.adapter.DetailDiaryAdapter
-import com.nexters.android.pliary.view.util.CardItemDecoration
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.nexters.android.pliary.databinding.FragmentDiaryLayoutBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import com.nexters.android.pliary.view.detail.bottom.fragment.DetailBottomFragment
-import com.nexters.android.pliary.view.util.eventObserver
+import com.nexters.android.pliary.view.main.MainViewModel
+import com.nexters.android.pliary.view.util.*
 import kotlinx.android.synthetic.main.fragment_diary_layout.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -34,62 +35,54 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
     @Inject
     lateinit var diaryAdapter : DetailDiaryAdapter
-    lateinit var detailVM : DetailViewModel
+    lateinit var mainVM : MainViewModel
     lateinit var binding : FragmentDiaryLayoutBinding
 
     private var cardID : Long = -1
-    val diaryList = arrayListOf<DiaryData>()
+    private val diaryList = arrayListOf<DiaryData>()
 
     override fun getModelClass(): Class<DetailDiaryViewModel> = DetailDiaryViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return if(::binding.isInitialized) {
+        /*return if(::binding.isInitialized) {
             binding.root
         } else {
-            val parent = parentFragment?.parentFragment?.parentFragment
-            detailVM = createSharedViewModel(parent!!, DetailViewModel::class.java)
+            mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_layout, container, false)
             with(binding) {
                 root
             }
-        }
+        }*/
+        mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_layout, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cardID = detailVM.cardLiveID
+        cardID = mainVM.cardLiveID
 
+        initView()
         getData()
-        //initView()
     }
 
     private fun getData() {
-        detailVM.plantLiveData.observe(this, Observer {
-            viewModel.reqDateCount(it)
-        })
-
-        viewModel.plantData.observe(this, eventObserver {
-            if(diaryList[0] !is DiaryData.DateCount) {
-                diaryList.add(
-                    0, DiaryData.DateCount(
-                        dateCount = 100, //plant.takeDate,
-                        nickName = it.nickName
-                    )
-                )
-                diaryAdapter.submitList(diaryList)
-            }
-        })
-
         viewModel.localDataSource.diaries(cardID).observe(this, Observer {
             viewModel.reqDiaryList(it)
         })
 
         viewModel.diaryList.observe(this, eventObserver {
             diaryList.clear()
+            diaryList.add(DiaryData.DateCount(
+                dateCount = getFirstMetDDay(mainVM.plantLiveData.takeDate ?: todayValue()), //plant.takeDate,
+                nickName = mainVM.plantLiveData.nickName
+            ))
             diaryList.addAll(it)
             diaryAdapter.submitList(diaryList)
-            initView()
+            binding.tvEmpty.isVisible = diaryList.count() <= 1
+            diaryAdapter.notifyDataSetChanged()
         })
+
     }
 
     private fun initView() {
@@ -99,8 +92,5 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             setHasFixedSize(true)
             addItemDecoration(CardItemDecoration(15))
         }
-
-        binding.tvEmpty.isVisible = diaryAdapter.itemCount <= 1
-
     }
 }

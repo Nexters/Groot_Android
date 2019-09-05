@@ -21,10 +21,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         >
 
-        <CalendarView
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendarView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            app:mcv_selectionMode="none"
+            app:mcv_showOtherDates="defaults"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +38,7 @@
         <View
             android:id="@+id/dashBorder"
             android:layout_width="0dp"
-            android:layout_height="1.5dp"
+            android:layout_height="2dp"
             android:background="@drawable/dash_line"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
@@ -102,6 +107,7 @@
         android:background="@drawable/pliary_home_card"
         android:layout_marginTop="10dp"
         android:padding="10dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

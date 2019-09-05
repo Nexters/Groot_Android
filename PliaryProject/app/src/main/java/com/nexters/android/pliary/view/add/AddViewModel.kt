@@ -10,6 +10,7 @@ import com.nexters.android.pliary.data.PlantSpecies
 import com.nexters.android.pliary.db.LocalDataSource
 import com.nexters.android.pliary.db.converter.ZonedDateTimeConverter
 import com.nexters.android.pliary.db.entity.Plant
+import com.nexters.android.pliary.view.util.getFutureWateringDate
 import com.nexters.android.pliary.view.util.toZonedDateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,6 +57,8 @@ internal class AddViewModel @Inject constructor(private val localDataSource: Loc
             nickName = nickname.value,
             takeDate = takeDate.value,
             lastWateredDate = lastWateredDate.value,
+            wateredDays = arrayListOf(lastWateredDate.value ?: ""),
+            willbeWateringDate = lastWateredDate.value.getFutureWateringDate(waterTerm.value?.toInt() ?: 1),
             waterTerm = waterTerm.value?.toInt()
         )
 

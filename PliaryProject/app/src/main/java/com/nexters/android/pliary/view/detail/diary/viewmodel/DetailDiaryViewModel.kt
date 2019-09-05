@@ -37,6 +37,7 @@ internal class DetailDiaryViewModel @Inject constructor(val localDataSource: Loc
             ))
         }
 
+        //return list
         _diaryList.value = Event(list)
     }
 }
