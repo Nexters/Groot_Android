@@ -148,6 +148,7 @@
                             >
 
                             <include
+                                    android:id="@+id/secondLayout"
                                 layout="@layout/add_second_layout"
                                 app:vm="@{vm}"
                                 />

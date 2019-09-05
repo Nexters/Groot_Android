@@ -40,6 +40,11 @@
     <string name="add_title">식물 등록</string>
     <string name="add_select_species">식물 종류</string>
     <string name="add_select_hint">Pick your plants.</string>
+    <string name="add_eng_name">영어명</string>
+    <string name="add_eng_name_default">My Plant</string>
+    <string name="add_eng_name_info">영어 최대 15글자 입력 가능합니다.</string>
+    <string name="add_kr_name">한글명 (선택)</string>
+    <string name="add_kr_name_info">한글 최대 10글자 입력 가능합니다.</string>
     <string name="add_ref">참고사항</string>
 
     <string name="add_nickname_title">식물 애칭</string>

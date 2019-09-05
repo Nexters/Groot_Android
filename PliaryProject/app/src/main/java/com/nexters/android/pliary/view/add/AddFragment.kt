@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantSpecies
+import com.nexters.android.pliary.data.PlantSpecies.Companion.PLANT_USERS
 import com.nexters.android.pliary.data.PlantSpecies.Companion.makePlantArray
 import com.nexters.android.pliary.databinding.FragmentAddBinding
 import com.nexters.android.pliary.view.add.adapter.DatePickerAdapter
@@ -23,7 +24,10 @@ import com.nexters.android.pliary.view.util.dpToPx
 import com.nexters.android.pliary.view.util.getScreenWidth
 import com.nexters.android.pliary.view.util.setGIF
 import kotlinx.android.synthetic.main.add_first_layout.*
+import kotlinx.android.synthetic.main.add_first_layout.view.*
 import kotlinx.android.synthetic.main.add_second_layout.*
+import kotlinx.android.synthetic.main.add_second_layout.rvDatePicker
+import kotlinx.android.synthetic.main.add_second_layout.view.*
 import kotlinx.android.synthetic.main.fragment_add.*
 import org.threeten.bp.ZonedDateTime
 import java.text.SimpleDateFormat
@@ -35,13 +39,14 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
     //TODO : AndroidThreeTen 적용하기
     val dateFormatter = SimpleDateFormat("yyyy.MM.dd", Locale.US)
 
+    private lateinit var binding : FragmentAddBinding
     private val plantList = makePlantArray()
 
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //val view = inflater.inflate(R.layout.fragment_add, container, false)
-        val binding = DataBindingUtil.inflate<FragmentAddBinding>(inflater, R.layout.fragment_add, container, false)
+        binding = DataBindingUtil.inflate<FragmentAddBinding>(inflater, R.layout.fragment_add, container, false)
         binding.vm = viewModel
         return binding.root
     }
@@ -52,9 +57,11 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
         initView()
         setObserver()
 
-        tvGetDate.setOnClickListener { showDatePickerDialog(it) }
-        tvLastDate.setOnClickListener { showDatePickerDialog(it) }
-        ivClose.setOnClickListener { popBackStack() }
+        binding.apply{
+            secondLayout.tvGetDate.setOnClickListener { showDatePickerDialog(it) }
+            secondLayout.tvLastDate.setOnClickListener { showDatePickerDialog(it) }
+            ivClose.setOnClickListener { popBackStack() }
+        }
     }
 
     private fun initView(){
@@ -66,7 +73,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
     private fun initSpinner() {
         val plantArray = resources.getStringArray(R.array.array_plant)
-        spSelectPlant.apply {
+        binding.spSelectPlant.apply {
             adapter = ArrayAdapter<String>(context, R.layout.spinner_item, R.id.tvName, plantArray).apply {
                 setDropDownViewResource(R.layout.spinner_item)
             }
@@ -81,7 +88,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
                     position: Int,
                     id: Long
                 ) {
-                    scrollView.isVisible = position != 0
+                    binding.scrollView.isVisible = position != 0
                     viewModel.onSelectPlant(getPlantSpecies(position))
 
                 }
@@ -92,7 +99,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
     private fun initHorizontalNumberPicker() {
         val padding: Int = context?.let{ getScreenWidth(it)/2 - it.dpToPx(40) } ?: 0
 
-        rvDatePicker.apply {
+        binding.secondLayout.rvDatePicker.apply {
             layoutManager = SliderLayoutManager(context).apply {
                 callback = object : SliderLayoutManager.OnItemSelectedListener {
                     override fun onItemSelected(layoutPosition: Int) {
@@ -118,12 +125,15 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
     private fun setObserver() {
         viewModel.plantSelectEvent.observe(this, Observer {
-            clPlantImage.setGIF(it.posUrl, true)
-            clInfo.isVisible = !it.info.isNullOrEmpty()
-            tvRefContent.text = it.info
+            binding.firstSection.clUserInput.isVisible = it.id == PLANT_USERS
+            binding.apply {
+                clPlantImage.setGIF(it.posUrl, true)
+                clInfo.isVisible = !it.info.isNullOrEmpty()
+                tvRefContent.text = it.info
+            }
         })
 
-        viewModel.enableDone.observe(this, Observer { tvDone.isEnabled = it })
+        viewModel.enableDone.observe(this, Observer { binding.tvDone.isEnabled = it })
 
         viewModel.plantDoneEvent.observe(this, Observer {
             popBackStack()
