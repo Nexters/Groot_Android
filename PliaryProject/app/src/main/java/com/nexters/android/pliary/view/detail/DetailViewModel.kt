@@ -9,12 +9,6 @@ import com.nexters.android.pliary.db.entity.Plant
 import javax.inject.Inject
 
 internal class DetailViewModel @Inject constructor(val localDataSource: LocalDataSource) : BaseViewModel() {
-    var cardLiveID = 0L
-
-    var plantLiveData = MutableLiveData<Plant>()
-
-    private val _plantID = SingleLiveEvent<Long>()
-    val plantID get() = _plantID
 
     var plantCardData : LiveData<Plant>? = null
 
@@ -25,9 +19,8 @@ internal class DetailViewModel @Inject constructor(val localDataSource: LocalDat
     private val _delayDateEvent = SingleLiveEvent<Int>()
     val delayDateEvent : LiveData<Int> get() = _delayDateEvent
 
-    fun onSelectPlant(id: Long) {
-        _plantID.value = id
-    }
+    private val _menuEvent = SingleLiveEvent<Unit>()
+    val menuEvent get() = _menuEvent
 
     fun getPlantCardData(id: Long) {
         plantCardData = localDataSource.plant(id)
@@ -39,5 +32,9 @@ internal class DetailViewModel @Inject constructor(val localDataSource: LocalDat
 
     fun onDelayWateringDate(delay: Int) {
         _delayDateEvent.value = delay
+    }
+
+    fun onClickMenu(){
+        _menuEvent.call()
     }
 }

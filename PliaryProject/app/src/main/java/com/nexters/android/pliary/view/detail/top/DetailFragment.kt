@@ -1,18 +1,18 @@
 package com.nexters.android.pliary.view.detail.top
 
 import android.animation.Animator
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.app.SharedElementCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -24,12 +24,10 @@ import com.bumptech.glide.request.target.Target
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCardUI
-import com.nexters.android.pliary.data.getLocalImage
 import com.nexters.android.pliary.data.toUIData
 import com.nexters.android.pliary.databinding.FragmentDetailBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
-import com.nexters.android.pliary.view.home.holder.PlantCardViewModel
 import com.nexters.android.pliary.view.main.MainViewModel
 import com.nexters.android.pliary.view.util.DialogFactory
 import com.nexters.android.pliary.view.util.getFutureWateringDate
@@ -39,7 +37,6 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.WateringDialogListener  {
 
@@ -61,6 +58,9 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
         } else {
             mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
+            binding.apply{
+                vm = viewModel
+            }
             with(binding) {
                 root
             }
@@ -148,6 +148,29 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                 }
                 reloadFragment()// initObserver()
             }
+        })
+
+        viewModel.menuEvent.observe(this, Observer {
+            val popup = PopupMenu(context, binding.ivMenu)
+            activity?.menuInflater?.inflate(R.menu.card_menu, popup.menu)
+            popup.apply {
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.modify -> {
+                            Toast.makeText(context, "수정하기", Toast.LENGTH_SHORT).show()
+                            true
+                        }
+                        R.id.delete -> {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                viewModel.localDataSource.deletePlant(cardID)
+                                popBackStack()
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }.show()
         })
     }
 

@@ -57,6 +57,10 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
             extras)
     }
 
+    protected fun popBackStack(unit: Unit) {
+        findNavController().popBackStack()
+    }
+
     protected fun popBackStack() {
         findNavController().popBackStack()
     }
