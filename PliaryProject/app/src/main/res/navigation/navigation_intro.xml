@@ -44,6 +44,13 @@
         <action
             android:id="@+id/action_detailFragment_self"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_modifyFragment"
+            app:destination="@id/modifyFragment"
+            app:enterAnim="@anim/slide_to_top"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/slide_to_bottom_bottom" />
     </fragment>
     <fragment
         android:id="@+id/detailBottomFragment"
@@ -82,4 +89,8 @@
         android:id="@+id/googleLoginFragment"
         android:name="com.nexters.android.pliary.view.login.signin.GoogleLoginFragment"
         android:label="GoogleLoginFragment" />
+    <fragment
+        android:id="@+id/modifyFragment"
+        android:name="com.nexters.android.pliary.view.detail.top.ModifyFragment"
+        android:label="ModifyFragment" />
 </navigation>

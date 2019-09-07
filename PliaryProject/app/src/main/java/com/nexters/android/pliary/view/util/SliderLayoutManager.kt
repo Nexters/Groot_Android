@@ -17,10 +17,12 @@ class SliderLayoutManager(context: Context?) : LinearLayoutManager(context) {
 
     override fun onAttachedToWindow(view: RecyclerView?) {
         super.onAttachedToWindow(view)
-        recyclerView = view!!
+        view?.let {
+            recyclerView = it
 
-        // Smart snapping
-        LinearSnapHelper().attachToRecyclerView(recyclerView)
+            // Smart snapping
+            LinearSnapHelper().attachToRecyclerView(recyclerView)
+        }
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State) {

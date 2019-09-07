@@ -157,7 +157,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                 setOnMenuItemClickListener {
                     when(it.itemId) {
                         R.id.modify -> {
-                            Toast.makeText(context, "수정하기", Toast.LENGTH_SHORT).show()
+                            navigate(R.id.action_detailFragment_to_modifyFragment)
                             true
                         }
                         R.id.delete -> {

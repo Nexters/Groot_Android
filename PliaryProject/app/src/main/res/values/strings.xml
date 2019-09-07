@@ -60,6 +60,9 @@
     /*detail*/
     <string name="tab_diary">Diary</string>
     <string name="tab_calendar">Calendar</string>
+    /*detail modify*/
+    <string name="modify_title">식물 수정</string>
+    <string name="modify_complete">식물이 성공적으로 수정되었습니다.</string>
     /*diary*/
     <string name="diary_date_count">"%d일"</string>
     <string name="diary_date_count_message">"%s 식물이랑 %d일을 함께했어요!"</string>
