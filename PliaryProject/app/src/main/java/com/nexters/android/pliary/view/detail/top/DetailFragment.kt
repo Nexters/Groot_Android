@@ -1,6 +1,8 @@
 package com.nexters.android.pliary.view.detail.top
 
 import android.animation.Animator
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -161,10 +163,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                             true
                         }
                         R.id.delete -> {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                viewModel.localDataSource.deletePlant(cardID)
-                                popBackStack()
-                            }
+                            showDeleteDialog()
                             true
                         }
                         else -> false
@@ -172,6 +171,21 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                 }
             }.show()
         })
+    }
+
+    private fun showDeleteDialog() {
+        context?.let {
+            androidx.appcompat.app.AlertDialog.Builder(it, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                .setMessage(getString(R.string.delete_message))
+                .setCancelable(false)
+                .setPositiveButton(R.string.delete) { _, _ ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.localDataSource.deletePlant(cardID)
+                        popBackStack()
+                    }}
+                .setNegativeButton(R.string.cancel) { i, a -> i.dismiss() }
+                .show()
+        }
     }
 
     private fun reloadFragment() {
