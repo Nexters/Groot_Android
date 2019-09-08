@@ -11,9 +11,8 @@ internal data class Diary(
     val id: Long = 0,
     val plantId: Long = 0,
 
-    val title: String,
-    val content: String?,
-    val photoUrl: String?,
+    var content: String?,
+    var photoUrl: String?,
 
     val date: ZonedDateTime
 )

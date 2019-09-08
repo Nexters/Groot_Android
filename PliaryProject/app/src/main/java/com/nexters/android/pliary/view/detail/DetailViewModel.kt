@@ -22,6 +22,9 @@ internal class DetailViewModel @Inject constructor(val localDataSource: LocalDat
     private val _diaryViewEvent = SingleLiveEvent<Long>()
     val diaryViewEvent get() = _diaryViewEvent
 
+    private val _diaryModifyEvent = SingleLiveEvent<Long>()
+    val diaryModifyEvent get() = _diaryModifyEvent
+
     private val _menuEvent = SingleLiveEvent<Unit>()
     val menuEvent get() = _menuEvent
 
@@ -43,5 +46,9 @@ internal class DetailViewModel @Inject constructor(val localDataSource: LocalDat
 
     fun onClickDiaryCard(id : Long) {
         _diaryViewEvent.value = id
+    }
+
+    fun onClickDiaryModify(id : Long) {
+        _diaryModifyEvent.value = id
     }
 }

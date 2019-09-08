@@ -16,7 +16,7 @@ import com.nexters.android.pliary.db.entity.Plant
         Diary::class,
         Plant::class
     ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 @TypeConverters(

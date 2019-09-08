@@ -16,12 +16,14 @@ import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryEditLayoutBinding
 import com.nexters.android.pliary.view.util.photoPath
 import android.content.Context
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import com.nexters.android.pliary.R
 
 internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
 
     companion object{
+        val TAG = this::class.java.simpleName
         const val REQUEST_PICK_FROM_ALBUM = 10
     }
 
@@ -29,6 +31,7 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
 
     override fun getModelClass(): Class<DiaryEditViewModel> = DiaryEditViewModel::class.java
     private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
+    private val diaryID : Long by lazy { arguments?.getLong("diaryID") ?: 0L }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_edit_layout, container, false)
@@ -64,6 +67,15 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
 
     private fun initView() {
 
+        if(diaryID > 0) {
+            viewModel.localDataSource.diary(diaryID).observe(this, Observer {
+                viewModel.diaryData = it
+                viewModel.onSetPhotoView(it.photoUrl)
+                viewModel.content.value = it.content
+                viewModel.writeDate.value = it.date
+            })
+
+        }
     }
 
     private fun initObserver() {

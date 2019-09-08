@@ -73,6 +73,14 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
                 Bundle().apply { putLong("diaryID", it) }
             )
         })
+
+        viewModel.diaryModifyEvent.observe(this, Observer {
+            navigate(R.id.action_detailBottomFragment_to_diaryEditFragment,
+                Bundle().apply {
+                    putLong("cardID", cardID)
+                    putLong("diaryID", it)
+                })
+        })
     }
 
     private fun initViewPager() {

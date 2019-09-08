@@ -99,5 +99,11 @@
     <fragment
         android:id="@+id/diaryViewerFragment"
         android:name="com.nexters.android.pliary.view.detail.edit.DiaryViewerFragment"
-        android:label="DiaryViewerFragment" />
+        android:label="DiaryViewerFragment" >
+        <action
+            android:id="@+id/action_diaryViewerFragment_to_diaryEditFragment"
+            app:destination="@id/diaryEditFragment"
+            app:popUpTo="@+id/diaryViewerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

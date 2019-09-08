@@ -112,7 +112,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
                     setOnMenuItemClickListener {
                         when(it.itemId) {
                             R.id.modify -> {
-                                //navigate(R.id.action_detailFragment_to_modifyFragment)
+                                bottomVM.onClickDiaryModify(id)
                                 true
                             }
                             R.id.delete -> {
@@ -130,7 +130,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     private fun showDeleteDialog(id: Long) {
         context?.let {
             androidx.appcompat.app.AlertDialog.Builder(it, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                .setMessage(getString(R.string.delete_message))
+                .setMessage(getString(R.string.diary_delete_message))
                 .setCancelable(false)
                 .setPositiveButton(R.string.delete) { _, _ ->
                     CoroutineScope(Dispatchers.IO).launch {

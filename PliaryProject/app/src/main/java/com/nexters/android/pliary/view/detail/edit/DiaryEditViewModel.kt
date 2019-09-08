@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.nexters.android.pliary.base.BaseViewModel
 import com.nexters.android.pliary.base.SingleLiveEvent
 import com.nexters.android.pliary.db.LocalDataSource
+import com.nexters.android.pliary.db.converter.ZonedDateTimeConverter
 import com.nexters.android.pliary.db.entity.Diary
+import com.nexters.android.pliary.view.util.todayValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,6 +14,8 @@ import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject
 
 internal class DiaryEditViewModel @Inject constructor(val localDataSource: LocalDataSource) : BaseViewModel() {
+
+    var diaryData : Diary? = null
 
     private val _addPhotoEvent = SingleLiveEvent<Unit>()
     val addPhotoEvent : SingleLiveEvent<Unit>  get() = _addPhotoEvent
@@ -23,6 +27,7 @@ internal class DiaryEditViewModel @Inject constructor(val localDataSource: Local
     val clickDoneEvent : SingleLiveEvent<Unit> get() = _clickDoneEvent
 
     val content = MutableLiveData<String>().apply { postValue("") }
+    val writeDate = MutableLiveData<ZonedDateTime>().apply { postValue(ZonedDateTime.now(ZonedDateTimeConverter.ZONE_SEOUL)) }
 
     fun onClickAddPhoto(){
         _addPhotoEvent.call()
@@ -33,16 +38,26 @@ internal class DiaryEditViewModel @Inject constructor(val localDataSource: Local
     }
 
     fun onClickDone(cardID: Long) {
+        if(diaryData!=null) {
+            diaryData?.let{
+                CoroutineScope(Dispatchers.IO).launch {
+                    localDataSource.upsertDiaries(it.apply {
+                        this.content = this@DiaryEditViewModel.content.value
+                        this.photoUrl = this@DiaryEditViewModel.setPhotoView.value
+                    })
+                }
+            }
 
-        val diary = Diary(
-            plantId = cardID,
-            title = "",
-            content = content.value,
-            photoUrl = setPhotoView.value,
-            date = ZonedDateTime.now()
-        )
-        CoroutineScope(Dispatchers.IO).launch {
-            localDataSource.upsertDiaries(diary)
+        } else {
+            val diary = Diary(
+                plantId = cardID,
+                content = content.value,
+                photoUrl = setPhotoView.value,
+                date = ZonedDateTime.now()
+            )
+            CoroutineScope(Dispatchers.IO).launch {
+                localDataSource.upsertDiaries(diary)
+            }
         }
         _clickDoneEvent.call()
     }
