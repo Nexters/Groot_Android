@@ -1,6 +1,7 @@
 package com.nexters.android.pliary.view.detail.edit
 
 import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +20,10 @@ import android.content.Context
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import com.nexters.android.pliary.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
 
@@ -84,7 +89,7 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
         })
 
         viewModel.clickDoneEvent.observe(this, Observer {
-            //hideKeyboard()
+            hideKeyboard()
             popBackStack()
         })
     }
@@ -110,10 +115,14 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
     }
 
     private fun hideKeyboard() {
-
-        val im = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        im.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-        //im.hideSoftInputFromWindow(binding.tvContents.windowToken, 0)
+        val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity?.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 }

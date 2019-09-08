@@ -30,6 +30,8 @@ import kotlinx.android.synthetic.main.add_first_layout.*
 import kotlinx.android.synthetic.main.add_second_layout.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
 
 
 internal class AddFragment : BaseFragment<AddViewModel>() {
@@ -142,8 +144,9 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
         viewModel.plantDoneEvent.observe(this, Observer {
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
+            hideKeyboard()
             popBackStack()
-            Toast.makeText(context, getString(R.string.add_complete), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()
         })
     }
 
@@ -151,7 +154,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
         val newCalendar = Calendar.getInstance()
 
         DatePickerDialog(view.context,
-            R.style.PliaryDatePickerSpinnerTheme,
+            com.nexters.android.pliary.R.style.PliaryDatePickerSpinnerTheme,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 val newDate = Calendar.getInstance()
                 newDate.set(year, monthOfYear, dayOfMonth)
@@ -190,5 +193,16 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
         } else {
             am.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, sender)
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity?.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

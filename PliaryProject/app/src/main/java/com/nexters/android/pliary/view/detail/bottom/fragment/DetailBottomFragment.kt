@@ -1,6 +1,5 @@
 package com.nexters.android.pliary.view.detail.bottom.fragment
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
