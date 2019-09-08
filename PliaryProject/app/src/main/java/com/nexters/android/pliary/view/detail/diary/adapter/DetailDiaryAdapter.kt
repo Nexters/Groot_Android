@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
-import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.databinding.DiaryDatecountItemBinding
 import com.nexters.android.pliary.databinding.DiaryItemBinding
 import com.nexters.android.pliary.view.detail.diary.data.DiaryData
@@ -35,6 +34,11 @@ class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(objec
     }
 
     fun getDiaryList() : ArrayList<DiaryData> = diaryList
+
+    interface Callbacks {
+        fun onClickDiaryCard(id: Long)
+    }
+    private var callbacks: Callbacks? = null
 
     override fun getItemViewType(position: Int): Int = currentList[position].type
 
@@ -66,9 +70,15 @@ class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(objec
         }
     }
 
+    fun setCallbacks(callbacks: Callbacks) {
+        this.callbacks = callbacks
+    }
+
     inner class DiaryViewHolder(val binding: DiaryItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindView(item : DiaryData.DiaryItem) {
             binding.item = item
+
+            binding.cvDiary.setOnClickListener { callbacks?.onClickDiaryCard(item.id.toLong()) }
         }
     }
 

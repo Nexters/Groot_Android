@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nexters.android.pliary.base.BaseViewModel
 import com.nexters.android.pliary.base.Event
+import com.nexters.android.pliary.base.SingleLiveEvent
 import com.nexters.android.pliary.db.LocalDataSource
 import com.nexters.android.pliary.db.entity.Diary
 import com.nexters.android.pliary.db.entity.Plant
@@ -15,6 +16,9 @@ internal class DetailDiaryViewModel @Inject constructor(val localDataSource: Loc
 
     private val _diaryList = MutableLiveData<Event<ArrayList<DiaryData>>>()
     val diaryList : LiveData<Event<ArrayList<DiaryData>>> get() = _diaryList
+
+    private val _diaryClickEvent = SingleLiveEvent<Long>()
+    val diaryClickEvent get() = _diaryClickEvent
 
     var plantData = MutableLiveData<Event<Plant>>()
 
@@ -39,5 +43,9 @@ internal class DetailDiaryViewModel @Inject constructor(val localDataSource: Loc
 
         //return list
         _diaryList.value = Event(list)
+    }
+
+    fun onClickDiary(id: Long) {
+        _diaryClickEvent.value = id
     }
 }

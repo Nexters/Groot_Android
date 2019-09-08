@@ -67,6 +67,9 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/slide_to_bottom_bottom" />
+        <action
+            android:id="@+id/action_detailBottomFragment_to_diaryViewerFragment"
+            app:destination="@id/diaryViewerFragment" />
     </fragment>
     <fragment
         android:id="@+id/diaryEditFragment"
@@ -93,4 +96,8 @@
         android:id="@+id/modifyFragment"
         android:name="com.nexters.android.pliary.view.detail.top.ModifyFragment"
         android:label="ModifyFragment" />
+    <fragment
+        android:id="@+id/diaryViewerFragment"
+        android:name="com.nexters.android.pliary.view.detail.edit.DiaryViewerFragment"
+        android:label="DiaryViewerFragment" />
 </navigation>

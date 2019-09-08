@@ -1,28 +1,22 @@
 package com.nexters.android.pliary.view.detail.bottom.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.util.set
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDetailBottomBinding
-import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import com.nexters.android.pliary.view.detail.bottom.adapter.DetailViewPageAdapter
-import com.nexters.android.pliary.view.detail.calendar.fragment.DetailCalendarFragment
-import com.nexters.android.pliary.view.detail.diary.fragment.DetailDiaryFragment
-import kotlinx.android.synthetic.main.fragment_detail_bottom.*
-import kotlinx.android.synthetic.main.fragment_detail_root.*
 
 internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     private val TAG = this.toString()
@@ -73,6 +67,12 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
                 null
             )
         }
+
+        viewModel.diaryViewEvent.observe(this, Observer {
+            navigate(R.id.action_detailBottomFragment_to_diaryViewerFragment,
+                Bundle().apply { putLong("diaryID", it) }
+            )
+        })
     }
 
     private fun initViewPager() {
@@ -110,8 +110,8 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
                 tab?.setTabTitleBold(true)
 
                 when(currentTab) {
-                    TAB_DIARY -> {}
-                    TAB_CALENDAR -> {}
+                    TAB_DIARY -> { binding.fbWrite.isVisible = true }
+                    TAB_CALENDAR -> { binding.fbWrite.isVisible = false }
                 }
             }
 

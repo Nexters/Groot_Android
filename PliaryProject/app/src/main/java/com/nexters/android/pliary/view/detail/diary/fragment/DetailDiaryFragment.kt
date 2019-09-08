@@ -1,41 +1,39 @@
 package com.nexters.android.pliary.view.detail.diary.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
-import com.nexters.android.pliary.view.detail.diary.data.DiaryData
-import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
-import com.nexters.android.pliary.view.detail.diary.adapter.DetailDiaryAdapter
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.nexters.android.pliary.databinding.FragmentDiaryLayoutBinding
-import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.detail.DetailViewModel
 import com.nexters.android.pliary.view.detail.bottom.fragment.DetailBottomFragment
+import com.nexters.android.pliary.view.detail.diary.adapter.DetailDiaryAdapter
+import com.nexters.android.pliary.view.detail.diary.data.DiaryData
+import com.nexters.android.pliary.view.detail.diary.viewmodel.DetailDiaryViewModel
 import com.nexters.android.pliary.view.main.MainViewModel
-import com.nexters.android.pliary.view.util.*
-import kotlinx.android.synthetic.main.fragment_diary_layout.*
-import kotlinx.coroutines.*
+import com.nexters.android.pliary.view.util.CardItemDecoration
+import com.nexters.android.pliary.view.util.eventObserver
+import com.nexters.android.pliary.view.util.getFirstMetDDay
+import com.nexters.android.pliary.view.util.todayValue
 import javax.inject.Inject
 
 internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
-    private val TAG = this.toString()
+    private val TAG = this::class.java.simpleName
 
     @Inject
     lateinit var diaryAdapter : DetailDiaryAdapter
     lateinit var mainVM : MainViewModel
+    private lateinit var bottomVM : DetailViewModel
     lateinit var binding : FragmentDiaryLayoutBinding
 
     private var cardID : Long = -1
@@ -54,6 +52,9 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             }
         }*/
         mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+        parentFragment?.parentFragment?.parentFragment?.let {
+            if(it is DetailBottomFragment) bottomVM = ViewModelProviders.of(it).get(DetailViewModel::class.java)
+        }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_layout, container, false)
         return binding.root
     }
@@ -83,6 +84,9 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             diaryAdapter.notifyDataSetChanged()
         })
 
+        viewModel.diaryClickEvent.observe(this, Observer {
+            bottomVM.onClickDiaryCard(it)
+        })
     }
 
     private fun initView() {
@@ -92,5 +96,10 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             setHasFixedSize(true)
             addItemDecoration(CardItemDecoration(15))
         }
+        diaryAdapter.setCallbacks(object : DetailDiaryAdapter.Callbacks{
+            override fun onClickDiaryCard(id: Long) {
+                viewModel.onClickDiary(id)
+            }
+        })
     }
 }
