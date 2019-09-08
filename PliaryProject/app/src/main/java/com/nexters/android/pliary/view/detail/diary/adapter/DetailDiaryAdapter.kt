@@ -1,7 +1,9 @@
 package com.nexters.android.pliary.view.detail.diary.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -37,6 +39,7 @@ class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(objec
 
     interface Callbacks {
         fun onClickDiaryCard(id: Long)
+        fun onClickMenu(view : View, id: Long)
     }
     private var callbacks: Callbacks? = null
 
@@ -79,6 +82,7 @@ class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(objec
             binding.item = item
 
             binding.cvDiary.setOnClickListener { callbacks?.onClickDiaryCard(item.id.toLong()) }
+            binding.ivMenu.setOnClickListener { callbacks?.onClickMenu(it, item.id.toLong()) }
         }
     }
 

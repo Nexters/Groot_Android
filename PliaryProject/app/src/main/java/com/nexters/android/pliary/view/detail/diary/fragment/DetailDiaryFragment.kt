@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -24,6 +25,9 @@ import com.nexters.android.pliary.view.util.CardItemDecoration
 import com.nexters.android.pliary.view.util.eventObserver
 import com.nexters.android.pliary.view.util.getFirstMetDDay
 import com.nexters.android.pliary.view.util.todayValue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
@@ -32,7 +36,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
     @Inject
     lateinit var diaryAdapter : DetailDiaryAdapter
-    lateinit var mainVM : MainViewModel
+    private lateinit var mainVM : MainViewModel
     private lateinit var bottomVM : DetailViewModel
     lateinit var binding : FragmentDiaryLayoutBinding
 
@@ -100,6 +104,40 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             override fun onClickDiaryCard(id: Long) {
                 viewModel.onClickDiary(id)
             }
+
+            override fun onClickMenu(view : View, id: Long) {
+                val popup = PopupMenu(context, view)
+                activity?.menuInflater?.inflate(R.menu.card_menu, popup.menu)
+                popup.apply {
+                    setOnMenuItemClickListener {
+                        when(it.itemId) {
+                            R.id.modify -> {
+                                //navigate(R.id.action_detailFragment_to_modifyFragment)
+                                true
+                            }
+                            R.id.delete -> {
+                                showDeleteDialog(id)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                }.show()
+            }
         })
+    }
+
+    private fun showDeleteDialog(id: Long) {
+        context?.let {
+            androidx.appcompat.app.AlertDialog.Builder(it, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                .setMessage(getString(R.string.delete_message))
+                .setCancelable(false)
+                .setPositiveButton(R.string.delete) { _, _ ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.localDataSource.deleteDiary(id)
+                    }}
+                .setNegativeButton(R.string.cancel) { i, a -> i.dismiss() }
+                .show()
+        }
     }
 }
