@@ -14,7 +14,7 @@ fun CalendarDay.isToday() = this == CalendarDay.today()
 fun todayValue() : String = ZonedDateTime.now(ZONE_SEOUL).yyyyMMdd()
 
 fun String.toZonedDateTime(): ZonedDateTime {
-    val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd'T'HH:mm:ss.SSSX").parse("${this}T00:10:35.741+09")
+    val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd'T'HH:mm:ss.SSSX", Locale.KOREA).parse("${this}T00:00:35.741+09")
 
 
     return ZonedDateTime.from(formatter).withZoneSameInstant(ZONE_SEOUL)

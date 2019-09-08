@@ -46,8 +46,8 @@ internal class AddViewModel @Inject constructor(private val localDataSource: Loc
     private val _plantSelectEvent = MutableLiveData<PlantSpecies>()
     val plantSelectEvent : LiveData<PlantSpecies> get() = _plantSelectEvent
 
-    private val _plantDoneEvent = SingleLiveEvent<Unit>()
-    val plantDoneEvent : LiveData<Unit> get() = _plantDoneEvent
+    private val _plantDoneEvent = SingleLiveEvent<Plant>()
+    val plantDoneEvent : LiveData<Plant> get() = _plantDoneEvent
 
     fun onSelectPlant(plant: PlantSpecies) {
         _plantSelectEvent.value = plant
@@ -69,6 +69,6 @@ internal class AddViewModel @Inject constructor(private val localDataSource: Loc
             localDataSource.upsertPlants(plant)
         }
 
-        _plantDoneEvent.call()
+        _plantDoneEvent.value = plant
     }
 }

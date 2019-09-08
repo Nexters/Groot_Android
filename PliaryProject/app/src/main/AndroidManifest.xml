@@ -35,18 +35,14 @@
             </intent-filter>-->
         </activity>
 
-        <service
-            android:name=".notification.PliaryJobService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
         <receiver
             android:name=".notification.AlarmBroadcastReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.pliary.alarm.ALARM_START" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

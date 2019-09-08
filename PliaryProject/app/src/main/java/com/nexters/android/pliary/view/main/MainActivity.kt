@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.nexters.android.pliary.R
-import com.nexters.android.pliary.notification.JobSchedulerStart
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -14,14 +13,14 @@ class MainActivity : DaggerAppCompatActivity() {
     private val navController: NavController
         get() = findNavController(R.id.navigation_fragment)
 
-    @Inject
-    lateinit var job: JobSchedulerStart
+    /*@Inject
+    lateinit var job: JobSchedulerStart*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        job.start(this)
+        //job.start(this)
 
         ViewModelProviders.of(this).get(MainViewModel::class.java)
     }

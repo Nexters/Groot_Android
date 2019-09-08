@@ -1,12 +1,16 @@
 package com.nexters.android.pliary.view.home
 
-import android.graphics.Color
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context.ALARM_SERVICE
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -22,15 +26,16 @@ import com.nexters.android.pliary.data.getLocalImage
 import com.nexters.android.pliary.data.toUIData
 import com.nexters.android.pliary.databinding.FragmentHomeBinding
 import com.nexters.android.pliary.db.entity.Plant
+import com.nexters.android.pliary.notification.AlarmBroadcastReceiver
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
-import com.nexters.android.pliary.view.home.holder.PlantCardViewModel
 import com.nexters.android.pliary.view.util.*
-import com.nexters.android.pliary.view.util.CardLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -65,7 +70,6 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
 
-        //cardList.isEmpty()
         initObserver()
         initRv()
 
@@ -85,7 +89,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             initIndicatorDeco(it)
         })
         viewModel.cardDetailEvent.observe(this, Observer {
-            it.second.add(binding.plantNameLayout to getString(com.nexters.android.pliary.R.string.trans_detail))
+            it.second.add(binding.plantNameLayout to getString(R.string.trans_detail))
             val extras = FragmentNavigator.Extras.Builder().apply {
                 it.second.filterNotNull().forEach { (view, name) ->
                     addSharedElement(view, name)
@@ -101,13 +105,16 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 null, // NavOptions
                 extras)
         })
-        viewModel.addCardEvent.observe(this, Observer{ navigate(R.id.action_homeFragment_to_addFragment) })
-
-        cardAdapter.plantVM.plantID.observe(this, Observer {
-            //cardAdapter.plantVM.getPlantCardData(it)
-            Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 plantID : $it")
-            getPlantData(it)
+        viewModel.addCardEvent.observe(this, Observer{
+            if(cardList.count() < 5) {
+                navigate(R.id.action_homeFragment_to_addFragment)
+            } else {
+                Toast.makeText(context, "식물 카드는 5개까지 생성 가능합니다.", Toast.LENGTH_SHORT).show()
+            }
         })
+
+        cardAdapter.plantVM.plantID.observe(this, Observer { getPlantData(it) })
+
         cardAdapter.plantVM.wateringEvent.observe(this, Observer {
             plantData?.let {
                 val job = CoroutineScope(Dispatchers.IO).launch {
@@ -121,7 +128,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                         willbeWateringDate = todayValue().getFutureWateringDate(it.waterTerm ?: 1)
                     })
                 }
-                if(job.isCompleted) Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 lastWateredDate : ${plantData}")
+                if(job.isCompleted) registAlarm(it.willbeWateringDate, it.nickName ?: "", it.id.toInt())
             }
 
         })
@@ -131,15 +138,13 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 val job = CoroutineScope(Dispatchers.IO).launch {
                     cardAdapter.plantVM.localDataSource.upsertPlants(it.apply { willbeWateringDate = willbeWateringDate.getFutureWateringDate(delay) })
                 }
+                if(job.isCompleted) registAlarm(it.willbeWateringDate, it.nickName ?: "", it.id.toInt())
             }
         })
     }
 
     private fun getPlantData(id : Long) {
-        cardAdapter.plantVM.localDataSource.plant(id).observe(this, Observer {
-            plantData = it
-            Log.d(TAG, "얍얍ㅇ뱡뱌얍얍얍얍야뱡뱡뱌얍 plantData : $plantData")
-        })
+        cardAdapter.plantVM.localDataSource.plant(id).observe(this, Observer { plantData = it })
     }
 
     private fun initRv() {
@@ -260,5 +265,31 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         })
 
     }
+
+    private fun registAlarm(alarmDate: String, nickname: String, id: Int) {
+
+        val am = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmBroadcastReceiver::class.java).apply {
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, "식물 물주기 알람")
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, "$nickname : 목이 조금 마릅니다만..?")
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_ID, id)
+        }
+
+        val sender = PendingIntent.getBroadcast(context, id, intent, 0)
+
+        val calendar = Calendar.getInstance()
+        //알람시간 calendar에 set해주기
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd'T'HH:mm:ss.SSSX", Locale.KOREA)
+        calendar.time = dateFormat.parse("${alarmDate}T08:00:35.741+09")
+
+        //알람 예약
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, sender)
+        } else {
+            am.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, sender)
+        }
+    }
+
 
 }

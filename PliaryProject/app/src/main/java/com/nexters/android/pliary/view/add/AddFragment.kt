@@ -1,6 +1,11 @@
 package com.nexters.android.pliary.view.add
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,27 +23,16 @@ import com.nexters.android.pliary.data.PlantSpecies
 import com.nexters.android.pliary.data.PlantSpecies.Companion.PLANT_USERS
 import com.nexters.android.pliary.data.PlantSpecies.Companion.makePlantArray
 import com.nexters.android.pliary.databinding.FragmentAddBinding
-import com.nexters.android.pliary.db.entity.Plant
+import com.nexters.android.pliary.notification.AlarmBroadcastReceiver
 import com.nexters.android.pliary.view.add.adapter.DatePickerAdapter
-import com.nexters.android.pliary.view.util.SliderLayoutManager
-import com.nexters.android.pliary.view.util.dpToPx
-import com.nexters.android.pliary.view.util.getScreenWidth
-import com.nexters.android.pliary.view.util.setGIF
+import com.nexters.android.pliary.view.util.*
 import kotlinx.android.synthetic.main.add_first_layout.*
-import kotlinx.android.synthetic.main.add_first_layout.view.*
-import kotlinx.android.synthetic.main.add_second_layout.*
-import kotlinx.android.synthetic.main.add_second_layout.rvDatePicker
 import kotlinx.android.synthetic.main.add_second_layout.view.*
-import kotlinx.android.synthetic.main.fragment_add.*
-import org.threeten.bp.ZonedDateTime
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 internal class AddFragment : BaseFragment<AddViewModel>() {
-
-    //TODO : AndroidThreeTen 적용하기
-    val dateFormatter = SimpleDateFormat("yyyy.MM.dd", Locale.US)
 
     private lateinit var binding : FragmentAddBinding
     private val plantList = makePlantArray()
@@ -147,6 +141,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
         })
 
         viewModel.plantDoneEvent.observe(this, Observer {
+            registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
             popBackStack()
             Toast.makeText(context, getString(R.string.add_complete), Toast.LENGTH_LONG).show()
         })
@@ -160,12 +155,40 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 val newDate = Calendar.getInstance()
                 newDate.set(year, monthOfYear, dayOfMonth)
-                if(view is TextView) view.text = dateFormatter.format(newDate.time)
+                if(view is TextView) view.text = SimpleDateFormat("yyyy.MM.dd", Locale.KOREA).format(newDate.time)
             },
             newCalendar.get(Calendar.YEAR),
             newCalendar.get(Calendar.MONTH),
             newCalendar.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        ).apply {
+            datePicker.maxDate = newCalendar.time.time
+        }.show()
 
+    }
+
+    private fun registAlarm(alarmDate: String, nickname: String, id: Int) {
+
+        val am = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmBroadcastReceiver::class.java).apply {
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, "식물 물주기 알람")
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, "$nickname : 목이 조금 마릅니다만..?")
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_ID, id)
+        }
+
+        val sender = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val calendar = Calendar.getInstance()
+        //알람시간 calendar에 set해주기
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd'T'HH:mm:ss.SSSX", Locale.KOREA)
+        calendar.time = dateFormat.parse("${alarmDate}T08:00:35.741+09")
+
+
+        //알람 예약
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, sender)
+        } else {
+            am.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, sender)
+        }
     }
 }
