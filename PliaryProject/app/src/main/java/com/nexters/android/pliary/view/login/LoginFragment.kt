@@ -25,9 +25,6 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         findNavController().graph.startDestination = R.id.loginFragment
 
-        activity?.window?.run{
-            addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        }
 
         //btnGoogle.setOnClickListener { navigate(R.id.googleLoginFragment) }
         tvGuestLogin.setOnClickListener { navigate(R.id.action_loginFragment_to_homeFragment) }

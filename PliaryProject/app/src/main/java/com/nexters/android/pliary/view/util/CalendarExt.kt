@@ -102,6 +102,6 @@ private fun calculateDDay(target: ZonedDateTime) : Long{
 
     // D-day 를 구하기 위해 millisecond 으로 환산하여 d-day 에서 today 의 차를 구한다.
     val dday = target.toInstant().toEpochMilli() / ONE_DAY
-    val today = Instant.now().toEpochMilli() / ONE_DAY
+    val today = todayValue().toZonedDateTime().toInstant().toEpochMilli() / ONE_DAY
     return today - dday
 }
