@@ -27,7 +27,7 @@ class MainFragment : DaggerFragment() {
         }
         job = GlobalScope.launch(Dispatchers.Main) {
             delay(3000)
-            findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_homeFragment)
         }
     }
     override fun onDestroy() {
