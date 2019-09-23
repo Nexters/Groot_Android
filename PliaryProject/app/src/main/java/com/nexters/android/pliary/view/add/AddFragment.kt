@@ -66,7 +66,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
         initSpinner()
         initHorizontalNumberPicker()
 
-
+        binding.clContainer.setOnClickListener { activity?.hideSoftKeyboard() }
     }
 
     private fun initSpinner() {
@@ -144,7 +144,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
         viewModel.plantDoneEvent.observe(this, Observer {
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
-            hideKeyboard()
+            activity?.hideSoftKeyboard()
             popBackStack()
             Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()
         })
@@ -195,14 +195,4 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
         }
     }
 
-    private fun hideKeyboard() {
-        val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        //Find the currently focused view, so we can grab the correct window token from it.
-        var view = activity?.currentFocus
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = View(activity)
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
 }
