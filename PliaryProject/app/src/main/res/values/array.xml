@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="array_plant">
-        <item>@string/add_select_hint</item>
         <item>Stuki</item>
         <item>Eucalyptus</item>
         <item>Sansevieria</item>
@@ -14,7 +13,6 @@
     </array>
 
     <array name="array_plant_kr">
-        <item>""</item>
         <item>스투키</item>
         <item>유칼립투스</item>
         <item>산세베리아</item>

@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 
 
 internal class AddFragment : BaseFragment<AddViewModel>() {
@@ -39,6 +40,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
     private lateinit var binding : FragmentAddBinding
     private val plantList = makePlantArray()
     private var selectPlant : PlantSpecies? = null
+    private lateinit var dialog : AlertDialog.Builder
 
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
@@ -67,10 +69,24 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
         initHorizontalNumberPicker()
 
         binding.clContainer.setOnClickListener { activity?.hideSoftKeyboard() }
+        binding.tvSelectPlant.setOnClickListener { dialog.show() }
     }
 
     private fun initSpinner() {
-        val plantArray = resources.getStringArray(R.array.array_plant)
+        context?.let{
+            dialog = AlertDialog.Builder(it)
+
+            val plantArray = resources.getStringArray(R.array.array_plant)
+            val adapter = ArrayAdapter<String>(it, R.layout.spinner_custom_layout, R.id.tvName, plantArray)
+
+            dialog.setAdapter(adapter) { _, position ->
+                binding.scrollView.isVisible = true
+                viewModel.onSelectPlant(getPlantSpecies(position))
+                binding.tvSelectPlant.text = plantArray[position]
+            }
+        }
+
+        /*val plantArray = resources.getStringArray(R.array.array_plant)
         binding.spSelectPlant.apply {
             adapter = ArrayAdapter<String>(context, R.layout.spinner_item, R.id.tvName, plantArray).apply {
                 setDropDownViewResource(R.layout.spinner_item)
@@ -91,7 +107,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
                 }
             }
-        }
+        }*/
     }
 
     private fun initHorizontalNumberPicker() {
