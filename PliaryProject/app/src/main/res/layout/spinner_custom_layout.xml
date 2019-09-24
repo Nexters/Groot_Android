@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="18dp"
-    android:paddingEnd="18dp"
+    android:paddingStart="3dp"
+    android:paddingEnd="3dp"
     >
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -29,6 +29,17 @@
         app:layout_constraintBaseline_toBaselineOf="@id/tvName"
         app:layout_constraintStart_toEndOf="@id/tvName"
         tools:text="스투키"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:src="@drawable/ic_round_check"
+        app:layout_constraintTop_toTopOf="@id/tvName"
+        app:layout_constraintBottom_toBottomOf="@id/tvName"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
     <View
