@@ -1,16 +1,16 @@
 package com.nexters.android.pliary.view.util
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.NumberPicker
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.view.add.adapter.NameSpinnerAdapter
+import kotlinx.android.synthetic.main.dlg_plant_select_layout.*
 
 
 object DialogFactory {
@@ -18,6 +18,10 @@ object DialogFactory {
     interface WateringDialogListener{
         fun onWatering()
         fun onDelay(day: Int)
+    }
+
+    interface SelectPlantDialogListener {
+        fun onSelect(position: Int)
     }
 
     interface DialogListener{
@@ -66,5 +70,31 @@ object DialogFactory {
 
         /*val value = picker.value
         Toast.makeText(context, "$value 일 후 물주기", Toast.LENGTH_SHORT).show()*/
+    }
+
+    fun showSelectPlantDialog(context: Context, selected: Int, engNameList: Array<String>, listener: SelectPlantDialogListener) {
+        val layoutInflater =
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = layoutInflater.inflate(R.layout.dlg_plant_select_layout, null)
+        val dialog = MaterialDialog.Builder(context)
+            .autoDismiss(false)
+            .customView(view, false)
+            .build()
+
+        view.findViewById<ImageView>(R.id.ivClose).setOnClickListener{ dialog?.dismiss() }
+
+        val krNameList = context.resources.getStringArray(R.array.array_plant_kr)
+
+
+        val listView = view.findViewById<ListView>(R.id.lvPlantName).apply {
+            adapter = NameSpinnerAdapter(context, R.layout.spinner_custom_layout, engNameList, krNameList, selected)
+            divider = null
+            setOnItemClickListener { parent, view, position, id ->
+                listener.onSelect(position)
+                dialog?.dismiss()
+            }
+        }
+        
+        dialog.show()
     }
 }

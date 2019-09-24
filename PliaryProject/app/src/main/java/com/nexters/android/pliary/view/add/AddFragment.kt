@@ -10,8 +10,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -30,17 +28,15 @@ import kotlinx.android.synthetic.main.add_first_layout.*
 import kotlinx.android.synthetic.main.add_second_layout.view.*
 import java.text.SimpleDateFormat
 import java.util.*
-import android.app.Activity
-import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AlertDialog
 
 
-internal class AddFragment : BaseFragment<AddViewModel>() {
+internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectPlantDialogListener {
 
     private lateinit var binding : FragmentAddBinding
     private val plantList = makePlantArray()
     private var selectPlant : PlantSpecies? = null
-    private lateinit var dialog : AlertDialog.Builder
+    private lateinit var plantArray : Array<String>
+    private var selected = -1
 
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
@@ -65,49 +61,25 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
     }
 
     private fun initView(){
-        initSpinner()
+        context?.let{
+            plantArray = it.resources.getStringArray(R.array.array_plant)
+        }
+
         initHorizontalNumberPicker()
 
         binding.clContainer.setOnClickListener { activity?.hideSoftKeyboard() }
-        binding.tvSelectPlant.setOnClickListener { dialog.show() }
-    }
-
-    private fun initSpinner() {
-        context?.let{
-            dialog = AlertDialog.Builder(it)
-
-            val plantArray = resources.getStringArray(R.array.array_plant)
-            val adapter = ArrayAdapter<String>(it, R.layout.spinner_custom_layout, R.id.tvName, plantArray)
-
-            dialog.setAdapter(adapter) { _, position ->
-                binding.scrollView.isVisible = true
-                viewModel.onSelectPlant(getPlantSpecies(position))
-                binding.tvSelectPlant.text = plantArray[position]
+        binding.tvSelectPlant.setOnClickListener {
+            context?.let{
+                DialogFactory.showSelectPlantDialog(it, selected, plantArray, this)
             }
         }
+    }
 
-        /*val plantArray = resources.getStringArray(R.array.array_plant)
-        binding.spSelectPlant.apply {
-            adapter = ArrayAdapter<String>(context, R.layout.spinner_item, R.id.tvName, plantArray).apply {
-                setDropDownViewResource(R.layout.spinner_item)
-            }
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    binding.scrollView.isVisible = position != 0
-                    viewModel.onSelectPlant(getPlantSpecies(position))
-
-                }
-            }
-        }*/
+    override fun onSelect(position: Int) {
+        selected = position
+        binding.scrollView.isVisible = true
+        viewModel.onSelectPlant(getPlantSpecies(position))
+        binding.tvSelectPlant.text = plantArray[position]
     }
 
     private fun initHorizontalNumberPicker() {
