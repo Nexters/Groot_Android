@@ -131,7 +131,6 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
 
         viewModel.plantDoneEvent.observe(this, Observer {
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
-            activity?.hideSoftKeyboard()
             popBackStack()
             Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()
         })

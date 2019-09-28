@@ -63,7 +63,7 @@ object DialogFactory {
             }
         }
         done.setOnClickListener {
-            listener.onDelay(picker.value)
+            if(picker.value > 0) listener.onDelay(picker.value)
             dialog?.dismiss()
         }
         dialog.show()

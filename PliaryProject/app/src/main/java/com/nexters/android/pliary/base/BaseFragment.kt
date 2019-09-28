@@ -11,6 +11,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.view.util.hideSoftKeyboard
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -44,6 +45,7 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
             id,
             bundle
         )
+        activity?.hideSoftKeyboard()
     }
 
     protected fun navigate(@IdRes id: Int, args : Bundle?, navOptions : NavOptions?, extras : Navigator.Extras?) {
@@ -51,18 +53,23 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
             args, // Bundle of args
             navOptions, // NavOptions
             extras)
+
+        activity?.hideSoftKeyboard()
     }
 
     protected fun popBackStack(unit: Unit) {
         findNavController().popBackStack()
+        activity?.hideSoftKeyboard()
     }
 
     protected fun popBackStack() {
         findNavController().popBackStack()
+        activity?.hideSoftKeyboard()
     }
 
     protected fun popBackStack(@IdRes destinationId: Int, inclusive: Boolean = true) {
         findNavController().popBackStack(destinationId, inclusive)
+        activity?.hideSoftKeyboard()
     }
 
     protected fun getNavOptions(): NavOptions {
