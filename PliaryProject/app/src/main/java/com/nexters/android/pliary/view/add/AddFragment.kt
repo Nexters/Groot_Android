@@ -41,8 +41,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //val view = inflater.inflate(R.layout.fragment_add, container, false)
-        binding = DataBindingUtil.inflate<FragmentAddBinding>(inflater, R.layout.fragment_add, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add, container, false)
         binding.vm = viewModel
         return binding.root
     }
@@ -141,8 +140,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
     private fun showDatePickerDialog(view: View) {
         val newCalendar = Calendar.getInstance()
 
-        DatePickerDialog(view.context,
-            com.nexters.android.pliary.R.style.PliaryDatePickerSpinnerTheme,
+        DatePickerDialog(view.context, R.style.PliaryDatePickerSpinnerTheme,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 val newDate = Calendar.getInstance()
                 newDate.set(year, monthOfYear, dayOfMonth)

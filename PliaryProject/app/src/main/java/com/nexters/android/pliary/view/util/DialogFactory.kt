@@ -54,7 +54,7 @@ object DialogFactory {
         }
         val done = view.findViewById<TextView>(R.id.tvDelayDone)
         val picker = view.findViewById<NumberPicker>(R.id.npDate).apply {
-            minValue = 1
+            minValue = 0
             maxValue = 60
             wrapSelectorWheel = false
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
