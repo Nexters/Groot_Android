@@ -28,7 +28,9 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onBackPressed() {
         if(navController.currentDestination?.id == R.id.homeFragment) {
             finish()
+            return
+        } else {
+            navController.navigateUp()
         }
-        navController.navigateUp()
     }
 }
