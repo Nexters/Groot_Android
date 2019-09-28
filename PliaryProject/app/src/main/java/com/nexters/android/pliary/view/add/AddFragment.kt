@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -28,15 +30,15 @@ import kotlinx.android.synthetic.main.add_first_layout.*
 import kotlinx.android.synthetic.main.add_second_layout.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
 
 
-internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectPlantDialogListener {
+internal class AddFragment : BaseFragment<AddViewModel>() {
 
     private lateinit var binding : FragmentAddBinding
     private val plantList = makePlantArray()
     private var selectPlant : PlantSpecies? = null
-    private lateinit var plantArray : Array<String>
-    private var selected = -1
 
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
@@ -61,25 +63,35 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
     }
 
     private fun initView(){
-        context?.let{
-            plantArray = it.resources.getStringArray(R.array.array_plant)
-        }
-
+        initSpinner()
         initHorizontalNumberPicker()
 
-        binding.clContainer.setOnClickListener { activity?.hideSoftKeyboard() }
-        binding.tvSelectPlant.setOnClickListener {
-            context?.let{
-                DialogFactory.showSelectPlantDialog(it, selected, plantArray, this)
-            }
-        }
+
     }
 
-    override fun onSelect(position: Int) {
-        selected = position
-        binding.scrollView.isVisible = true
-        viewModel.onSelectPlant(getPlantSpecies(position))
-        binding.tvSelectPlant.text = plantArray[position]
+    private fun initSpinner() {
+        val plantArray = resources.getStringArray(R.array.array_plant)
+        binding.spSelectPlant.apply {
+            adapter = ArrayAdapter<String>(context, R.layout.spinner_item, R.id.tvName, plantArray).apply {
+                setDropDownViewResource(R.layout.spinner_item)
+            }
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    binding.scrollView.isVisible = position != 0
+                    viewModel.onSelectPlant(getPlantSpecies(position))
+
+                }
+            }
+        }
     }
 
     private fun initHorizontalNumberPicker() {
@@ -132,7 +144,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
 
         viewModel.plantDoneEvent.observe(this, Observer {
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
-            activity?.hideSoftKeyboard()
+            hideKeyboard()
             popBackStack()
             Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()
         })
@@ -183,4 +195,14 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
         }
     }
 
+    private fun hideKeyboard() {
+        val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity?.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 }

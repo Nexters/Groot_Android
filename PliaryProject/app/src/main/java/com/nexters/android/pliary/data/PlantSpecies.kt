@@ -13,17 +13,18 @@ data class PlantSpecies(val id: Int = -1,
                           val tip: String?) : Serializable {
 
     companion object{
-        const val PLANT_STUKI = 0
-        const val PLANT_EUCALYPTUS = 1
-        const val PLANT_SANSEVIERIA = 2
-        const val PLANT_MONSTERA = 3
-        const val PLANT_PARLOUR_PALM = 4
-        const val PLANT_ELASTICA = 5
-        const val PLANT_TRAVELERS_PALM = 6
-        const val PLANT_SCHEFFLERA = 7
-        const val PLANT_USERS = 8
+        const val PLANT_STUKI = 1
+        const val PLANT_EUCALYPTUS = 2
+        const val PLANT_SANSEVIERIA = 3
+        const val PLANT_MONSTERA = 4
+        const val PLANT_PARLOUR_PALM = 5
+        const val PLANT_ELASTICA = 6
+        const val PLANT_TRAVELERS_PALM = 7
+        const val PLANT_SCHEFFLERA = 8
+        const val PLANT_USERS = 9
 
         fun makePlantArray(): ArrayList<PlantSpecies> = arrayListOf(
+            PlantSpecies(0, "", "", "", "", "", ""),
             PlantSpecies(
                 PLANT_STUKI,
                 "Stuki",

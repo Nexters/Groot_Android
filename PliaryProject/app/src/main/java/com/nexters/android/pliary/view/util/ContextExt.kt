@@ -1,13 +1,11 @@
 package com.nexters.android.pliary.view.util
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.transition.Transition
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.SharedElementCallback
@@ -43,28 +41,4 @@ fun ImageView.setGIF(url: String?, isPositive: Boolean) {
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .into(this@setGIF)
     }
-}
-
-fun Context.hideSoftKeyboard(view: View?): Boolean {
-    try {
-        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
-
-    } catch (e: Exception) {
-        return false
-    }
-
-    return false
-}
-
-fun Activity.hideSoftKeyboard() : Boolean{
-    try {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if(imm != null && currentFocus != null && currentFocus.windowToken != null) {
-            return imm.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        }
-    } catch (e: Exception) {
-        return false
-    }
-    return false
 }

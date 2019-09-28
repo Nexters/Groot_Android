@@ -60,7 +60,7 @@ fun isWateredDayPast(willbeWatering: String) : Boolean {
 
 fun getFirstMetDDay(takeDate: String) : Int {
     val take = takeDate.toZonedDateTime()
-    return calculateDDay(take).toInt() + 1
+    return calculateDDay(take).toInt()
 }
 
 fun getWateredDDay(willbeWatering: String) : String {

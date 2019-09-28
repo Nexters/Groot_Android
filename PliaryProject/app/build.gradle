@@ -13,14 +13,14 @@ android {
         applicationId "com.nexters.android.pliary"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.1"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            shrinkResources true
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
