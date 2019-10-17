@@ -9,12 +9,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.app.SharedElementCallback
+import androidx.core.view.GestureDetectorCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -47,13 +46,14 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.WateringDialogListener  {
+internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.WateringDialogListener{
 
-    private val TAG = this.tag.toString()
+    private val TAG = this::class.java.simpleName
 
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
 
     private lateinit var mainVM : MainViewModel
+    private lateinit var mDetector: GestureDetectorCompat
 
     private val cardID : Long by lazy { arguments?.getLong("cardID") ?: 0L }
     private val defaultImage : Int by lazy { arguments?.getInt("defaultImage") ?: 0 }
@@ -79,6 +79,37 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mDetector = GestureDetectorCompat(context, object: GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent?): Boolean {
+                return true
+            }
+
+            override fun onFling(
+                event1: MotionEvent,
+                event2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+
+                Log.d("MyGestureListener", "onFling()")
+                if (event1.action == MotionEvent.ACTION_DOWN && event1.y > (event2.y + 300)){
+                    Log.d("MyGestureListener", "flinged up")
+                    navigateBottomPage()
+                }
+                if (event1.action == MotionEvent.ACTION_DOWN && event2.y > (event1.y + 300)){
+                    Log.d("MyGestureListener", "flinged down")
+                    //navigateBottomPage()
+                }
+                return super.onFling(event1, event2, velocityX, velocityY)
+            }
+
+        })
+
+        binding.root.setOnTouchListener { v, event ->
+            Log.d(TAG, "setOnTouchListener: ${event.action}")
+            mDetector.onTouchEvent(event)
+        }
+
         if(plantData == null) {
             initObserver()
             setBundleImage()
@@ -92,13 +123,16 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
             DialogFactory.showWateringDialog(binding.root.context, this)
         }
         binding.ivBack.setOnClickListener { popBackStack() }
-        binding.ivArrowDown.setOnClickListener {
-            navigate(R.id.action_detailFragment_to_detailBottomFragment,
-                Bundle().apply { putLong("cardID", cardID) },
-                null,
-                null)
-        }
+        binding.ivArrowDown.setOnClickListener { navigateBottomPage() }
     }
+
+    private fun navigateBottomPage() {
+        navigate(R.id.action_detailFragment_to_detailBottomFragment,
+            Bundle().apply { putLong("cardID", cardID) },
+            null,
+            null)
+    }
+
 
     override fun onWatering() {
         binding.lottieBackGround.apply {

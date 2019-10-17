@@ -3,18 +3,15 @@ package com.nexters.android.pliary.base
 import android.content.Context
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.view.util.hideSoftKeyboard
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -48,6 +45,7 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
             id,
             bundle
         )
+        activity?.hideSoftKeyboard()
     }
 
     protected fun navigate(@IdRes id: Int, args : Bundle?, navOptions : NavOptions?, extras : Navigator.Extras?) {
@@ -55,18 +53,23 @@ abstract class BaseFragment<VM : BaseViewModel> : DaggerFragment() {
             args, // Bundle of args
             navOptions, // NavOptions
             extras)
+
+        activity?.hideSoftKeyboard()
     }
 
     protected fun popBackStack(unit: Unit) {
         findNavController().popBackStack()
+        activity?.hideSoftKeyboard()
     }
 
     protected fun popBackStack() {
         findNavController().popBackStack()
+        activity?.hideSoftKeyboard()
     }
 
     protected fun popBackStack(@IdRes destinationId: Int, inclusive: Boolean = true) {
         findNavController().popBackStack(destinationId, inclusive)
+        activity?.hideSoftKeyboard()
     }
 
     protected fun getNavOptions(): NavOptions {

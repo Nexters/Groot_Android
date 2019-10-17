@@ -1,11 +1,11 @@
 package com.nexters.android.pliary.view.detail.bottom.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -30,6 +30,7 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     private lateinit var binding : FragmentDetailBottomBinding
     private lateinit var vpAdapter : DetailViewPageAdapter
 
+    private lateinit var mDetector: GestureDetectorCompat
 
     override fun getModelClass(): Class<DetailViewModel> = DetailViewModel::class.java
 
@@ -50,10 +51,35 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*viewModel.cardLiveID = cardID
-        viewModel.localDataSource.plant(cardID).observe(this, Observer {
-            viewModel.plantLiveData.postValue(it)
-        })*/
+        mDetector = GestureDetectorCompat(context, object: GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent?): Boolean {
+                return true
+            }
+
+            override fun onFling(
+                event1: MotionEvent,
+                event2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+
+                Log.d("MyGestureListener", "onFling()")
+                if (event1.action == MotionEvent.ACTION_DOWN && event1.y > (event2.y + 300)){
+                    Log.d("MyGestureListener", "flinged up")
+                }
+                if (event1.action == MotionEvent.ACTION_DOWN && event2.y > (event1.y + 300)){
+                    Log.d("MyGestureListener", "flinged down")
+                    popBackStack()
+                }
+                return super.onFling(event1, event2, velocityX, velocityY)
+            }
+
+        })
+
+        binding.root.setOnTouchListener { v, event ->
+            Log.d(TAG, "setOnTouchListener: ${event.action}")
+            mDetector.onTouchEvent(event)
+        }
 
         initViewPager()
 

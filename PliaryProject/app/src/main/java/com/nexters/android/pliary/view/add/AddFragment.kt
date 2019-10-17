@@ -43,8 +43,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
     override fun getModelClass(): Class<AddViewModel> = AddViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //val view = inflater.inflate(R.layout.fragment_add, container, false)
-        binding = DataBindingUtil.inflate<FragmentAddBinding>(inflater, R.layout.fragment_add, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add, container, false)
         binding.vm = viewModel
         return binding.root
     }
@@ -144,7 +143,6 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
 
         viewModel.plantDoneEvent.observe(this, Observer {
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
-            hideKeyboard()
             popBackStack()
             Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()
         })
@@ -153,8 +151,7 @@ internal class AddFragment : BaseFragment<AddViewModel>() {
     private fun showDatePickerDialog(view: View) {
         val newCalendar = Calendar.getInstance()
 
-        DatePickerDialog(view.context,
-            com.nexters.android.pliary.R.style.PliaryDatePickerSpinnerTheme,
+        DatePickerDialog(view.context, R.style.PliaryDatePickerSpinnerTheme,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 val newDate = Calendar.getInstance()
                 newDate.set(year, monthOfYear, dayOfMonth)

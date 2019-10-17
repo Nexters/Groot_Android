@@ -1,10 +1,8 @@
 package com.nexters.android.pliary.view.add.adapter
 
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
