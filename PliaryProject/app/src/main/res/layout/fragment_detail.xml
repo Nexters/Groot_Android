@@ -107,7 +107,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSpecies"
-                style="@style/AndH5GothicRegularLeft18Gray3"
+                style="@style/AndH5GothicRegularLeft18Gray2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -120,7 +120,7 @@
                 android:layout_width="1dp"
                 android:layout_height="12dp"
                 android:layout_marginStart="7.5dp"
-                android:background="@color/gray3"
+                android:background="#8c9092"
                 app:layout_constraintBottom_toBottomOf="@id/tvSpecies"
                 app:layout_constraintEnd_toStartOf="@id/tvNickname"
                 app:layout_constraintStart_toEndOf="@id/tvSpecies"
@@ -128,7 +128,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNickname"
-                style="@style/AndH5GothicRegularLeft18Gray3"
+                style="@style/AndH5GothicRegularLeft18Gray2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="9.5dp"

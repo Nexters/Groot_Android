@@ -336,8 +336,8 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
 
         val am = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmBroadcastReceiver::class.java).apply {
-            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, "식물 물주기 알람")
-            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, "$nickname : 목이 조금 마릅니다만..?")
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, getString(R.string.noti_title))
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, getString(R.string.noti_message, nickname))
             putExtra(AlarmBroadcastReceiver.NOTIFICATION_ID, id)
         }
 

@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantSpecies
+import com.nexters.android.pliary.data.PlantSpecies.Companion.PLANT_HANGING
 import com.nexters.android.pliary.data.PlantSpecies.Companion.PLANT_USERS
 import com.nexters.android.pliary.data.PlantSpecies.Companion.makePlantArray
 import com.nexters.android.pliary.databinding.FragmentAddBinding
@@ -105,13 +106,13 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
     }
 
     private fun getPlantSpecies(position: Int) : PlantSpecies {
-        return plantList.first { it.id == position }
+        return plantList[position]
     }
 
     private fun setObserver() {
         viewModel.plantSelectEvent.observe(this, Observer {
             selectPlant = it
-            binding.firstSection.clUserInput.isVisible = it.id == PLANT_USERS
+            binding.firstSection.clUserInput.isVisible = (it.id == PLANT_USERS || it.id == PLANT_HANGING)
             binding.apply {
                 etEngName.setText(it.name)
                 etKorName.setText(it.nameKr)
@@ -158,8 +159,8 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
 
         val am = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmBroadcastReceiver::class.java).apply {
-            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, "식물 물주기 알람")
-            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, "$nickname : 목이 조금 마릅니다만..?")
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, getString(R.string.noti_title))
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, getString(R.string.noti_message, nickname))
             putExtra(AlarmBroadcastReceiver.NOTIFICATION_ID, id)
         }
 
