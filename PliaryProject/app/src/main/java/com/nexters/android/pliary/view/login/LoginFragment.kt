@@ -34,10 +34,10 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     }
 
     private fun initView() {
-        setGIF()
+        //setGIF()
     }
 
-    private fun setGIF() {
+    /*private fun setGIF() {
         context?.let {
             Glide.with(it)
                 .asGif()
@@ -45,5 +45,5 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                 .centerCrop()
                 .into(ivHome)
         }
-    }
+    }*/
 }
