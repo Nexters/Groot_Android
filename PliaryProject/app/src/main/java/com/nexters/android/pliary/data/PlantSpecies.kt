@@ -13,15 +13,16 @@ data class PlantSpecies(val id: Int = -1,
                           val tip: String?) : Serializable {
 
     companion object{
-        const val PLANT_STUKI = 1
-        const val PLANT_EUCALYPTUS = 2
-        const val PLANT_SANSEVIERIA = 3
-        const val PLANT_MONSTERA = 4
-        const val PLANT_PARLOUR_PALM = 5
-        const val PLANT_ELASTICA = 6
-        const val PLANT_TRAVELERS_PALM = 7
-        const val PLANT_SCHEFFLERA = 8
-        const val PLANT_USERS = 9
+        const val PLANT_STUKI = 0
+        const val PLANT_EUCALYPTUS = 1
+        const val PLANT_SANSEVIERIA = 2
+        const val PLANT_MONSTERA = 3
+        const val PLANT_PARLOUR_PALM = 4
+        const val PLANT_ELASTICA = 5
+        const val PLANT_TRAVELERS_PALM = 6
+        const val PLANT_SCHEFFLERA = 7
+        const val PLANT_USERS = 8
+        const val PLANT_HANGING = 9
 
         fun makePlantArray(): ArrayList<PlantSpecies> = arrayListOf(
             PlantSpecies(0, "", "", "", "", "", ""),
@@ -96,6 +97,15 @@ data class PlantSpecies(val id: Int = -1,
                 "And_Nega_hongkong",
                 "홍콩야자는 대부분 5일에 1번 물을 주는 것을 추천합니다.",
                 "홍콩야자는 증산작용이 뛰어나 가습기 역할을 합니다. 새집증후군을 없애는데 탁월합니다. 홍콩야자의 겉흙이 마르면 물을 주세요."
+            ),
+            PlantSpecies(
+                PLANT_HANGING,
+                "Hanging Plant",
+                "",
+                "and_posi_hanging",
+                "and_nega_hanging",
+                "행잉플랜트는 물을 주는 것보다 물의 흡수를 위해 통풍을 잘 해주는 것이 중요합니다.",
+                "행잉플랜트는 물을 주는 것보다 물의 흡수를 위해 통풍을 잘 해주는 것이 중요합니다. 바람이 잘 통하는 곳에서 키워주세요."
             ),
             PlantSpecies(
                 PLANT_USERS,
@@ -212,6 +222,8 @@ fun String.getLocalImage(isPositive: Boolean) : Int {
         if(isPositive) R.drawable.and_posi_travelers_palm else R.drawable.and_nega_travelers_palm
     } else if(name.contains("hongkong")) {
         if(isPositive) R.drawable.and_posi_hongkong else R.drawable.and_nega_hongkong
+    } else if(name.contains("hanging")) {
+        if(isPositive) R.drawable.and_posi_hanging else R.drawable.and_nega_hanging
     } else {
         if(isPositive) R.drawable.and_posi_usermakeplant else R.drawable.and_nega_usermakeplant
     }

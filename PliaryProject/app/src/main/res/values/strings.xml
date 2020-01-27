@@ -27,6 +27,7 @@
     <string name="home_wateringFormat" formatted="false">"%s에게 물주기"</string>
     <string name="home_add_plant">Add plant</string>
     <string name="home_add_plant_msg">식물을 추가해주세요.</string>
+    <string name="home_plant_count_over">"식물 카드는 5개까지 생성 가능합니다."</string>
 
     <string name="home_watering_dlg_title">화분 흙의 습도를 확인해주세요.</string>
     <string name="home_watering_dlg_msg">"손가락으로 화분의 흙을 눌러보고\n건조하다면 물을 주세요."</string>
@@ -74,8 +75,10 @@
     <string name="calendar_watering">물 주는 날</string>
     <string name="calendar_watered_message">물을 주었습니다.</string>
 
-
-
-    /*diary add*/
+    <!--diary add-->
     <string name="diary_contents_hint">오늘 식물과의 하루는 즐거웠나요?</string>
+
+    <!--notification-->
+    <string name="noti_title">"식물 물주기 알람"</string>
+    <string name="noti_message" formatted="false">"%s에게 물 주는 날!"</string>
 </resources>

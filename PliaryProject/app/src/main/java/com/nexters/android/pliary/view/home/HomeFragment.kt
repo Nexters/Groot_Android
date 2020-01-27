@@ -40,7 +40,7 @@ import javax.inject.Inject
 
 
 internal class HomeFragment : BaseFragment<HomeViewModel>() {
-    val TAG = this.toString()
+    val TAG = this::class.java.simpleName
 
     @Inject
     lateinit var cardAdapter : HomeCardAdapter
@@ -106,10 +106,10 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 extras)
         })
         viewModel.addCardEvent.observe(this, Observer{
-            if(cardList.count() < 5) {
+            if(cardList.count() <= 5) {
                 navigate(R.id.action_homeFragment_to_addFragment)
             } else {
-                Toast.makeText(context, "식물 카드는 5개까지 생성 가능합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.home_plant_count_over), Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -270,8 +270,8 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
         val am = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmBroadcastReceiver::class.java).apply {
-            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, "식물 물주기 알람")
-            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, "$nickname : 목이 조금 마릅니다만..?")
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_TITLE, getString(R.string.noti_title))
+            putExtra(AlarmBroadcastReceiver.NOTIFICATION_CONTENT, getString(R.string.noti_message, nickname))
             putExtra(AlarmBroadcastReceiver.NOTIFICATION_ID, id)
         }
 
