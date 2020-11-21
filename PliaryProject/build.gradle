@@ -15,10 +15,11 @@ buildscript {
         tedpermission_version = '2.2.2'
         threeten_version = '1.2.0'
         calendar_version = '2.0.1'
-        firebase_version = '19.5.1'
+//        firebase_version = '19.5.1'
         playservice_version = '19.0.0'
         googleservice_version = '4.3.0'
-        firebasecore_version = '18.0.0'
+//        firebasecore_version = '18.0.0'
+        firebase_bom_version = '26.1.0'
         room_version = '2.2.5'
         work_version = '2.2.0'
 
@@ -26,15 +27,12 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$googleservice_version"
-        classpath 'io.fabric.tools:gradle:1.31.0'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
