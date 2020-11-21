@@ -118,15 +118,15 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
     }
 
     private fun initTabView() {
-        val mediator = TabLayoutMediator(binding.tabLayout, binding.vpPage,
-            TabLayoutMediator.OnConfigureTabCallback { tab, position ->
-                // Styling each tab here
-                val tabTextList = resources.getStringArray(R.array.detail_tab)
-                val tabLinear = LayoutInflater.from(context).inflate(R.layout.tab_custom_item, null) as LinearLayout
-                val tabTitle = tabLinear.findViewById<TextView>(R.id.tvTabTitle)
-                tabTitle.text = tabTextList[position]
-                tab.customView = tabLinear
-            })
+        val mediator = TabLayoutMediator(binding.tabLayout, binding.vpPage) { tab, position ->
+            // Styling each tab here
+            val tabTextList = resources.getStringArray(R.array.detail_tab)
+            val tabLinear = LayoutInflater.from(context).inflate(R.layout.tab_custom_item, null) as LinearLayout
+            val tabTitle = tabLinear.findViewById<TextView>(R.id.tvTabTitle)
+            tabTitle.text = tabTextList[position]
+            tab.customView = tabLinear
+        }
+
 
         binding.tabLayout.getTabAt(0)?.setTabTitleBold(true)
 
