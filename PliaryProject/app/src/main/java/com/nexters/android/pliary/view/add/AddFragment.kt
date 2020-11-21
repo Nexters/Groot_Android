@@ -110,7 +110,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
     }
 
     private fun setObserver() {
-        viewModel.plantSelectEvent.observe(this, Observer {
+        viewModel.plantSelectEvent.observe(viewLifecycleOwner, Observer {
             selectPlant = it
             binding.firstSection.clUserInput.isVisible = (it.id == PLANT_USERS || it.id == PLANT_HANGING)
             binding.apply {
@@ -122,15 +122,15 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
             }
         })
 
-        viewModel.engName.observe(this, Observer { selectPlant?.name = it })
+        viewModel.engName.observe(viewLifecycleOwner, Observer { selectPlant?.name = it })
 
-        viewModel.korName.observe(this, Observer { selectPlant?.nameKr = it })
+        viewModel.korName.observe(viewLifecycleOwner, Observer { selectPlant?.nameKr = it })
 
-        viewModel.enableDone.observe(this, Observer {
+        viewModel.enableDone.observe(viewLifecycleOwner, Observer {
             binding.tvDone.isEnabled = it
         })
 
-        viewModel.plantDoneEvent.observe(this, Observer {
+        viewModel.plantDoneEvent.observe(viewLifecycleOwner, Observer {
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
             popBackStack()
             Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()

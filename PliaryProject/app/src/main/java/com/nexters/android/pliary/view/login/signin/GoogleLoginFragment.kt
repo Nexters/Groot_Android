@@ -14,6 +14,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.view.login.LoginViewModel
+import java.lang.Exception
 
 class GoogleLoginFragment  : BaseFragment<LoginViewModel>() {
 
@@ -40,7 +41,7 @@ class GoogleLoginFragment  : BaseFragment<LoginViewModel>() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 100){
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if(result.isSuccess){
+            if(result!!.isSuccess){
                 //구글 로그인이 성공했을 경우
                 val account = result.signInAccount
                 val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
