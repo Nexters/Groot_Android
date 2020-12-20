@@ -16,5 +16,6 @@ class FBEvents {
         const val EDIT_PLANT_NICKNAME_CLICK = "card_edit_nickname_click"
         const val EDIT_PLANT_WATER_SET = "card_edit_watercycle_click"
         const val EDIT_PLANT_CLOSE_CLICK = "card_edit_close_click"
+        const val EDIT_PLANT_COMPLETE_CLICK = "card_edit_complete_click"
     }
 }

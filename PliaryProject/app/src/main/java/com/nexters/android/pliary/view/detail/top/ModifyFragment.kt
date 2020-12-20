@@ -98,6 +98,7 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
         viewModel.plantDoneEvent.observe(viewLifecycleOwner, Observer {
             popBackStack()
             Toast.makeText(context, getString(R.string.modify_complete), Toast.LENGTH_LONG).show()
+            AnalyticsUtil.event(FBEvents.EDIT_PLANT_COMPLETE_CLICK)
         })
     }
 }
