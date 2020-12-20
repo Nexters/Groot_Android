@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.data.getLocalImage
@@ -200,6 +202,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
             override fun onClickWatering(plantCardId: Long) {
                 plantVM.onSelectPlant(plantCardId)
+                AnalyticsUtil.event(FBEvents.HOME_WATER_CLICK)
             }
         })
         //prepareTransitions()
