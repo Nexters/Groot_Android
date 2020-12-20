@@ -52,6 +52,7 @@ internal class DiaryViewerFragment : BaseFragment<DiaryViewerViewModel>() {
                                 Bundle().apply {
                                     putLong("diaryID", diaryID)
                                 })
+                            AnalyticsUtil.event(FBEvents.DAIRY_DETAIL_MENU_EDIT_CLICK)
                             true
                         }
                         R.id.delete -> {
@@ -68,7 +69,7 @@ internal class DiaryViewerFragment : BaseFragment<DiaryViewerViewModel>() {
     }
 
     private fun initData() {
-        viewModel.localDataSource.diary(diaryID).observe(this, Observer {
+        viewModel.localDataSource.diary(diaryID).observe(viewLifecycleOwner, Observer {
             binding.item = it
         })
 

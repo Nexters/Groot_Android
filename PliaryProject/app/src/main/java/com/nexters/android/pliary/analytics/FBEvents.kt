@@ -35,5 +35,6 @@ class FBEvents {
         /* 다이어리 상세 화면 */
         const val DAIRY_DETAIL_PHOTO_CLICK = "diary_detail_photo_click"
         const val DAIRY_DETAIL_MORE_CLICK = "diary_detail_more_click"
+        const val DAIRY_DETAIL_MENU_EDIT_CLICK = "diary_detail_edit_click"
     }
 }
