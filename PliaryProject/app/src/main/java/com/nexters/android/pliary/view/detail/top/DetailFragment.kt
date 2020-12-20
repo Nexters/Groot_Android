@@ -146,6 +146,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                 override fun onAnimationStart(animation: Animator?) {}
                 override fun onAnimationEnd(animation: Animator?) {
                     viewModel.onWateringPlant()
+                    AnalyticsUtil.event(FBEvents.DETAIL_WATER_CLICK)
                 }
             })
         }
