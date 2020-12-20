@@ -56,7 +56,10 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
         viewModel.nickname.value = viewModel.plantData.nickName
         initHorizontalNumberPicker()
         binding.apply {
-            ivClose.setOnClickListener { popBackStack() }
+            ivClose.setOnClickListener {
+                popBackStack()
+                AnalyticsUtil.event(FBEvents.EDIT_PLANT_CLOSE_CLICK)
+            }
             etNickname.setOnClickListener { AnalyticsUtil.event(FBEvents.EDIT_PLANT_NICKNAME_CLICK) }
         }
 
