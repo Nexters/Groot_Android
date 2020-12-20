@@ -29,7 +29,9 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.plant_card_item.view.*
 import javax.inject.Inject
 
-internal class HomeCardAdapter @Inject constructor(val plantVM: PlantCardViewModel): ListAdapter<PlantCard, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<PlantCard>() {
+internal class HomeCardAdapter @Inject constructor(
+    private val plantVM: PlantCardViewModel)
+    : ListAdapter<PlantCard, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<PlantCard>() {
     override fun areItemsTheSame(oldItem: PlantCard, newItem: PlantCard): Boolean {
         return oldItem.listItemId == newItem.listItemId
     }
@@ -43,6 +45,7 @@ internal class HomeCardAdapter @Inject constructor(val plantVM: PlantCardViewMod
     interface Callbacks {
         fun onClickCardDetail(sharedElements: ArrayList<Pair<View, String>?>, position: Int)
         fun onClickAddCard()
+        fun onClickWatering(plantCardId: Long)
     }
     private var callbacks: Callbacks? = null
 
@@ -54,7 +57,7 @@ internal class HomeCardAdapter @Inject constructor(val plantVM: PlantCardViewMod
         return when(viewType) {
             PLANT_CARD -> {
                 val binding = DataBindingUtil.inflate<PlantCardItemBinding>(inflater, R.layout.plant_card_item, parent, false)
-                CardViewHolder(binding).setOnClickViewHolder()
+                CardViewHolder(binding, plantVM, callbacks).setOnClickViewHolder()
             }
             EMPTY_CARD -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.empty_card_item, parent, false)
@@ -97,55 +100,57 @@ internal class HomeCardAdapter @Inject constructor(val plantVM: PlantCardViewMod
     fun setCallbacks(callbacks: Callbacks) {
         this.callbacks = callbacks
     }
+}
 
+internal class CardViewHolder(private val binding: PlantCardItemBinding,
+                              private val plantVM: PlantCardViewModel,
+                              private val callbacks: HomeCardAdapter.Callbacks? = null)
+: RecyclerView.ViewHolder(binding.root), DialogFactory.WateringDialogListener {
+    lateinit var plantCard : Plant
 
-    inner class CardViewHolder(private val binding: PlantCardItemBinding) : RecyclerView.ViewHolder(binding.root), DialogFactory.WateringDialogListener {
-        lateinit var plantCard : Plant
+    fun bindView(data : PlantCardItem) {
+        plantCard = data.plant
+        binding.item = data.plant.toUIData()
 
-        fun bindView(data : PlantCardItem) {
-            plantCard = data.plant
-            binding.item = data.plant.toUIData()
-
-            binding.ibtnWater.setOnClickListener {
-                DialogFactory.showWateringDialog(binding.root.context, this)
-                plantVM.onSelectPlant(plantCard.id)
-            }
-        }
-
-        override fun onWatering() {
-            binding.lottiePlant.apply {
-                setAnimation("lottie/and_water.json")
-                playAnimation()
-                addAnimatorListener(object : Animator.AnimatorListener{
-                    override fun onAnimationRepeat(animation: Animator?) {}
-                    override fun onAnimationCancel(animation: Animator?) {}
-                    override fun onAnimationStart(animation: Animator?) {}
-                    override fun onAnimationEnd(animation: Animator?) {
-                        plantVM.onWateringPlant()
-                    }
-                })
-            }
-        }
-
-        override fun onDelay(day: Int) {
-            plantVM.onDelayWateringDate(day)
-        }
-
-        private fun setGIF() {
-            // 파일 S3 경로 "https://dailyissue.s3.ap-northeast-2.amazonaws.com/[gif파일명]"
-
-            Glide.with(binding.ivPlant.context)
-                .asGif()
-                .load("https://dailyissue.s3.ap-northeast-2.amazonaws.com/And_Posi_Eucalyptus.gif")
-                .placeholder(R.drawable.plant_placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(binding.ivPlant)
+        binding.ibtnWater.setOnClickListener {
+            DialogFactory.showWateringDialog(binding.root.context, this)
+            callbacks?.onClickWatering(plantCard.id)
         }
     }
 
-    inner class EmptyViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-        fun bindView(data : EmptyCard) {
-
+    override fun onWatering() {
+        binding.lottiePlant.apply {
+            setAnimation("lottie/and_water.json")
+            playAnimation()
+            addAnimatorListener(object : Animator.AnimatorListener{
+                override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationCancel(animation: Animator?) {}
+                override fun onAnimationStart(animation: Animator?) {}
+                override fun onAnimationEnd(animation: Animator?) {
+                    plantVM.onWateringPlant()
+                }
+            })
         }
+    }
+
+    override fun onDelay(day: Int) {
+        plantVM.onDelayWateringDate(day)
+    }
+
+    private fun setGIF() {
+        // 파일 S3 경로 "https://dailyissue.s3.ap-northeast-2.amazonaws.com/[gif파일명]"
+
+        Glide.with(binding.ivPlant.context)
+            .asGif()
+            .load("https://dailyissue.s3.ap-northeast-2.amazonaws.com/And_Posi_Eucalyptus.gif")
+            .placeholder(R.drawable.plant_placeholder)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .into(binding.ivPlant)
+    }
+}
+
+internal class EmptyViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    fun bindView(data : EmptyCard) {
+
     }
 }
