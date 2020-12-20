@@ -41,5 +41,7 @@ class FBEvents {
 
         /* 다이어리 추가 화면 */
         const val DIARY_ADD_PHOTO_ADD_CLICK = "diary_add_photo_add_click"
+        const val DIARY_ADD_PHOTO_DELETE_CLICK = "diary_add_photo_delete_click"
+        const val DIARY_ADD_WRITE_CLICK = "diary_add_write_click"
     }
 }

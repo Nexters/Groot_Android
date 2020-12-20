@@ -83,6 +83,10 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
             })
 
         }
+
+        binding.tvContents.setOnClickListener {
+            AnalyticsUtil.event(FBEvents.DIARY_ADD_WRITE_CLICK)
+        }
     }
 
     private fun initObserver() {
