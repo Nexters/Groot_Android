@@ -20,6 +20,8 @@ import android.content.Context
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -73,7 +75,7 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
     private fun initView() {
 
         if(diaryID > 0) {
-            viewModel.localDataSource.diary(diaryID).observe(this, Observer {
+            viewModel.localDataSource.diary(diaryID).observe(viewLifecycleOwner, Observer {
                 viewModel.diaryData = it
                 viewModel.onSetPhotoView(it.photoUrl)
                 viewModel.content.value = it.content
@@ -84,11 +86,12 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
     }
 
     private fun initObserver() {
-        viewModel.addPhotoEvent.observe(this, Observer {
+        viewModel.addPhotoEvent.observe(viewLifecycleOwner, Observer {
             checkPermission()
+            AnalyticsUtil.event(FBEvents.DIARY_ADD_PHOTO_ADD_CLICK)
         })
 
-        viewModel.clickDoneEvent.observe(this, Observer {
+        viewModel.clickDoneEvent.observe(viewLifecycleOwner, Observer {
             hideKeyboard()
             popBackStack()
         })
