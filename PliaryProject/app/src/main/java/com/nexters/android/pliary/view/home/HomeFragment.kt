@@ -198,6 +198,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
             override fun onClickAddCard() {
                 viewModel.onClickAddCard()
+                AnalyticsUtil.event(FBEvents.HOME_CARD_ADD_CLICK)
             }
 
             override fun onClickWatering(plantCardId: Long) {
