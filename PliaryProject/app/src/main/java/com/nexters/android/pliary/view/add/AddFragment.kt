@@ -82,7 +82,6 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
         binding.scrollView.isVisible = true
         viewModel.onSelectPlant(getPlantSpecies(position))
         binding.tvSelectPlant.text = plantArray[position]
-        AnalyticsUtil.event(FBEvents.ADD_PLANT_CHOICE_CLICK)
     }
 
     private fun initHorizontalNumberPicker() {
@@ -123,6 +122,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
                 clInfo.isVisible = !it.info.isNullOrEmpty()
                 tvRefContent.text = it.info
             }
+            AnalyticsUtil.event(FBEvents.ADD_PLANT_CHOICE_CLICK, "type" to it.name)
         })
 
         viewModel.engName.observe(viewLifecycleOwner, Observer { selectPlant?.name = it })
