@@ -16,6 +16,8 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantSpecies
 import com.nexters.android.pliary.data.PlantSpecies.Companion.PLANT_HANGING
@@ -91,6 +93,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
                     override fun onItemSelected(layoutPosition: Int) {
                         //tvSelectedItem.setText(data[layoutPosition])
                         viewModel.waterTerm.value = layoutPosition.toString()
+                        AnalyticsUtil.event(FBEvents.ADD_PLANT_WATER_SET, "type" to layoutPosition.toString())
                     }
                 }
             }
@@ -120,6 +123,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
                 clInfo.isVisible = !it.info.isNullOrEmpty()
                 tvRefContent.text = it.info
             }
+            AnalyticsUtil.event(FBEvents.ADD_PLANT_CHOICE_CLICK, "type" to it.name)
         })
 
         viewModel.engName.observe(viewLifecycleOwner, Observer { selectPlant?.name = it })
@@ -134,6 +138,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
             popBackStack()
             Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()
+            AnalyticsUtil.event(FBEvents.ADD_PLANT_COMPLETE_CLICK)
         })
     }
 

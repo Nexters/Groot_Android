@@ -27,6 +27,8 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCardUI
 import com.nexters.android.pliary.data.toUIData
@@ -144,6 +146,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                 override fun onAnimationStart(animation: Animator?) {}
                 override fun onAnimationEnd(animation: Animator?) {
                     viewModel.onWateringPlant()
+                    AnalyticsUtil.event(FBEvents.DETAIL_WATER_CLICK)
                 }
             })
         }
@@ -155,7 +158,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
 
     private fun initObserver(){
         mainVM.cardLiveID = cardID
-        viewModel.localDataSource.plant(cardID).observe(this, Observer {
+        viewModel.localDataSource.plant(cardID).observe(viewLifecycleOwner, Observer {
             plantData = it
             plantUIData = it.toUIData()
             binding.item = it.toUIData()
@@ -166,7 +169,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
             }
         })
 
-        viewModel.wateringEvent.observe(this, Observer {
+        viewModel.wateringEvent.observe(viewLifecycleOwner, Observer {
             plantData?.let {
                 val job = CoroutineScope(Dispatchers.IO).launch {
                     viewModel.localDataSource.upsertPlants(it.apply {
@@ -185,7 +188,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
 
         })
 
-        viewModel.delayDateEvent.observe(this, Observer {delay ->
+        viewModel.delayDateEvent.observe(viewLifecycleOwner, Observer {delay ->
             plantData?.let {
                 val job = CoroutineScope(Dispatchers.IO).launch {
                     viewModel.localDataSource.upsertPlants(it.apply { willbeWateringDate = willbeWateringDate.getFutureWateringDate(delay) })
@@ -195,7 +198,8 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
             }
         })
 
-        viewModel.menuEvent.observe(this, Observer {
+        viewModel.menuEvent.observe(viewLifecycleOwner, Observer {
+            AnalyticsUtil.event(FBEvents.DETAIL_MORE_CLICK)
             val popup = PopupMenu(context, binding.ivMenu)
             activity?.menuInflater?.inflate(R.menu.card_menu, popup.menu)
             popup.apply {
@@ -203,10 +207,12 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
                     when(it.itemId) {
                         R.id.modify -> {
                             navigate(R.id.action_detailFragment_to_modifyFragment)
+                            AnalyticsUtil.event(FBEvents.DETAIL_MENU_EDIT)
                             true
                         }
                         R.id.delete -> {
                             showDeleteDialog()
+                            AnalyticsUtil.event(FBEvents.DETAIL_MENU_DELETE)
                             true
                         }
                         else -> false

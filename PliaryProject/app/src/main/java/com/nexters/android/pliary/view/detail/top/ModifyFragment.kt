@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentModifyBinding
 import com.nexters.android.pliary.db.entity.Plant
@@ -54,7 +56,11 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
         viewModel.nickname.value = viewModel.plantData.nickName
         initHorizontalNumberPicker()
         binding.apply {
-            ivClose.setOnClickListener { popBackStack() }
+            ivClose.setOnClickListener {
+                popBackStack()
+                AnalyticsUtil.event(FBEvents.EDIT_PLANT_CLOSE_CLICK)
+            }
+            etNickname.setOnClickListener { AnalyticsUtil.event(FBEvents.EDIT_PLANT_NICKNAME_CLICK) }
         }
 
     }
@@ -68,6 +74,7 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
                     override fun onItemSelected(layoutPosition: Int) {
                         //tvSelectedItem.setText(data[layoutPosition])
                         viewModel.waterTerm.value = layoutPosition.toString()
+                        AnalyticsUtil.event(FBEvents.EDIT_PLANT_WATER_SET, "type" to layoutPosition.toString())
                     }
                 }
             }
@@ -87,10 +94,11 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
     }
 
     private fun initObserver() {
-        viewModel.enableDone.observe(this, Observer { binding.tvDone.isEnabled = it})
-        viewModel.plantDoneEvent.observe(this, Observer {
+        viewModel.enableDone.observe(viewLifecycleOwner, Observer { binding.tvDone.isEnabled = it})
+        viewModel.plantDoneEvent.observe(viewLifecycleOwner, Observer {
             popBackStack()
             Toast.makeText(context, getString(R.string.modify_complete), Toast.LENGTH_LONG).show()
+            AnalyticsUtil.event(FBEvents.EDIT_PLANT_COMPLETE_CLICK)
         })
     }
 }

@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryLayoutBinding
 import com.nexters.android.pliary.view.detail.DetailViewModel
@@ -72,11 +74,11 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     }
 
     private fun getData() {
-        viewModel.localDataSource.diaries(cardID).observe(this, Observer {
+        viewModel.localDataSource.diaries(cardID).observe(viewLifecycleOwner, Observer {
             viewModel.reqDiaryList(it)
         })
 
-        viewModel.diaryList.observe(this, eventObserver {
+        viewModel.diaryList.observe(viewLifecycleOwner, eventObserver {
             diaryList.clear()
             diaryList.add(DiaryData.DateCount(
                 dateCount = getFirstMetDDay(mainVM.plantLiveData.takeDate ?: todayValue()), //plant.takeDate,
@@ -88,7 +90,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
             diaryAdapter.notifyDataSetChanged()
         })
 
-        viewModel.diaryClickEvent.observe(this, Observer {
+        viewModel.diaryClickEvent.observe(viewLifecycleOwner, Observer {
             bottomVM.onClickDiaryCard(it)
         })
     }
@@ -103,6 +105,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
         diaryAdapter.setCallbacks(object : DetailDiaryAdapter.Callbacks{
             override fun onClickDiaryCard(id: Long) {
                 viewModel.onClickDiary(id)
+                AnalyticsUtil.event(FBEvents.DETAIL_DIARY_CLICK)
             }
 
             override fun onClickMenu(view : View, id: Long) {
@@ -117,6 +120,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
                             }
                             R.id.delete -> {
                                 showDeleteDialog(id)
+                                AnalyticsUtil.event(FBEvents.DETAIL_DIARY_DELETE_CLICK)
                                 true
                             }
                             else -> false

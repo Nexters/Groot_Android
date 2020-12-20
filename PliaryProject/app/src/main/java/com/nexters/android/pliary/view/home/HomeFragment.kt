@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantCard
 import com.nexters.android.pliary.data.getLocalImage
@@ -28,6 +30,7 @@ import com.nexters.android.pliary.databinding.FragmentHomeBinding
 import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.notification.AlarmBroadcastReceiver
 import com.nexters.android.pliary.view.home.adapter.HomeCardAdapter
+import com.nexters.android.pliary.view.home.holder.PlantCardViewModel
 import com.nexters.android.pliary.view.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
@@ -42,8 +45,9 @@ import javax.inject.Inject
 internal class HomeFragment : BaseFragment<HomeViewModel>() {
     val TAG = this::class.java.simpleName
 
-    @Inject
     lateinit var cardAdapter : HomeCardAdapter
+    @Inject
+    lateinit var plantVM : PlantCardViewModel
 
     override fun getModelClass() = HomeViewModel::class.java
     private lateinit var binding: FragmentHomeBinding
@@ -69,6 +73,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         activity?.window?.run{
             clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
+        cardAdapter = HomeCardAdapter(plantVM)
 
         initObserver()
         initRv()
@@ -76,10 +81,10 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     }
 
     private fun initObserver() {
-        viewModel.liveList.observe(this, Observer {
+        viewModel.liveList.observe(viewLifecycleOwner, Observer {
             viewModel.reqPlantCardData(it)
         })
-        viewModel.listSetData.observe(this, eventObserver {
+        viewModel.listSetData.observe(viewLifecycleOwner, eventObserver {
             cardList.clear()
             cardList.addAll(it)
 
@@ -88,7 +93,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             cardAdapter.submitList(it)
             initIndicatorDeco(it)
         })
-        viewModel.cardDetailEvent.observe(this, Observer {
+        viewModel.cardDetailEvent.observe(viewLifecycleOwner, Observer {
             it.second.add(binding.plantNameLayout to getString(R.string.trans_detail))
             val extras = FragmentNavigator.Extras.Builder().apply {
                 it.second.filterNotNull().forEach { (view, name) ->
@@ -105,7 +110,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 null, // NavOptions
                 extras)
         })
-        viewModel.addCardEvent.observe(this, Observer{
+        viewModel.addCardEvent.observe(viewLifecycleOwner, Observer{
             if(cardList.count() <= 5) {
                 navigate(R.id.action_homeFragment_to_addFragment)
             } else {
@@ -113,12 +118,12 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
             }
         })
 
-        cardAdapter.plantVM.plantID.observe(this, Observer { getPlantData(it) })
+        plantVM.plantID.observe(this, Observer { getPlantData(it) })
 
-        cardAdapter.plantVM.wateringEvent.observe(this, Observer {
+        plantVM.wateringEvent.observe(this, Observer {
             plantData?.let {
                 val job = CoroutineScope(Dispatchers.IO).launch {
-                    cardAdapter.plantVM.localDataSource.upsertPlants(it.apply {
+                    plantVM.localDataSource.upsertPlants(it.apply {
                         lastWateredDate = todayValue()
                         val set = wateredDays.toHashSet()
                         set.add(todayValue())
@@ -133,10 +138,10 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
         })
 
-        cardAdapter.plantVM.delayDateEvent.observe(this, Observer {delay ->
+        plantVM.delayDateEvent.observe(viewLifecycleOwner, Observer {delay ->
             plantData?.let {
                 val job = CoroutineScope(Dispatchers.IO).launch {
-                    cardAdapter.plantVM.localDataSource.upsertPlants(it.apply { willbeWateringDate = willbeWateringDate.getFutureWateringDate(delay) })
+                    plantVM.localDataSource.upsertPlants(it.apply { willbeWateringDate = willbeWateringDate.getFutureWateringDate(delay) })
                 }
                 if(job.isCompleted) registAlarm(it.willbeWateringDate, it.nickName ?: "", it.id.toInt())
             }
@@ -144,7 +149,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     }
 
     private fun getPlantData(id : Long) {
-        cardAdapter.plantVM.localDataSource.plant(id).observe(this, Observer { plantData = it })
+        plantVM.localDataSource.plant(id).observe(viewLifecycleOwner, Observer { plantData = it })
     }
 
     private fun initRv() {
@@ -187,12 +192,19 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                             IntoDetailInfo(id, ui.photoUrl?.getLocalImage(!ui.isDayPast) ?: 0),
                             sharedElements
                         )
+                        AnalyticsUtil.event(FBEvents.HOME_CARD_DETAIL_CLICK)
                     }
                 }
             }
 
             override fun onClickAddCard() {
                 viewModel.onClickAddCard()
+                AnalyticsUtil.event(FBEvents.HOME_CARD_ADD_CLICK)
+            }
+
+            override fun onClickWatering(plantCardId: Long) {
+                plantVM.onSelectPlant(plantCardId)
+                AnalyticsUtil.event(FBEvents.HOME_WATER_CLICK)
             }
         })
         //prepareTransitions()

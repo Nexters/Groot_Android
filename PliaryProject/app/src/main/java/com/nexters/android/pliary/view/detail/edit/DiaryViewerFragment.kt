@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryViewerLayoutBinding
 import com.nexters.android.pliary.view.detail.DetailViewModel
@@ -50,23 +52,25 @@ internal class DiaryViewerFragment : BaseFragment<DiaryViewerViewModel>() {
                                 Bundle().apply {
                                     putLong("diaryID", diaryID)
                                 })
+                            AnalyticsUtil.event(FBEvents.DIARY_DETAIL_MENU_EDIT_CLICK)
                             true
                         }
                         R.id.delete -> {
                             showDeleteDialog()
+                            AnalyticsUtil.event(FBEvents.DIARY_DETAIL_MENU_DELETE_CLICK)
                             true
                         }
                         else -> false
                     }
                 }
             }.show()
-
+            AnalyticsUtil.event(FBEvents.DIARY_DETAIL_MORE_CLICK)
         }
         binding.ivBack.setOnClickListener { popBackStack() }
     }
 
     private fun initData() {
-        viewModel.localDataSource.diary(diaryID).observe(this, Observer {
+        viewModel.localDataSource.diary(diaryID).observe(viewLifecycleOwner, Observer {
             binding.item = it
         })
 
