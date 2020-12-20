@@ -12,7 +12,11 @@ class FBEvents {
         const val ADD_PLANT_WATER_SET = "card_add_watercycle_click"
         const val ADD_PLANT_COMPLETE_CLICK = "card_add_complete_click"
 
-        /* 식물카드 수정화면 */
+        /* 식물카드 상세 화면*/
+        const val DETAIL_MENU_EDIT = "card_detail_edit"
+        const val DETAIL_MENU_DELETE = "card_detail_delete"
+
+        /* 식물카드 수정 화면 */
         const val EDIT_PLANT_NICKNAME_CLICK = "card_edit_nickname_click"
         const val EDIT_PLANT_WATER_SET = "card_edit_watercycle_click"
         const val EDIT_PLANT_CLOSE_CLICK = "card_edit_close_click"
