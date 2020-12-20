@@ -33,8 +33,9 @@ class FBEvents {
         const val WATER_POPUP_CLOSE_CLICK = "watercycle_popup_close_click"
 
         /* 다이어리 상세 화면 */
-        const val DAIRY_DETAIL_PHOTO_CLICK = "diary_detail_photo_click"
-        const val DAIRY_DETAIL_MORE_CLICK = "diary_detail_more_click"
-        const val DAIRY_DETAIL_MENU_EDIT_CLICK = "diary_detail_edit_click"
+        const val DIARY_DETAIL_PHOTO_CLICK = "diary_detail_photo_click"
+        const val DIARY_DETAIL_MORE_CLICK = "diary_detail_more_click"
+        const val DIARY_DETAIL_MENU_EDIT_CLICK = "diary_detail_edit_click"
+        const val DIARY_DETAIL_MENU_DELETE_CLICK = "diary_detail_delete_click"
     }
 }

@@ -52,18 +52,19 @@ internal class DiaryViewerFragment : BaseFragment<DiaryViewerViewModel>() {
                                 Bundle().apply {
                                     putLong("diaryID", diaryID)
                                 })
-                            AnalyticsUtil.event(FBEvents.DAIRY_DETAIL_MENU_EDIT_CLICK)
+                            AnalyticsUtil.event(FBEvents.DIARY_DETAIL_MENU_EDIT_CLICK)
                             true
                         }
                         R.id.delete -> {
                             showDeleteDialog()
+                            AnalyticsUtil.event(FBEvents.DIARY_DETAIL_MENU_DELETE_CLICK)
                             true
                         }
                         else -> false
                     }
                 }
             }.show()
-            AnalyticsUtil.event(FBEvents.DAIRY_DETAIL_MORE_CLICK)
+            AnalyticsUtil.event(FBEvents.DIARY_DETAIL_MORE_CLICK)
         }
         binding.ivBack.setOnClickListener { popBackStack() }
     }
