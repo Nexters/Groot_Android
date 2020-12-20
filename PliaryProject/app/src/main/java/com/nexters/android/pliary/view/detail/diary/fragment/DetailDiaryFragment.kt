@@ -120,6 +120,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
                             }
                             R.id.delete -> {
                                 showDeleteDialog(id)
+                                AnalyticsUtil.event(FBEvents.DETAIL_DIARY_DELETE_CLICK)
                                 true
                             }
                             else -> false
