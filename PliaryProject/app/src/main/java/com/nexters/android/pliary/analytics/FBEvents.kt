@@ -26,5 +26,8 @@ class FBEvents {
         const val EDIT_PLANT_WATER_SET = "card_edit_watercycle_click"
         const val EDIT_PLANT_CLOSE_CLICK = "card_edit_close_click"
         const val EDIT_PLANT_COMPLETE_CLICK = "card_edit_complete_click"
+
+        /* 식물카드 물주기 팝업 */
+        const val WATER_POPUP_POSTPONE_CLICK = "watercycle_popup_postpone_click"
     }
 }
