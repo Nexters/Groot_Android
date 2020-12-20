@@ -13,6 +13,7 @@ class FBEvents {
         const val ADD_PLANT_COMPLETE_CLICK = "card_add_complete_click"
 
         /* 식물카드 상세 화면*/
+        const val DETAIL_MORE_CLICK = "card_detail_more"
         const val DETAIL_MENU_EDIT = "card_detail_edit"
         const val DETAIL_MENU_DELETE = "card_detail_delete"
         const val DETAIL_WATER_CLICK = "card_detail_watercycle_click"

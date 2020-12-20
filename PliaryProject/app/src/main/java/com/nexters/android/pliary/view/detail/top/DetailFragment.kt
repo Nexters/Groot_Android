@@ -199,6 +199,7 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
         })
 
         viewModel.menuEvent.observe(viewLifecycleOwner, Observer {
+            AnalyticsUtil.event(FBEvents.DETAIL_MORE_CLICK)
             val popup = PopupMenu(context, binding.ivMenu)
             activity?.menuInflater?.inflate(R.menu.card_menu, popup.menu)
             popup.apply {
