@@ -138,6 +138,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
             registAlarm(it.willbeWateringDate, it.nickName?: "", it.id.toInt())
             popBackStack()
             Toast.makeText(context, getString(com.nexters.android.pliary.R.string.add_complete), Toast.LENGTH_LONG).show()
+            AnalyticsUtil.event(FBEvents.ADD_PLANT_COMPLETE_CLICK)
         })
     }
 
