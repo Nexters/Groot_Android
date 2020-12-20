@@ -71,6 +71,7 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
                     override fun onItemSelected(layoutPosition: Int) {
                         //tvSelectedItem.setText(data[layoutPosition])
                         viewModel.waterTerm.value = layoutPosition.toString()
+                        AnalyticsUtil.event(FBEvents.EDIT_PLANT_WATER_SET, "type" to layoutPosition.toString())
                     }
                 }
             }
