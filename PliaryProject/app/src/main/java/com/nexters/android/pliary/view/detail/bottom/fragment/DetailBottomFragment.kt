@@ -149,6 +149,7 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
                     TAB_DIARY -> { binding.fbWrite.isVisible = true }
                     TAB_CALENDAR -> { binding.fbWrite.isVisible = false }
                 }
+                AnalyticsUtil.event(FBEvents.DETAIL_SWIPE)
             }
 
         })
