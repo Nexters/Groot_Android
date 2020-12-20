@@ -30,5 +30,6 @@ class FBEvents {
         /* 식물카드 물주기 팝업 */
         const val WATER_POPUP_POSTPONE_CLICK = "watercycle_popup_postpone_click"
         const val WATER_POPUP_WATERING_CLICK = "watercycle_popup_water_click"
+        const val WATER_POPUP_CLOSE_CLICK = "watercycle_popup_close_click"
     }
 }

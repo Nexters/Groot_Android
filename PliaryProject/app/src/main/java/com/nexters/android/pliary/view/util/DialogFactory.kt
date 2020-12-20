@@ -42,7 +42,10 @@ object DialogFactory {
             .build()
             .apply { window?.setLayout(310.toDp, WindowManager.LayoutParams.WRAP_CONTENT) }
 
-        view.findViewById<ImageView>(R.id.ivClose).setOnClickListener{ dialog?.dismiss() }
+        view.findViewById<ImageView>(R.id.ivClose).setOnClickListener{
+            dialog?.dismiss()
+            AnalyticsUtil.event(FBEvents.WATER_POPUP_CLOSE_CLICK)
+        }
         val wateringContent = view.findViewById<ConstraintLayout>(R.id.clContent)
         val delayContent = view.findViewById<ConstraintLayout>(R.id.clDelayContent)
         view.findViewById<TextView>(R.id.tvDelay).setOnClickListener {
