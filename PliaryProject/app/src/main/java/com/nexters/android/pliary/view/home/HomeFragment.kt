@@ -192,6 +192,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                             IntoDetailInfo(id, ui.photoUrl?.getLocalImage(!ui.isDayPast) ?: 0),
                             sharedElements
                         )
+                        AnalyticsUtil.event(FBEvents.HOME_CARD_DETAIL_CLICK)
                     }
                 }
             }
