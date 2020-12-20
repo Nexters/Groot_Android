@@ -93,6 +93,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
                     override fun onItemSelected(layoutPosition: Int) {
                         //tvSelectedItem.setText(data[layoutPosition])
                         viewModel.waterTerm.value = layoutPosition.toString()
+                        AnalyticsUtil.event(FBEvents.ADD_PLANT_WATER_SET, "type" to layoutPosition.toString())
                     }
                 }
             }
