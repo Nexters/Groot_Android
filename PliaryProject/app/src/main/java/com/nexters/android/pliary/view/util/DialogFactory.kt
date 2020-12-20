@@ -48,12 +48,13 @@ object DialogFactory {
         view.findViewById<TextView>(R.id.tvDelay).setOnClickListener {
             wateringContent.isVisible = false
             delayContent.isVisible = true
+            AnalyticsUtil.event(FBEvents.WATER_POPUP_POSTPONE_CLICK)
         }
 
         view.findViewById<TextView>(R.id.tvWatering).setOnClickListener {
             listener.onWatering()
             dialog?.dismiss()
-            AnalyticsUtil.event(FBEvents.WATER_POPUP_POSTPONE_CLICK)
+            AnalyticsUtil.event(FBEvents.WATER_POPUP_WATERING_CLICK)
         }
         val done = view.findViewById<TextView>(R.id.tvDelayDone)
         val picker = view.findViewById<NumberPicker>(R.id.npDate).apply {
