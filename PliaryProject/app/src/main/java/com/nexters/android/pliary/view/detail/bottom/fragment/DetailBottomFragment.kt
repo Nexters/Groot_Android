@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDetailBottomBinding
 import com.nexters.android.pliary.view.detail.DetailViewModel
@@ -91,6 +93,7 @@ internal class DetailBottomFragment : BaseFragment<DetailViewModel>() {
                 null,
                 null
             )
+            AnalyticsUtil.event(FBEvents.DETAIL_WRITE_DIARY_CLICK)
         }
 
         viewModel.diaryViewEvent.observe(this, Observer {

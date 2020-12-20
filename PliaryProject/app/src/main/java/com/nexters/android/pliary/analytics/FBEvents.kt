@@ -16,6 +16,7 @@ class FBEvents {
         const val DETAIL_MENU_EDIT = "card_detail_edit"
         const val DETAIL_MENU_DELETE = "card_detail_delete"
         const val DETAIL_WATER_CLICK = "card_detail_watercycle_click"
+        const val DETAIL_WRITE_DIARY_CLICK = "card_detail_diary_write_click"
 
         /* 식물카드 수정 화면 */
         const val EDIT_PLANT_NICKNAME_CLICK = "card_edit_nickname_click"
