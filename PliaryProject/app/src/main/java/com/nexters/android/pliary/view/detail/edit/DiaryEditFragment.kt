@@ -69,7 +69,10 @@ internal class DiaryEditFragment : BaseFragment<DiaryEditViewModel>() {
         binding.ivDone.setOnClickListener {
             viewModel.onClickDone(cardID)
         }
-        binding.ivBack.setOnClickListener { popBackStack() }
+        binding.ivBack.setOnClickListener {
+            popBackStack()
+            AnalyticsUtil.event(FBEvents.DIARY_ADD_BACK_CLICK)
+        }
     }
 
     private fun initView() {

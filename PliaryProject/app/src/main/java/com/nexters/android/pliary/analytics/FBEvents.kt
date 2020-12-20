@@ -43,5 +43,6 @@ class FBEvents {
         const val DIARY_ADD_PHOTO_ADD_CLICK = "diary_add_photo_add_click"
         const val DIARY_ADD_PHOTO_DELETE_CLICK = "diary_add_photo_delete_click"
         const val DIARY_ADD_WRITE_CLICK = "diary_add_write_click"
+        const val DIARY_ADD_BACK_CLICK = "diary_add_back_click"
     }
 }
