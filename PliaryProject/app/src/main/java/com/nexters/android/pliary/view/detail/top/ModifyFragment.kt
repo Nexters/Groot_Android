@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentModifyBinding
 import com.nexters.android.pliary.db.entity.Plant
@@ -55,6 +57,7 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
         initHorizontalNumberPicker()
         binding.apply {
             ivClose.setOnClickListener { popBackStack() }
+            etNickname.setOnClickListener { AnalyticsUtil.event(FBEvents.EDIT_PLANT_NICKNAME_CLICK) }
         }
 
     }
@@ -87,8 +90,8 @@ internal class ModifyFragment : BaseFragment<ModifyViewModel>() {
     }
 
     private fun initObserver() {
-        viewModel.enableDone.observe(this, Observer { binding.tvDone.isEnabled = it})
-        viewModel.plantDoneEvent.observe(this, Observer {
+        viewModel.enableDone.observe(viewLifecycleOwner, Observer { binding.tvDone.isEnabled = it})
+        viewModel.plantDoneEvent.observe(viewLifecycleOwner, Observer {
             popBackStack()
             Toast.makeText(context, getString(R.string.modify_complete), Toast.LENGTH_LONG).show()
         })

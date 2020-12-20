@@ -11,5 +11,8 @@ class FBEvents {
         const val ADD_PLANT_CHOICE_CLICK = "card_add_choice_click"
         const val ADD_PLANT_WATER_SET = "card_add_watercycle_click"
         const val ADD_PLANT_COMPLETE_CLICK = "card_add_complete_click"
+
+        /* 식물카드 수정화면 */
+        const val EDIT_PLANT_NICKNAME_CLICK = "card_edit_nickname_click"
     }
 }
