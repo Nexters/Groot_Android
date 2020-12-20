@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryLayoutBinding
 import com.nexters.android.pliary.view.detail.DetailViewModel
@@ -103,6 +105,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
         diaryAdapter.setCallbacks(object : DetailDiaryAdapter.Callbacks{
             override fun onClickDiaryCard(id: Long) {
                 viewModel.onClickDiary(id)
+                AnalyticsUtil.event(FBEvents.DETAIL_DIARY_CLICK)
             }
 
             override fun onClickMenu(view : View, id: Long) {
