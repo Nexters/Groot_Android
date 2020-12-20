@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.databinding.FragmentDiaryViewerLayoutBinding
 import com.nexters.android.pliary.view.detail.DetailViewModel
@@ -60,7 +62,7 @@ internal class DiaryViewerFragment : BaseFragment<DiaryViewerViewModel>() {
                     }
                 }
             }.show()
-
+            AnalyticsUtil.event(FBEvents.DAIRY_DETAIL_MORE_CLICK)
         }
         binding.ivBack.setOnClickListener { popBackStack() }
     }

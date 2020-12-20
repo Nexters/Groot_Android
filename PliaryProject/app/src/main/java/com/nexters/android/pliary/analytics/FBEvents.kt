@@ -31,5 +31,9 @@ class FBEvents {
         const val WATER_POPUP_POSTPONE_CLICK = "watercycle_popup_postpone_click"
         const val WATER_POPUP_WATERING_CLICK = "watercycle_popup_water_click"
         const val WATER_POPUP_CLOSE_CLICK = "watercycle_popup_close_click"
+
+        /* 다이어리 상세 화면 */
+        const val DAIRY_DETAIL_PHOTO_CLICK = "diary_detail_photo_click"
+        const val DAIRY_DETAIL_MORE_CLICK = "diary_detail_more_click"
     }
 }
