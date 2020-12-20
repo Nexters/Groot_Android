@@ -16,6 +16,8 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.nexters.android.pliary.R
+import com.nexters.android.pliary.analytics.AnalyticsUtil
+import com.nexters.android.pliary.analytics.FBEvents
 import com.nexters.android.pliary.base.BaseFragment
 import com.nexters.android.pliary.data.PlantSpecies
 import com.nexters.android.pliary.data.PlantSpecies.Companion.PLANT_HANGING
@@ -80,6 +82,7 @@ internal class AddFragment : BaseFragment<AddViewModel>(), DialogFactory.SelectP
         binding.scrollView.isVisible = true
         viewModel.onSelectPlant(getPlantSpecies(position))
         binding.tvSelectPlant.text = plantArray[position]
+        AnalyticsUtil.event(FBEvents.ADD_PLANT_CHOICE_CLICK)
     }
 
     private fun initHorizontalNumberPicker() {
