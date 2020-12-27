@@ -8,6 +8,7 @@ import dagger.android.support.DaggerApplication
 import android.app.NotificationManager
 import android.app.NotificationChannel
 import android.os.Build
+import com.google.android.gms.ads.MobileAds
 import com.nexters.android.pliary.analytics.AnalyticsUtil
 
 
@@ -18,6 +19,7 @@ class PliaryApplication : DaggerApplication() {
 
         AndroidThreeTen.init(this)
         AnalyticsUtil.init(this)
+        MobileAds.initialize(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = getString(R.string.notification_channel_id)
