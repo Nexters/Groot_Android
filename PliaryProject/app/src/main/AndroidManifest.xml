@@ -18,6 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6775338233067833~7324174256"/>
+
         <activity android:name=".view.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

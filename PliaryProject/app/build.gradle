@@ -80,6 +80,9 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp_version"
 
+    // Admob
+    implementation 'com.google.android.gms:play-services-ads:19.6.0'
+
     // Room DB
     implementation "androidx.room:room-runtime:$rootProject.room_version"
     kapt "androidx.room:room-compiler:2.2.5" // use kapt for Kotlin
