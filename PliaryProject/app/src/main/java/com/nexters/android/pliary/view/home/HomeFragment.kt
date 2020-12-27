@@ -6,6 +6,7 @@ import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,9 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.analytics.AnalyticsUtil
 import com.nexters.android.pliary.analytics.FBEvents
@@ -75,9 +79,49 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         }
         cardAdapter = HomeCardAdapter(plantVM)
 
+        initAds()
         initObserver()
         initRv()
 
+    }
+
+    private fun initAds(){
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+
+        binding.adView.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.d(TAG, "디버깅 adListener - onAdLoaded() 광고 로드 완료")
+            }
+
+            override fun onAdFailedToLoad(adError : LoadAdError) {
+                // Code to be executed when an ad request fails.
+                Log.d(TAG, "디버깅 adListener - onAdFailedToLoad() 광고 로드 오류 : ${adError.message}")
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+                Log.d(TAG, "디버깅 adListener - onAdOpened() 사용자가 광고를 탭")
+            }
+
+            override fun onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+                Log.d(TAG, "디버깅 adListener - onAdClicked() 사용자 클릭")
+            }
+
+            override fun onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+                Log.d(TAG, "디버깅 adListener - onAdLeftApplication() 사용자 클릭으로 다른 앱이 열려 백그라운드 상태")
+            }
+
+            override fun onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+                Log.d(TAG, "디버깅 adListener - onAdClosed() 광고 조회 후 앱으로 돌아옴")
+            }
+        }
     }
 
     private fun initObserver() {
