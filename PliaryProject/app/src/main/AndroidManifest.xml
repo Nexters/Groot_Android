@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/pliary_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
         >
 
         <meta-data
