@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,6 +21,7 @@ import com.nexters.android.pliary.data.PlantCard.Companion.PLANT_CARD
 import com.nexters.android.pliary.data.PlantCard.EmptyCard
 import com.nexters.android.pliary.data.PlantCard.PlantCardItem
 import com.nexters.android.pliary.data.toUIData
+import com.nexters.android.pliary.databinding.EmptyCardItemBinding
 import com.nexters.android.pliary.databinding.PlantCardItemBinding
 import com.nexters.android.pliary.db.LocalDataSource
 import com.nexters.android.pliary.db.entity.Plant
@@ -61,12 +63,12 @@ internal class HomeCardAdapter @Inject constructor(
                 CardViewHolder(binding, plantVM, callbacks).setOnClickViewHolder()
             }
             EMPTY_CARD -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.empty_card_item, parent, false)
-                EmptyViewHolder(view).setOnClickViewHolder()
+                val binding = DataBindingUtil.inflate<EmptyCardItemBinding>(inflater, R.layout.empty_card_item, parent, false)
+                EmptyViewHolder(binding).setOnClickViewHolder()
             }
             else -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.empty_card_item, parent, false)
-                EmptyViewHolder(view).setOnClickViewHolder()
+                val binding = DataBindingUtil.inflate<EmptyCardItemBinding>(inflater, R.layout.empty_card_item, parent, false)
+                EmptyViewHolder(binding).setOnClickViewHolder()
             }
         }
     }
@@ -74,7 +76,7 @@ internal class HomeCardAdapter @Inject constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is CardViewHolder -> holder.bindView(currentList[position] as PlantCardItem)
-            is EmptyViewHolder -> holder.bindView(currentList[position] as EmptyCard)
+            is EmptyViewHolder -> holder.bindView(currentList.size)
         }
     }
 
@@ -150,8 +152,8 @@ internal class CardViewHolder(private val binding: PlantCardItemBinding,
     }
 }
 
-internal class EmptyViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-    fun bindView(data : EmptyCard) {
-
+internal class EmptyViewHolder(private val binding: EmptyCardItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bindView(count: Int) {
+        binding.tvAdMessage.isVisible = count > 5
     }
 }
