@@ -6,6 +6,8 @@ class FBEvents {
         const val HOME_WATER_CLICK = "watercycle_click"
         const val HOME_CARD_ADD_CLICK = "card_add_click"
         const val HOME_CARD_DETAIL_CLICK = "card_detail_click"
+        const val HOME_CARD_ADD_ADS_DONE = "card_add_ads_done"
+        const val HOME_CARD_ADD_ADS_CLOSE = "card_add_ads_close"
 
         /* 식물카드 생성 화면 */
         const val ADD_PLANT_CHOICE_CLICK = "card_add_choice_click"

@@ -68,6 +68,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
     private lateinit var rewardedAd: RewardedAd
+    private var isRewarded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return if(::binding.isInitialized) {
@@ -93,6 +94,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     }
 
     private fun initAds(): RewardedAd {
+        isRewarded = false
         val admobId = if(BuildConfig.DEBUG) R.string.admob_test_id else R.string.admob_reward_id
         val rewardedAd = RewardedAd(context, getString(admobId))
         rewardedAd.loadAd(AdRequest.Builder().build(), object: RewardedAdLoadCallback() {
@@ -154,6 +156,11 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                             // Ad closed.
 //                            Toast.makeText(context, "Ad closed", Toast.LENGTH_SHORT).show()
                             Log.d(TAG, "Ad closed")
+                            AnalyticsUtil.event(
+                                if(isRewarded) FBEvents.HOME_CARD_ADD_ADS_DONE
+                                else FBEvents.HOME_CARD_ADD_ADS_CLOSE
+                            )
+
                             rewardedAd = initAds()
                         }
 
@@ -162,12 +169,13 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 //                            Toast.makeText(context, "User earned reward", Toast.LENGTH_SHORT).show()
                             Log.d(TAG, "User earned reward")
                             navigate(R.id.action_homeFragment_to_addFragment)
+                            isRewarded = true
                         }
 
                         override fun onRewardedAdFailedToShow(adError: AdError) {
                             // Ad failed to display.
                             Log.d(TAG, "Ad failed to display : ${adError.message}")
-//                            Toast.makeText(context, "Ad failed to display : ${adError.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Ad failed to display.", Toast.LENGTH_SHORT).show()
                         }
                     })
                 } else {
