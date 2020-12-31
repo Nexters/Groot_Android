@@ -3,7 +3,6 @@ package com.nexters.android.pliary.view.detail.diary.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -28,23 +27,6 @@ class DetailDiaryAdapter(
     }
 
 }){
-
-    private var diaryList : ArrayList<DiaryData> = arrayListOf()
-
-    fun setDiaryList(list: ArrayList<DiaryData>) {
-        if(diaryList.isNotEmpty()) {
-            diaryList.clear()
-        }
-        diaryList.addAll(list)
-    }
-
-    fun getDiaryList() : ArrayList<DiaryData> = diaryList
-
-    interface Callbacks {
-        fun onClickDiaryCard(id: Long)
-        fun onClickMenu(view : View, id: Long)
-    }
-    private var callbacks: Callbacks? = null
 
     override fun getItemViewType(position: Int): Int = currentList[position].type
 
@@ -76,9 +58,6 @@ class DetailDiaryAdapter(
         }
     }
 
-    fun setCallbacks(callbacks: Callbacks) {
-        this.callbacks = callbacks
-    }
 }
 
 internal class DiaryViewHolder(val binding: DiaryItemBinding,

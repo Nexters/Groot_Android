@@ -15,7 +15,7 @@ class NameSpinnerAdapter(context: Context, val layout: Int, val engNameList: Arr
 
     override fun getCount(): Int = engNameList.count()
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val view = convertView ?: inflater.inflate(layout, parent, false)
         val title = view.findViewById<TextView>(R.id.tvName)
