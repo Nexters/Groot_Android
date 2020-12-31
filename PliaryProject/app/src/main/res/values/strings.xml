@@ -30,6 +30,7 @@
     <string name="home_add_plant">Add plant</string>
     <string name="home_add_plant_msg">식물을 추가해주세요.</string>
     <string name="home_plant_count_over">"식물 카드는 5개까지 생성 가능합니다."</string>
+    <string name="home_add_plant_ads_msg">광고 시청하고\n무료로 식물 추가하기</string>
 
     <string name="home_watering_dlg_title">화분 흙의 습도를 확인해주세요.</string>
     <string name="home_watering_dlg_msg">"손가락으로 화분의 흙을 눌러보고\n건조하다면 물을 주세요."</string>

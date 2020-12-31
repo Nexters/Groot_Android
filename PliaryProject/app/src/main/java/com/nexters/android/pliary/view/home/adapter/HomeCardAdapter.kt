@@ -26,6 +26,7 @@ import com.nexters.android.pliary.db.entity.Plant
 import com.nexters.android.pliary.view.home.HomeViewModel
 import com.nexters.android.pliary.view.home.holder.PlantCardViewModel
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.empty_card_item.view.*
 import kotlinx.android.synthetic.main.plant_card_item.view.*
 import javax.inject.Inject
 
@@ -49,7 +50,7 @@ internal class HomeCardAdapter @Inject constructor(
     }
     private var callbacks: Callbacks? = null
 
-    override fun getItemViewType(position: Int) = currentList[position].type //cardList[position].type
+    override fun getItemViewType(position: Int) = currentList[position].type
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
