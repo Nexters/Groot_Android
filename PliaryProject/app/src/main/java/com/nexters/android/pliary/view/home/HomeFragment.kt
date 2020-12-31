@@ -20,9 +20,13 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.analytics.AnalyticsUtil
 import com.nexters.android.pliary.analytics.FBEvents
@@ -62,6 +66,8 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
+    private lateinit var rewardedAd: RewardedAd
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return if(::binding.isInitialized) {
             binding.root
@@ -79,49 +85,26 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         }
         cardAdapter = HomeCardAdapter(plantVM)
 
-        initAds()
+        rewardedAd = initAds()
         initObserver()
         initRv()
 
     }
 
-    private fun initAds(){
-        val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
-
-        binding.adView.adListener = object: AdListener() {
-            override fun onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                Log.d(TAG, "디버깅 adListener - onAdLoaded() 광고 로드 완료")
+    private fun initAds(): RewardedAd {
+        val rewardedAd = RewardedAd(context, "ca-app-pub-3940256099942544/5224354917")
+        rewardedAd.loadAd(AdRequest.Builder().build(), object: RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() {
+                // Ad successfully loaded.
+                Log.d(TAG, "디버깅 adListener - onRewardedAdLoaded() 광고 로드 완료")
             }
 
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                // Code to be executed when an ad request fails.
-                Log.d(TAG, "디버깅 adListener - onAdFailedToLoad() 광고 로드 오류 : ${adError.message}")
+            override fun onRewardedAdFailedToLoad(adError: LoadAdError) {
+                // Ad failed to load.
+                Log.d(TAG, "디버깅 adListener - onRewardedAdFailedToLoad() 광고 로드 실패 : ${adError.message}")
             }
-
-            override fun onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-                Log.d(TAG, "디버깅 adListener - onAdOpened() 사용자가 광고를 탭")
-            }
-
-            override fun onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-                Log.d(TAG, "디버깅 adListener - onAdClicked() 사용자 클릭")
-            }
-
-            override fun onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-                Log.d(TAG, "디버깅 adListener - onAdLeftApplication() 사용자 클릭으로 다른 앱이 열려 백그라운드 상태")
-            }
-
-            override fun onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-                Log.d(TAG, "디버깅 adListener - onAdClosed() 광고 조회 후 앱으로 돌아옴")
-            }
-        }
+        })
+        return rewardedAd
     }
 
     private fun initObserver() {
@@ -154,11 +137,38 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 null, // NavOptions
                 extras)
         })
-        viewModel.addCardEvent.observe(viewLifecycleOwner, Observer{
-            if(cardList.count() <= 5) {
+        viewModel.addCardEvent.observe(viewLifecycleOwner, Observer {
+            if (cardList.count() <= 1) {
                 navigate(R.id.action_homeFragment_to_addFragment)
             } else {
-                Toast.makeText(context, getString(R.string.home_plant_count_over), Toast.LENGTH_SHORT).show()
+                if (rewardedAd.isLoaded) {
+                    rewardedAd.show(activity, object : RewardedAdCallback() {
+                        override fun onRewardedAdOpened() {
+                            // Ad opened.
+                            Toast.makeText(context, "Ad opened", Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onRewardedAdClosed() {
+                            // Ad closed.
+                            Toast.makeText(context, "Ad closed", Toast.LENGTH_SHORT).show()
+                            rewardedAd = initAds()
+                        }
+
+                        override fun onUserEarnedReward(reward: RewardItem) {
+                            // User earned reward.
+                            Toast.makeText(context, "User earned reward", Toast.LENGTH_SHORT).show()
+                            navigate(R.id.action_homeFragment_to_addFragment)
+                        }
+
+                        override fun onRewardedAdFailedToShow(adError: AdError) {
+                            // Ad failed to display.
+                            Toast.makeText(context, "Ad failed to display : ${adError.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                } else {
+                    Toast.makeText(context, "아직 광고가 준비되지 않았습니다.", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "The rewarded ad wasn't loaded yet.")
+                }
             }
         })
 
