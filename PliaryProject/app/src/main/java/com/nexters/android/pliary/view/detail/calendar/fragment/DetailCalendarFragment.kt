@@ -65,22 +65,23 @@ internal class DetailCalendarFragment : BaseFragment<DetailCalendarViewModel>() 
     private fun drawEventDates() {
 
         val wateredList = arrayListOf<CalendarDay>()
-        mainVM.plantLiveData.wateredDays.forEach { wateredList.add(it.toCalendarDay()) }
+        if(::mainVM.isInitialized) {
+            mainVM.plantLiveData.wateredDays.forEach { wateredList.add(it.toCalendarDay()) }
 
-        // 물 예정 날 / 물 준날
-        val datesEvent = arrayOf(
-            CalendarEventData(
-                shape = BG_CIRCLE_BLUE,
-                dates = arrayListOf(mainVM.plantLiveData.willbeWateringDate.toCalendarDay())
-            ),
-            CalendarEventData(
-                shape = BG_CIRCLE_GREEN,
-                dates = wateredList
+            // 물 예정 날 / 물 준날
+            val datesEvent = arrayOf(
+                CalendarEventData(
+                    shape = BG_CIRCLE_BLUE,
+                    dates = arrayListOf(mainVM.plantLiveData.willbeWateringDate.toCalendarDay())
+                ),
+                CalendarEventData(
+                    shape = BG_CIRCLE_GREEN,
+                    dates = wateredList
+                )
             )
-        )
 
-        ApiSimulator(datesEvent).executeOnExecutor(Executors.newSingleThreadExecutor())
-
+            ApiSimulator(datesEvent).executeOnExecutor(Executors.newSingleThreadExecutor())
+        }
     }
 
     private fun String.toCalendarDay() : CalendarDay {

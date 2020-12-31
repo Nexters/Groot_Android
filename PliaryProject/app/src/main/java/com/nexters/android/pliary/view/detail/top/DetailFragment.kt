@@ -64,10 +64,10 @@ internal class DetailFragment  : BaseFragment<DetailViewModel>(), DialogFactory.
     private var plantUIData : PlantCardUI? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         return if(::binding.isInitialized) {
             binding.root
         } else {
-            mainVM = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
             binding.apply{
                 vm = viewModel
