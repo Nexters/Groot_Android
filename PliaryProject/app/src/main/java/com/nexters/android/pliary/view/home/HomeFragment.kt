@@ -27,6 +27,7 @@ import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.nexters.android.pliary.BuildConfig
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.analytics.AnalyticsUtil
 import com.nexters.android.pliary.analytics.FBEvents
@@ -92,7 +93,8 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
     }
 
     private fun initAds(): RewardedAd {
-        val rewardedAd = RewardedAd(context, "ca-app-pub-3940256099942544/5224354917")
+        val admobId = if(BuildConfig.DEBUG) R.string.admob_test_id else R.string.admob_reward_id
+        val rewardedAd = RewardedAd(context, getString(admobId))
         rewardedAd.loadAd(AdRequest.Builder().build(), object: RewardedAdLoadCallback() {
             override fun onRewardedAdLoaded() {
                 // Ad successfully loaded.
@@ -138,35 +140,38 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 extras)
         })
         viewModel.addCardEvent.observe(viewLifecycleOwner, Observer {
-            if (cardList.count() <= 1) {
+            if (cardList.count() <= 5) {
                 navigate(R.id.action_homeFragment_to_addFragment)
             } else {
                 if (rewardedAd.isLoaded) {
                     rewardedAd.show(activity, object : RewardedAdCallback() {
                         override fun onRewardedAdOpened() {
                             // Ad opened.
-                            Toast.makeText(context, "Ad opened", Toast.LENGTH_SHORT).show()
+                            Log.d(TAG, "Ad opened")
                         }
 
                         override fun onRewardedAdClosed() {
                             // Ad closed.
-                            Toast.makeText(context, "Ad closed", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(context, "Ad closed", Toast.LENGTH_SHORT).show()
+                            Log.d(TAG, "Ad closed")
                             rewardedAd = initAds()
                         }
 
                         override fun onUserEarnedReward(reward: RewardItem) {
                             // User earned reward.
-                            Toast.makeText(context, "User earned reward", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(context, "User earned reward", Toast.LENGTH_SHORT).show()
+                            Log.d(TAG, "User earned reward")
                             navigate(R.id.action_homeFragment_to_addFragment)
                         }
 
                         override fun onRewardedAdFailedToShow(adError: AdError) {
                             // Ad failed to display.
-                            Toast.makeText(context, "Ad failed to display : ${adError.message}", Toast.LENGTH_SHORT).show()
+                            Log.d(TAG, "Ad failed to display : ${adError.message}")
+//                            Toast.makeText(context, "Ad failed to display : ${adError.message}", Toast.LENGTH_SHORT).show()
                         }
                     })
                 } else {
-                    Toast.makeText(context, "아직 광고가 준비되지 않았습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.home_ads_not_ready, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "The rewarded ad wasn't loaded yet.")
                 }
             }
