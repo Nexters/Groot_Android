@@ -121,7 +121,8 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
             onScrollCard(it[currentPosition])
 
-            cardAdapter.submitList(it)
+            cardAdapter.submitList(cardList)
+            cardAdapter.notifyDataSetChanged()
             initIndicatorDeco(it)
         })
         viewModel.cardDetailEvent.observe(viewLifecycleOwner, Observer {
@@ -142,7 +143,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 extras)
         })
         viewModel.addCardEvent.observe(viewLifecycleOwner, Observer {
-            if (cardList.count() <= 5) {
+            if (cardList.count() <= 3) {
                 navigate(R.id.action_homeFragment_to_addFragment)
             } else {
                 if (rewardedAd.isLoaded) {
@@ -181,6 +182,7 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 } else {
                     Toast.makeText(context, R.string.home_ads_not_ready, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "The rewarded ad wasn't loaded yet.")
+                    navigate(R.id.action_homeFragment_to_addFragment)
                 }
             }
         })

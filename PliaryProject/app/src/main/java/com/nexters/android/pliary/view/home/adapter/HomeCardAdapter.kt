@@ -154,6 +154,6 @@ internal class CardViewHolder(private val binding: PlantCardItemBinding,
 
 internal class EmptyViewHolder(private val binding: EmptyCardItemBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bindView(count: Int) {
-        binding.tvAdMessage.isVisible = count > 5
+        binding.tvAdMessage.isVisible = count > 3
     }
 }
