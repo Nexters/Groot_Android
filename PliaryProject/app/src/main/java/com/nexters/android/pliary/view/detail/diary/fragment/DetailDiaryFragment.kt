@@ -36,8 +36,7 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
 
     private val TAG = this::class.java.simpleName
 
-    @Inject
-    lateinit var diaryAdapter : DetailDiaryAdapter
+    private lateinit var diaryAdapter : DetailDiaryAdapter
     private lateinit var mainVM : MainViewModel
     private lateinit var bottomVM : DetailViewModel
     lateinit var binding : FragmentDiaryLayoutBinding
@@ -96,39 +95,36 @@ internal class DetailDiaryFragment : BaseFragment<DetailDiaryViewModel>() {
     }
 
     private fun initView() {
+        diaryAdapter = DetailDiaryAdapter({ id->
+            viewModel.onClickDiary(id)
+            AnalyticsUtil.event(FBEvents.DETAIL_DIARY_CLICK)
+        },{ view, id ->
+            val popup = PopupMenu(context, view)
+            activity?.menuInflater?.inflate(R.menu.card_menu, popup.menu)
+            popup.apply {
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.modify -> {
+                            bottomVM.onClickDiaryModify(id)
+                            true
+                        }
+                        R.id.delete -> {
+                            showDeleteDialog(id)
+                            AnalyticsUtil.event(FBEvents.DETAIL_DIARY_DELETE_CLICK)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }.show()
+        })
+
         binding.rvDiary.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = diaryAdapter
             setHasFixedSize(true)
             addItemDecoration(CardItemDecoration(15))
         }
-        diaryAdapter.setCallbacks(object : DetailDiaryAdapter.Callbacks{
-            override fun onClickDiaryCard(id: Long) {
-                viewModel.onClickDiary(id)
-                AnalyticsUtil.event(FBEvents.DETAIL_DIARY_CLICK)
-            }
-
-            override fun onClickMenu(view : View, id: Long) {
-                val popup = PopupMenu(context, view)
-                activity?.menuInflater?.inflate(R.menu.card_menu, popup.menu)
-                popup.apply {
-                    setOnMenuItemClickListener {
-                        when(it.itemId) {
-                            R.id.modify -> {
-                                bottomVM.onClickDiaryModify(id)
-                                true
-                            }
-                            R.id.delete -> {
-                                showDeleteDialog(id)
-                                AnalyticsUtil.event(FBEvents.DETAIL_DIARY_DELETE_CLICK)
-                                true
-                            }
-                            else -> false
-                        }
-                    }
-                }.show()
-            }
-        })
     }
 
     private fun showDeleteDialog(id: Long) {

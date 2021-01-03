@@ -7,13 +7,13 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.nexters.android.pliary"
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 5
-        versionName "1.1.2"
+        targetSdkVersion 29
+        versionCode 6
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -69,6 +69,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.firebase:firebase-jobdispatcher:0.8.6'
+    implementation 'com.google.firebase:firebase-ads'
 
     //Google Login
     implementation "com.google.android.gms:play-services-auth:$rootProject.playservice_version"

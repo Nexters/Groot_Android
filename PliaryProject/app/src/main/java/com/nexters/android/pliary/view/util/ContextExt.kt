@@ -60,8 +60,10 @@ fun Context.hideSoftKeyboard(view: View?): Boolean {
 fun Activity.hideSoftKeyboard() : Boolean{
     try {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if(imm != null && currentFocus != null && currentFocus.windowToken != null) {
-            return imm.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        currentFocus?.let { focus ->
+            focus.windowToken?.let {
+                imm.hideSoftInputFromWindow(it, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
         }
     } catch (e: Exception) {
         return false

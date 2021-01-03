@@ -6,6 +6,7 @@ import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,14 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.nexters.android.pliary.BuildConfig
 import com.nexters.android.pliary.R
 import com.nexters.android.pliary.analytics.AnalyticsUtil
 import com.nexters.android.pliary.analytics.FBEvents
@@ -58,6 +67,9 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private var cardIndicator : LinePagerIndicatorDecoration? = null
 
+    private lateinit var rewardedAd: RewardedAd
+    private var isRewarded = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return if(::binding.isInitialized) {
             binding.root
@@ -75,9 +87,28 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
         }
         cardAdapter = HomeCardAdapter(plantVM)
 
+        rewardedAd = initAds()
         initObserver()
         initRv()
 
+    }
+
+    private fun initAds(): RewardedAd {
+        isRewarded = false
+        val admobId = if(BuildConfig.DEBUG) R.string.admob_test_id else R.string.admob_reward_id
+        val rewardedAd = RewardedAd(context, getString(admobId))
+        rewardedAd.loadAd(AdRequest.Builder().build(), object: RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() {
+                // Ad successfully loaded.
+                Log.d(TAG, "디버깅 adListener - onRewardedAdLoaded() 광고 로드 완료")
+            }
+
+            override fun onRewardedAdFailedToLoad(adError: LoadAdError) {
+                // Ad failed to load.
+                Log.d(TAG, "디버깅 adListener - onRewardedAdFailedToLoad() 광고 로드 실패 : ${adError.message}")
+            }
+        })
+        return rewardedAd
     }
 
     private fun initObserver() {
@@ -110,11 +141,47 @@ internal class HomeFragment : BaseFragment<HomeViewModel>() {
                 null, // NavOptions
                 extras)
         })
-        viewModel.addCardEvent.observe(viewLifecycleOwner, Observer{
-            if(cardList.count() <= 5) {
+        viewModel.addCardEvent.observe(viewLifecycleOwner, Observer {
+            if (cardList.count() <= 5) {
                 navigate(R.id.action_homeFragment_to_addFragment)
             } else {
-                Toast.makeText(context, getString(R.string.home_plant_count_over), Toast.LENGTH_SHORT).show()
+                if (rewardedAd.isLoaded) {
+                    rewardedAd.show(activity, object : RewardedAdCallback() {
+                        override fun onRewardedAdOpened() {
+                            // Ad opened.
+                            Log.d(TAG, "Ad opened")
+                        }
+
+                        override fun onRewardedAdClosed() {
+                            // Ad closed.
+//                            Toast.makeText(context, "Ad closed", Toast.LENGTH_SHORT).show()
+                            Log.d(TAG, "Ad closed")
+                            AnalyticsUtil.event(
+                                if(isRewarded) FBEvents.HOME_CARD_ADD_ADS_DONE
+                                else FBEvents.HOME_CARD_ADD_ADS_CLOSE
+                            )
+
+                            rewardedAd = initAds()
+                        }
+
+                        override fun onUserEarnedReward(reward: RewardItem) {
+                            // User earned reward.
+//                            Toast.makeText(context, "User earned reward", Toast.LENGTH_SHORT).show()
+                            Log.d(TAG, "User earned reward")
+                            navigate(R.id.action_homeFragment_to_addFragment)
+                            isRewarded = true
+                        }
+
+                        override fun onRewardedAdFailedToShow(adError: AdError) {
+                            // Ad failed to display.
+                            Log.d(TAG, "Ad failed to display : ${adError.message}")
+                            Toast.makeText(context, "Ad failed to display.", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                } else {
+                    Toast.makeText(context, R.string.home_ads_not_ready, Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "The rewarded ad wasn't loaded yet.")
+                }
             }
         })
 

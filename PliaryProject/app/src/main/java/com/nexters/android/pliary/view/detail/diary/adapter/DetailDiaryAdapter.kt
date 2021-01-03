@@ -3,7 +3,6 @@ package com.nexters.android.pliary.view.detail.diary.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,7 +14,10 @@ import com.nexters.android.pliary.view.detail.diary.data.DiaryData
 import com.nexters.android.pliary.view.detail.diary.data.DiaryData.Companion.DIARY_DATE
 import com.nexters.android.pliary.view.detail.diary.data.DiaryData.Companion.DIARY_ITEM
 
-class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<DiaryData>() {
+class DetailDiaryAdapter(
+    private val onClickDiaryCard: ((Long) -> Unit)?,
+    private val onClickMenu: ((View, Long)->Unit)?
+) : ListAdapter<DiaryData, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<DiaryData>() {
     override fun areItemsTheSame(oldItem: DiaryData, newItem: DiaryData): Boolean {
         return oldItem.listItemId == newItem.listItemId
     }
@@ -25,23 +27,6 @@ class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(objec
     }
 
 }){
-
-    private var diaryList : ArrayList<DiaryData> = arrayListOf()
-
-    fun setDiaryList(list: ArrayList<DiaryData>) {
-        if(diaryList.isNotEmpty()) {
-            diaryList.clear()
-        }
-        diaryList.addAll(list)
-    }
-
-    fun getDiaryList() : ArrayList<DiaryData> = diaryList
-
-    interface Callbacks {
-        fun onClickDiaryCard(id: Long)
-        fun onClickMenu(view : View, id: Long)
-    }
-    private var callbacks: Callbacks? = null
 
     override fun getItemViewType(position: Int): Int = currentList[position].type
 
@@ -54,11 +39,11 @@ class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(objec
             }
             DIARY_ITEM -> {
                 val binding = DataBindingUtil.inflate<DiaryItemBinding>(inflater, R.layout.diary_item, parent, false)
-                DiaryViewHolder(binding)
+                DiaryViewHolder(binding, onClickDiaryCard, onClickMenu)
             }
             else -> {
                 val binding = DataBindingUtil.inflate<DiaryItemBinding>(inflater, R.layout.diary_item, parent, false)
-                DiaryViewHolder(binding)
+                DiaryViewHolder(binding, onClickDiaryCard, onClickMenu)
             }
         }
 
@@ -73,22 +58,21 @@ class DetailDiaryAdapter : ListAdapter<DiaryData, RecyclerView.ViewHolder>(objec
         }
     }
 
-    fun setCallbacks(callbacks: Callbacks) {
-        this.callbacks = callbacks
+}
+
+internal class DiaryViewHolder(val binding: DiaryItemBinding,
+                               private val onClickDiaryCard: ((Long) -> Unit)?,
+                               private val onClickMenu: ((View, Long)->Unit)?) : RecyclerView.ViewHolder(binding.root) {
+    fun bindView(item : DiaryData.DiaryItem) {
+        binding.item = item
+
+        binding.cvDiary.setOnClickListener { onClickDiaryCard?.invoke(item.id.toLong()) }
+        binding.ivMenu.setOnClickListener { onClickMenu?.invoke(it, item.id.toLong()) }
     }
+}
 
-    inner class DiaryViewHolder(val binding: DiaryItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindView(item : DiaryData.DiaryItem) {
-            binding.item = item
-
-            binding.cvDiary.setOnClickListener { callbacks?.onClickDiaryCard(item.id.toLong()) }
-            binding.ivMenu.setOnClickListener { callbacks?.onClickMenu(it, item.id.toLong()) }
-        }
-    }
-
-    inner class DateCountViewHolder(val binding: DiaryDatecountItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindView(item : DiaryData.DateCount) {
-            binding.item = item
-        }
+internal class DateCountViewHolder(val binding: DiaryDatecountItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bindView(item : DiaryData.DateCount) {
+        binding.item = item
     }
 }

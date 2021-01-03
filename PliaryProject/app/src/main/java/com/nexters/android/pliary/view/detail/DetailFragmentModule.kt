@@ -19,11 +19,11 @@ internal interface DetailFragmentModule {
 
     @Module
     class ProvideModule {
-        @Provides
+        /*@Provides
         @FragmentScope
         fun provideDiaryAdapter(): DetailDiaryAdapter {
             return DetailDiaryAdapter()
-        }
+        }*/
     }
 
     @Binds

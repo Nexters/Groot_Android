@@ -3,6 +3,7 @@ package com.nexters.android.pliary.analytics
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 
 class FirebaseAnalyticsSdk : AnalyticsSdk {
@@ -46,6 +47,7 @@ class FirebaseAnalyticsSdk : AnalyticsSdk {
 
     private fun internalEvent(name: String, bundle: Bundle = Bundle()) {
         firebaseAnalytics.logEvent(name, bundle)
+        Log.d("FirebaseAnalyticsSdk", "[Firebase Analytics] $name : $bundle")
     }
 
 }
